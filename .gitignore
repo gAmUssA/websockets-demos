@@ -4,3 +4,16 @@
 *.jar
 *.war
 *.ear
+
+# gradle dirs #
+.gradle
+build
+
+# maven dirs #
+target
+
+# idea dirs #
+out
+*.iml
+*.iws
+*.ipr

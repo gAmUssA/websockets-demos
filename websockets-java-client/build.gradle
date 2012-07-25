@@ -1,0 +1,15 @@
+apply plugin: 'groovy'
+apply plugin: 'project-report'
+apply plugin: 'idea'
+apply plugin: 'maven'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.ning:async-http-client:1.7.4'
+    compile 'ch.qos.logback:logback-classic:1.0.6'
+    compile 'org.slf4j:slf4j-api:1.6.5'
+}

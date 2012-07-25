@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Sample of websockets</title>
+    <link type="text/css" rel="stylesheet" href="css/style2.css"/>
+    <script type="text/javascript" src="script.js"></script>
+</head>
+<h2>Websocket Chat</h2>
+<body onload="init();">
+<div id="body">
+    <div id="menu">
+        <img src="html5-badge-h-connectivity.png" alt="HTML5 Powered with Connectivity / Realtime"
+             title="HTML5 Powered with Connectivity / Realtime">
+        <div style="clear: both"></div>
+    </div>
+    <form onsubmit="onSubmit(); return false;">
+        <div id="chatbox">
+            <div id="log"></div>
+
+        </div>
+        <input type="text" id="input"/> <input type="submit" value="Send"/>
+        <button onclick="onCloseClick(); return false;">close</button>
+    </form>
+
+</div>
+</body>
+</html>

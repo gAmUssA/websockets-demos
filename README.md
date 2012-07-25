@@ -1,2 +1,2 @@
-websockets-demos
+Websockets Demos
 ================
