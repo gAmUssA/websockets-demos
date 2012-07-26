@@ -27,10 +27,13 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class JavaClient {
     private static Logger logger = LoggerFactory.getLogger(JavaClient.class);
 
+    // modify websocket server endpoint if needed
+    public static final String ENDPOINT_URL = "ws://localhost:8080/websockets-javaee7/chat";
+
     public static void main(String[] args) {
         try {
             AsyncHttpClient c = new AsyncHttpClient();
-            final WebSocket w = c.prepareGet("ws://localhost:8080/websockets-javaee7/chat")
+            final WebSocket w = c.prepareGet(ENDPOINT_URL)
                     .execute(new WebSocketUpgradeHandler.Builder().build())
                     .get();
             w.addWebSocketListener(new WebSocketTextListener() {
