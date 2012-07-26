@@ -14,6 +14,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
+import static java.lang.Math.abs;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -62,7 +63,7 @@ public class JavaClient {
                 public void run() {
                     w.sendTextMessage("I'M A JAVA ROBOT IN THIS CHAT. CURRENT TIME IS: " + new Date());
                 }
-            }, 0, MILLISECONDS.convert(random.nextInt(20), SECONDS));
+            }, 0, MILLISECONDS.convert(abs(random.nextInt(20)), SECONDS));
         } catch (InterruptedException e) {
             logger.error("InterruptedException: {}", e);
         } catch (ExecutionException e) {
