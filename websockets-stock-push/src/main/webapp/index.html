@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Stock Generator Demo</title>
+
+    <meta charset="utf-8"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="assets/css/normalize.css" type="text/css"/>
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css"/>
+    <link rel="stylesheet" href="assets/css/bootstrap.css" type="text/css" media="all">
+    <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+    <link rel="shortcut icon" href="assets/favicon.ico"/>
+    <!--<link rel="apple-touch-icon" href="assets/apple-touch-icon.png"/>-->
+
+    <script type="text/javascript" src="js/app.js"></script>
+</head>
+<body onload="init()">
+
+<div class="page-header">
+    <h1>Stock Generator Demo
+        <small>WebSockets Application</small>
+    </h1>
+
+    <form onsubmit="onSubmit(); return false;">
+        <!-- input type="text" id="discount" /-->
+        <input type="submit" value="Get stock price feed"/>
+        <button onclick="onCloseClick(); return false;">Close the socket</button>
+    </form>
+    <div id="log"></div>
+</div>
+
+<div class="navbar navbar-fixed-bottom">
+    &copy Farata Systems, 2012
+</div>
+
+</body>
+</html>
