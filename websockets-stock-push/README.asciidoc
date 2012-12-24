@@ -36,4 +36,4 @@ Example application demonstrates usage of Java API for WebSockets (http://www.jc
 - once you'll see `websockets-stock-push.war_deployed` using browser go to URL http://localhost:8080/websockets-stock-push
 - monitor WebSocket traffic using Google Chrome Developer Tools
 
-image::https://github.com/gAmUssA/websockets-demos/blob/master/websockets-stock-push/ws_stock_push.png[]
+image::https://raw.github.com/gAmUssA/websockets-demos/master/websockets-stock-push/ws_stock_push.png[]
