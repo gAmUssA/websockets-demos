@@ -1,0 +1,39 @@
+= Java API for WebSocket example app =
+
+== WebSocket Stock Push ==
+
+Example application demonstrates usage of Java API for WebSockets (http://www.jcp.org/en/jsr/detail?id=356[JSR-356])
+
+=== Used technologies ===
+
+- Glassfish 4 http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/[promoted builds]
+- http://twitter.github.com/bootstrap/[Twitter Bootstrap ]
+- http://coffeescript.org/[CoffeeScript]
+- http://www.gradle.org/[Gradle]
+- https://www.google.com/intl/en/chrome/browser/canary.html[Google Chrome Canary ]
+
+=== How to build
+
+[source, shell]
+----------------------------------------------------------------------
+./gradlew clean build
+----------------------------------------------------------------------
+
+=== How to run
+
+- build the application
+- download http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/glassfish-4.0-b66.zip[Glassfish 4 build 66]
+- unpack in any directory
+- go to +glassfish_dir/bin+ start server with command
++
+
+[source, shell]
+----------------------------------------------------------------------
+./asadmin start-domain domain1
+----------------------------------------------------------------------
+
+- grab war file from +build\lib+ directory and drop it to +glassfish_dir/glassfish/domains/domain1/autodeploy+ directory
+- once you'll see `websockets-stock-push.war_deployed` using browser go to URL http://localhost:8080/websockets-stock-push
+- monitor WebSocket traffic using Google Chrome Developer Tools
+
+image::ws_stock_push.png[]
