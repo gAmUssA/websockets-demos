@@ -5,8 +5,9 @@ apply plugin: 'eclipse'
 apply plugin: 'eclipse-wtp'
 
 repositories {
-mavenLocal() 
-mavenCentral() }
+    mavenLocal()
+    mavenCentral()
+}
 
 def websocket_version = '0.3-SNAPSHOT'
 
@@ -16,18 +17,18 @@ dependencies {
     compile "org.json:json:20090211"
 
     providedCompile 'javax:javaee-web-api:6.0'
-    providedCompile  "org.glassfish.websocket:websocket-impl:${websocket_version}"
-    providedCompile  "org.glassfish.websocket:websocket-api:${websocket_version}"
+    providedCompile "org.glassfish.websocket:websocket-impl:${websocket_version}"
+    providedCompile "org.glassfish.websocket:websocket-api:${websocket_version}"
 }
 
-task makeDirs(description:'make all dirs for project setup') << {
+task makeDirs(description: 'make all dirs for project setup') << {
     def sources = [sourceSets.main, sourceSets.test]
     sources*.allSource*.srcDirs.flatten().each { File srcDir ->
         println "making $srcDir"
         srcDir.mkdirs()
-    } 
+    }
 }
 
-task wrap(type:Wrapper, description:"create a gradlew") {
-    gradleVersion = '1.0'	
+task wrap(type: Wrapper, description: "create a gradlew") {
+    gradleVersion = '1.0'
 }

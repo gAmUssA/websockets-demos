@@ -5,7 +5,7 @@ html {
 }
 
 body {
-    background: url(../apple-touch-icon.png) no-repeat center center;
+    /*background: url(../apple-touch-icon.png) no-repeat center center;*/
 }
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {

@@ -1,14 +1,12 @@
 package com.faratasystems.demos.websockets.controller;
 
-import com.faratasystems.demos.websockets.encode.StockMessageEncoder;
+import com.faratasystems.demos.common.domain.StockMessage;
+import com.faratasystems.demos.websockets.encode.StockMessageEncoderDecoder;
 import com.faratasystems.demos.websockets.task.BroadcastTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.websocket.Session;
-import javax.websocket.WebSocketClose;
-import javax.websocket.WebSocketEndpoint;
-import javax.websocket.WebSocketOpen;
+import javax.websocket.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,7 +20,10 @@ import java.util.Timer;
  */
 @WebSocketEndpoint(value = "stock-generator",
         encoders = {
-                StockMessageEncoder.class
+                StockMessageEncoderDecoder.class
+        },
+        decoders = {
+                StockMessageEncoderDecoder.class
         })
 public class StocksEndpoint {
 
@@ -59,6 +60,11 @@ public class StocksEndpoint {
     public void onClose(Session session) {
         removeClient(session);
         logger.info("Client disconnected");
+    }
+
+    @WebSocketMessage
+    public void onMessage(StockMessage message, Session client) {
+        logger.info(message.toString());
     }
 
     public void startBroadcastTask() {

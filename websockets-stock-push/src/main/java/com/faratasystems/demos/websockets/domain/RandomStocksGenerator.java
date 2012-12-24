@@ -22,7 +22,8 @@ public class RandomStocksGenerator {
         // Generate random number of shares of a random stock
         String price = Double.toString(generator.nextDouble() * 100.0);
         String symbol = symbols[generator.nextInt(symbols.length)];
-        return new StockMessage(lastId.incrementAndGet(), symbol, price);
+        Integer id = lastId.incrementAndGet();
+        return new StockMessage(id, symbol, price);
 
     }
 }

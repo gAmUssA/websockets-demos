@@ -9,7 +9,7 @@ package com.faratasystems.demos.common.domain;
 public class StockMessage {
     private String symbol;
     private String price;
-    private String id;
+    private Integer id;
 
     @Override
     public String toString() {
@@ -20,15 +20,15 @@ public class StockMessage {
                 '}';
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public StockMessage(Integer Id, String symbol, String price) {
+    public StockMessage(Integer id, String symbol, String price) {
         this.id = id;
         this.symbol = symbol;
         this.price = price;
