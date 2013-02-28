@@ -1,0 +1,85 @@
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'war'
+apply plugin: 'jetty'
+
+apply plugin: 'rebel'
+
+def glassfishVersion = '7.0-b77'
+
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        mavenRepo(name: 'zt-public-snapshots',
+                url: 'http://repos.zeroturnaround.com/nexus/content/groups/zt-public/')
+        maven {
+            name "Glassfish promoted"
+            url "https://maven.java.net/content/groups/promoted/"
+        }
+    }
+
+    dependencies {
+        classpath group: 'org.zeroturnaround', name: 'gradle-jrebel-plugin', version: '1.0.2-SNAPSHOT'
+    }
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    groovy 'org.codehaus.groovy:groovy-all:2.0.5'
+
+    providedCompile "javax:javaee-api:${glassfishVersion}"
+
+    compile "com.google.code.gson:gson:2.2.2"
+
+    compile 'org.slf4j:slf4j-api:1.6.5'
+    compile 'ch.qos.logback:logback-classic:1.0.6'
+
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.4'
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
+}
+
+
+rebel {
+/*
+* alwaysGenerate - default is false
+*
+* If 'false' - rebel.xml is generated if timestamps of build.gradle and the current rebel.xml file are not equal.
+* If 'true' - rebel.xml will always be generated
+*/
+// alwaysGenerate = "true"
+
+/*
+* showGenerated - default is false
+*
+* If 'true' generated rebel.xml will be printed out in console, so you can immediately see what was generated
+*/
+// showGenerated = "true"
+
+/*
+* rebelXmlDirectory - default is 'build/classes'
+*
+* Output directory for rebel.xml.
+*/
+// rebelXmlDirectory = "build/myClasses"
+
+/*
+* warSourceDirectory - default is 'src/main/webapp'
+*
+* The directory with web resources.
+*/
+// warSourceDirectory = "src/main/myWebapp"
+}
