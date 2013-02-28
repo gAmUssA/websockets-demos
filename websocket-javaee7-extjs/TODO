@@ -1,0 +1,11 @@
+ ✔ Rename the column Price into Open Price and leave those prices alone @done (13-02-28 14:04)
+ ☐ b) Rename the column Change into Last Price - it should be painted red or green as you do now
+ ✔ c) display the price with 4 digits after the decimal points @done (13-02-28 14:05)
+ ☐ d) Start this application and leave it running for an hour - let's see what happens
+ ☐ e) On the title of the grid display the total number of stocks received websocket messages and store size
+ ✔ f) rename the button Connect to WebSocket to Open WebSocket connection @done (13-02-28 14:08)
+ ☐ g) Add a text field next to the button HTTP Get request to enter the stock symbol
+ 
+ Not sure if this would be useful to display on the top another counter "Total DOM modifications". What do you think?
+ ☐ h) This is just thinking aloud:  a bit later we could deploy this app on our save sick child server. Ideally we should be able to ask the audience to use their devices and connect to this URL. This way it'll allow us to test the performance too. 
+ ☐ But since we are using Ext JS we may have problem implementing responsive design and will need to create a Sencha touch version for this app.
