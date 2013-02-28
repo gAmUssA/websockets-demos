@@ -5,11 +5,11 @@ apply plugin: 'eclipse'
 apply plugin: 'eclipse-wtp'
 apply plugin: 'war'
 
-def websocket_version = '1.0-b08'
+def websocket_version = '1.0-b09'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
-
+def glassfishVersion = '7.0-b77'
 repositories {
     mavenLocal()
     mavenCentral()
@@ -17,14 +17,21 @@ repositories {
         name "Eclipse"
         url "http://download.eclipse.org/rt/eclipselink/maven.repo"
     }
+    maven {
+        name "Glassfish promoted"
+        url "https://maven.java.net/content/groups/promoted/"
+    }
+
 }
 
 dependencies {
     groovy 'org.codehaus.groovy:groovy-all:2.0.5'
 
     //providedCompile "org.glassfish.tyrus:websocket-impl:${websocket_version}"
-    providedCompile "javax.websocket:javax.websocket-api:${websocket_version}"
+    //providedCompile "javax.websocket:javax.websocket-api:${websocket_version}"
     //providedCompile "org.glassfish:javax.json:1.0-b01"
+
+    providedCompile "javax:javaee-api:${glassfishVersion}"
 
     compile "com.google.code.gson:gson:2.2.2"
     //compile "org.glassfish.tyrus:tyrus-server:1.0-SNAPSHOT"
@@ -35,6 +42,13 @@ dependencies {
     testCompile "org.spockframework:spock-core:0.7-groovy-2.0"
     testCompile 'com.ning:async-http-client:1.7.8'
 
+}
+
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }
 
 task wrapper(type: Wrapper) {
