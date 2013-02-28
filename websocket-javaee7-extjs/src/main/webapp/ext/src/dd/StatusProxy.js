@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * A specialized floating Component that supports a drop status icon, {@link Ext.Layer} styles
  * and auto-repair.  This is the default drag proxy used by all Ext.dd components.
@@ -14,6 +31,8 @@ Ext.define('Ext.dd.StatusProxy', {
         '<div class="' + Ext.baseCSSPrefix + 'dd-drop-icon"></div>' +
         '<div id="{id}-ghost" class="' + Ext.baseCSSPrefix + 'dd-drag-ghost"></div>'
     ],
+    
+    repairCls: Ext.baseCSSPrefix + 'dd-drag-repair',
 
     /**
      * Creates new StatusProxy.
@@ -146,7 +165,7 @@ Ext.define('Ext.dd.StatusProxy', {
         me.callback = callback;
         me.scope = scope;
         if (xy && me.animRepair !== false) {
-            me.el.addCls(Ext.baseCSSPrefix + 'dd-drag-repair');
+            me.el.addCls(me.repairCls);
             me.el.hideUnders(true);
             me.anim = me.el.animate({
                 duration: me.repairDuration || 500,
@@ -169,7 +188,7 @@ Ext.define('Ext.dd.StatusProxy', {
         var me = this;
     
         me.hide(true);
-        me.el.removeCls(Ext.baseCSSPrefix + 'dd-drag-repair');
+        me.el.removeCls(me.repairCls);
         if (typeof me.callback == "function") {
             me.callback.call(me.scope || me);
         }

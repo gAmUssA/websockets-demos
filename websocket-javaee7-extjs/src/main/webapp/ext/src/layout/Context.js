@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Manages context information during a layout.
  *
@@ -272,7 +289,7 @@
  *    that are shrink-wrapped. If a component has raw content (not container items), the
  *    componentLayout must publish these values instead.
  * 
- * @protected
+ * @private
  */
 Ext.define('Ext.layout.Context', {
     requires: [
@@ -606,7 +623,7 @@ Ext.define('Ext.layout.Context', {
     invalidate: function (components, full) {
         var me = this,
             isArray = !components.isComponent,
-            componentChildrenDone, containerChildrenDone, containerLayoutDone,
+            containerLayoutDone,
             firstTime, i, comp, item, items, length, componentLayout, layout,
             invalidateOptions, token;
 
@@ -615,6 +632,13 @@ Ext.define('Ext.layout.Context', {
 
             if (comp.rendered && !comp.hidden) {
                 item = me.getCmp(comp);
+                
+                // Layout optimizations had to be disabled because they break
+                // Dock layout behavior.
+//                 if (item.optOut) {
+//                     continue;
+//                 }
+
                 componentLayout = comp.componentLayout;
                 firstTime = !componentLayout.ownerContext;
                 layout = (comp.isContainer && !comp.collapsed) ? comp.layout : null;
@@ -641,14 +665,22 @@ Ext.define('Ext.layout.Context', {
                 if (componentLayout.beforeLayoutCycle) {
                     componentLayout.beforeLayoutCycle(item);
                 }
+                
+                if (layout && layout.beforeLayoutCycle) {
+                    // allow the container layout take a peek as well. Table layout can
+                    // influence its children's styling due to the interaction of nesting
+                    // table-layout:fixed and auto inside each other without intervening
+                    // elements of known size.
+                    layout.beforeLayoutCycle(item);
+                }
 
                 // Finish up the item-level processing that is based on the size model of
                 // the component.
                 token = item.initContinue(token);
 
-                // Start these state variables at true, since that is the value we want if
+                // Start this state variable at true, since that is the value we want if
                 // they do not apply (i.e., no work of this kind on which to wait).
-                componentChildrenDone = containerChildrenDone = containerLayoutDone = true;
+                containerLayoutDone = true;
 
                 // A ComponentLayout MUST implement getLayoutItems to allow its children
                 // to be collected. Ext.container.Container does this, but non-Container
@@ -660,7 +692,6 @@ Ext.define('Ext.layout.Context', {
                     items = componentLayout.getLayoutItems();
                     if (items.length) {
                         me.invalidate(items, true);
-                        componentChildrenDone = false;
                     }
                 }
 
@@ -671,14 +702,12 @@ Ext.define('Ext.layout.Context', {
                     items = layout.getVisibleItems();
                     if (items.length) {
                         me.invalidate(items, true);
-                        containerChildrenDone = false;
                     }
                 }
 
                 // Finish the processing that requires the size models of child items to
                 // be determined (and some misc other stuff).
-                item.initDone(token, componentChildrenDone, containerChildrenDone,
-                              containerLayoutDone);
+                item.initDone(containerLayoutDone);
 
                 // Inform the layouts that we are about to begin (or begin again) now that
                 // the size models of the component and its children are setup.
@@ -702,36 +731,17 @@ Ext.define('Ext.layout.Context', {
     },
 
     layoutDone: function (layout) {
-        var ownerContext = layout.ownerContext,
-            ownerCtContext;
+        var ownerContext = layout.ownerContext;
 
         layout.running = false;
 
-        // Once a component layout completes, we can mark it as "done" but we can also
-        // decrement the remainingChildLayouts property on the ownerCtContext. When that
-        // goes to 0, we can mark the ownerCtContext as "childrenDone".
+        // Once a component layout completes, we can mark it as "done".
         if (layout.isComponentLayout) {
             if (ownerContext.measuresBox) {
                 ownerContext.onBoxMeasured(); // be sure to release our boxParent
             }
 
             ownerContext.setProp('done', true);
-
-            ownerCtContext = ownerContext.ownerCtContext;
-            if (ownerCtContext) {
-                if (ownerContext.target.ownerLayout.isComponentLayout) {
-                    if (! --ownerCtContext.remainingComponentChildLayouts) {
-                        ownerCtContext.setProp('componentChildrenDone', true);
-                    }
-                } else {
-                    if (! --ownerCtContext.remainingContainerChildLayouts) {
-                        ownerCtContext.setProp('containerChildrenDone', true);
-                    }
-                }
-                if (! --ownerCtContext.remainingChildLayouts) {
-                    ownerCtContext.setProp('childrenDone', true);
-                }
-            }
         } else {
             ownerContext.setProp('containerLayoutDone', true);
         }
@@ -926,12 +936,28 @@ Ext.define('Ext.layout.Context', {
     },
 
     /**
+     * Removes the ContextItem for an element from the cache and from the parent's
+     * "children" array.
+     * @param {Ext.layout.ContextItem} parent
+     * @param {Ext.dom.Element} el
+     */
+    removeEl: function (parent, el) {
+        var id = el.id,
+            children = parent.children,
+            items = this.items;
+
+        if(children) {
+            Ext.Array.remove(children, items[id]);
+        }
+        delete items[id];
+    },
+
+    /**
      * Resets the given layout object. This is called at the start of the run and can also
      * be called during the run by calling {@link #invalidate}.
      */
     resetLayout: function (layout, ownerContext, firstTime) {
-        var me = this,
-            ownerCtContext;
+        var me = this;
 
         me.currentLayout = layout;
 
@@ -960,20 +986,6 @@ Ext.define('Ext.layout.Context', {
             layout.calcCount = 0; // the number of times calculate is called
             layout.triggerCount = 0; // the number of triggers set for the layout
 
-            // Count the children of each ownerCt so we can tell when they are all done:
-            if (layout.isComponentLayout && (ownerCtContext = ownerContext.ownerCtContext)) {
-                // This layout's ownerCt is in this run... The component associated with
-                // this layout (the "target") could be owned by the ownerCt's container
-                // layout or component layout (e.g. docked items)! To manage this, we keep
-                // two counters for these and one for the combined total:
-                if (ownerContext.target.ownerLayout.isComponentLayout) {
-                    ++ownerCtContext.remainingComponentChildLayouts;
-                } else {
-                    ++ownerCtContext.remainingContainerChildLayouts;
-                }
-                ++ownerCtContext.remainingChildLayouts;
-            }
-
             if (!layout.initialized) {
                 layout.initLayout();
             }
@@ -992,25 +1004,6 @@ Ext.define('Ext.layout.Context', {
                     // trigger/unblock layouts, but what layouts are really looking for with
                     // this property is for it to go to true, not just be set to a value...
                     ownerContext.unsetProp('done');
-
-                    // On subsequent resets we increment the child layout count properties
-                    // on ownerCtContext and clear 'childrenDone' and the appropriate other
-                    // indicator as we transition to 1:
-                    ownerCtContext = ownerContext.ownerCtContext;
-                    if (ownerCtContext) {
-                        if (ownerContext.target.ownerLayout.isComponentLayout) {
-                            if (++ownerCtContext.remainingComponentChildLayouts == 1) {
-                                ownerCtContext.unsetProp('componentChildrenDone');
-                            }
-                        } else {
-                            if (++ownerCtContext.remainingContainerChildLayouts == 1) {
-                                ownerCtContext.unsetProp('containerChildrenDone');
-                            }
-                        }
-                        if (++ownerCtContext.remainingChildLayouts == 1) {
-                            ownerCtContext.unsetProp('childrenDone');
-                        }
-                    }
                 }
 
                 // and it needs to be removed from the completion and/or finalize queues...
@@ -1061,7 +1054,7 @@ Ext.define('Ext.layout.Context', {
                 flushed = true; // all flushed now, so more progress is required
 
                 me.flushLayouts('completionQueue', 'completeLayout');
-            } else {
+            } else if (!me.invalidQueue.length) {
                 // after a flush, we must make progress or something is WRONG
                 me.state = 2;
                 break;

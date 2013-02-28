@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @private
  */
@@ -57,7 +74,7 @@ Ext.define('Ext.view.DragZone', {
         // focus the view that the node was dropped onto so that keynav will be enabled.
         target.el.focus();
     },
-    
+
     onItemMouseDown: function(view, record, item, index, e) {
         if (!this.isPreventDrag(e, record, item, index)) {
             // Since handleMouseDown prevents the default behavior of the event, which
@@ -65,12 +82,6 @@ Ext.define('Ext.view.DragZone', {
             // remains focused if the drag is cancelled, or if no drag occurs.
             this.view.focus();
             this.handleMouseDown(e);
-
-            // If we want to allow dragging of multi-selections, then veto the following handlers (which, in the absence of ctrlKey, would deselect)
-            // if the mousedowned record is selected
-            if (view.getSelectionModel().selectionMode == 'MULTI' && !e.ctrlKey && view.getSelectionModel().isSelected(record)) {
-                return false;
-            }
         }
     },
 
@@ -101,8 +112,7 @@ Ext.define('Ext.view.DragZone', {
             data = me.dragData,
             view = data.view,
             selectionModel = view.getSelectionModel(),
-            record = view.getRecord(data.item),
-            e = data.event;
+            record = view.getRecord(data.item);
 
         // Update the selection to match what would have been selected if the user had
         // done a full click on the target node rather than starting a drag from it

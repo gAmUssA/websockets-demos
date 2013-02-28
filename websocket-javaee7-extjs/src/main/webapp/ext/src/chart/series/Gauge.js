@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @class Ext.chart.series.Gauge
  * 
@@ -49,8 +66,6 @@
  * In this example we create a special Gauge axis to be used with the gauge visualization (describing half-circle markers), and also we're
  * setting a maximum, minimum and steps configuration options into the axis. The Gauge series configuration contains the store field to be bound to
  * the visual display and the color set to be used with the visualization.
- * 
- * @xtype gauge
  */
 Ext.define('Ext.chart.series.Gauge', {
 
@@ -154,14 +169,12 @@ Ext.define('Ext.chart.series.Gauge', {
         var me = this,
             store = me.chart.getChartStore(),
             data = store.data.items,
-            i, ln, rec;
-        //Add yFields to be used in Legend.js
+            label = me.label,
+            ln = data.length;
+          
         me.yField = [];
-        if (me.label.field) {
-            for (i = 0, ln = data.length; i < ln; i++) {
-                rec = data[i];
-                me.yField.push(rec.get(me.label.field));
-            }
+        if (label && label.field && ln > 0) {
+            me.yField.push(data[0].get(label.field));
         }
     },
 
@@ -273,8 +286,6 @@ Ext.define('Ext.chart.series.Gauge', {
             seriesLabelStyle = me.seriesLabelStyle,
             colorArrayStyle = me.colorArrayStyle,
             colorArrayLength = colorArrayStyle && colorArrayStyle.length || 0,
-            gutterX = chart.maxGutter[0],
-            gutterY = chart.maxGutter[1],
             cos = Math.cos,
             sin = Math.sin,
             rendererAttributes, centerX, centerY, slice, slices, sprite, value,
@@ -470,21 +481,13 @@ Ext.define('Ext.chart.series.Gauge', {
                              rho >= item.startRho && rho <= item.endRho);
     },
     
-    // @private shows all elements in the series.
-    showAll: function() {
-        if (!isNaN(this._index)) {
-            this.__excludes[this._index] = false;
-            this.drawSeries();
-        }
-    },
-    
     /**
      * Returns the color of the series (to be displayed as color for the series legend item).
      * @param item {Object} Info about the item; same format as returned by #getItemForPoint
      */
     getLegendColor: function(index) {
-        var me = this;
-        return me.colorArrayStyle[index % me.colorArrayStyle.length];
+        var colors = this.colorSet || this.colorArrayStyle;
+        return colors[index % colors.length];
     }
 });
 

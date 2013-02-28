@@ -1,6 +1,6 @@
 .x-grid-cell-checkcolumn .x-grid-cell-inner {
-    padding-top: 4px;
-    padding-bottom: 2px;
+    padding-top: 3px;
+    padding-bottom: 0;
     line-height: 14px;
 }
 .x-grid-with-row-lines .x-grid-cell-checkcolumn .x-grid-cell-inner {

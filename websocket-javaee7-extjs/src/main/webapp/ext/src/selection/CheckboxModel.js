@@ -1,18 +1,35 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * A selection model that renders a column of checkboxes that can be toggled to
  * select or deselect rows. The default mode for this selection model is MULTI.
  *
  * The selection model will inject a header for the checkboxes in the first view
- * and according to the 'injectCheckbox' configuration.
+ * and according to the {@link #injectCheckbox} configuration.
  */
 Ext.define('Ext.selection.CheckboxModel', {
     alias: 'selection.checkboxmodel',
     extend: 'Ext.selection.RowModel',
 
     /**
-     * @cfg {String} mode
+     * @cfg {"SINGLE"/"SIMPLE"/"MULTI"} mode
      * Modes of selection.
-     * Valid values are SINGLE, SIMPLE, and MULTI.
+     * Valid values are `"SINGLE"`, `"SIMPLE"`, and `"MULTI"`.
      */
     mode: 'MULTI',
 
@@ -33,19 +50,41 @@ Ext.define('Ext.selection.CheckboxModel', {
      * @cfg {Boolean} showHeaderCheckbox
      * Configure as `false` to not display the header checkbox at the top of the column.
      */
-    showHeaderCheckbox: true,
+    showHeaderCheckbox: undefined,
+    
+    /**
+     * @cfg {String} [checkSelector="x-grid-row-checker"]
+     * The selector for determining whether the checkbox element is clicked. This may be changed to
+     * allow for a wider area to be clicked, for example, the whole cell for the selector.
+     */
+    checkSelector: '.' + Ext.baseCSSPrefix + 'grid-row-checker',
 
     headerWidth: 24,
 
     // private
     checkerOnCls: Ext.baseCSSPrefix + 'grid-hd-checker-on',
-
-    // private
-    refreshOnRemove: true,
+    
+    constructor: function(){
+        var me = this;
+        me.callParent(arguments);   
+        
+        // If mode is single and showHeaderCheck isn't explicity set to
+        // true, hide it.
+        if (me.mode === 'SINGLE' && me.showHeaderCheckbox !== true) {
+            me.showHeaderCheckbox = false;
+        } 
+    },
 
     beforeViewRender: function(view) {
-        var me = this;
+        var me = this,
+            views = me.views,
+            owner;
+            
         me.callParent(arguments);
+        
+        if (Ext.Array.indexOf(views, view) === -1) {
+            views.push(view);
+        }
 
         // if we have a locked header, only hook up to the first
         if (!me.hasLockedHeader() || view.headerCt.lockedCt) {
@@ -53,7 +92,12 @@ Ext.define('Ext.selection.CheckboxModel', {
                 view.headerCt.on('headerclick', me.onHeaderClick, me);
             }
             me.addCheckbox(view, true);
-            me.mon(view.ownerCt, 'reconfigure', me.onReconfigure, me);
+            owner = view.ownerCt;
+            // Listen to the outermost reconfigure event
+            if (view.headerCt.lockedCt) {
+                owner = owner.ownerCt;
+            }
+            me.mon(owner, 'reconfigure', me.onReconfigure, me);
         }
     },
 
@@ -124,13 +168,14 @@ Ext.define('Ext.selection.CheckboxModel', {
     toggleUiHeader: function(isChecked) {
         var view     = this.views[0],
             headerCt = view.headerCt,
-            checkHd  = headerCt.child('gridcolumn[isCheckerHd]');
+            checkHd  = headerCt.child('gridcolumn[isCheckerHd]'),
+            cls = this.checkerOnCls;
 
         if (checkHd) {
             if (isChecked) {
-                checkHd.el.addCls(this.checkerOnCls);
+                checkHd.addCls(cls);
             } else {
-                checkHd.el.removeCls(this.checkerOnCls);
+                checkHd.removeCls(cls);
             }
         }
     },
@@ -180,9 +225,15 @@ Ext.define('Ext.selection.CheckboxModel', {
             locked: me.hasLockedHeader()
         };
     },
-    
-    renderEmpty: function(){
-        return '&#160;';    
+
+    renderEmpty: function() {
+        return '&#160;';
+    },
+
+    // After refresh, ensure that the header checkbox state matches
+    refresh: function() {
+        this.callParent(arguments);
+        this.updateHeaderState();
     },
 
     /**
@@ -195,18 +246,12 @@ Ext.define('Ext.selection.CheckboxModel', {
         metaData.tdCls = baseCSSPrefix + 'grid-cell-special ' + baseCSSPrefix + 'grid-cell-row-checker';
         return '<div class="' + baseCSSPrefix + 'grid-row-checker">&#160;</div>';
     },
-
-    // override
-    onRowMouseDown: function(view, record, item, index, e) {
-        view.el.focus();
+    
+    processSelection: function(view, record, item, index, e){
         var me = this,
-            checker = e.getTarget('.' + Ext.baseCSSPrefix + 'grid-row-checker'),
+            checker = e.getTarget(me.checkSelector),
             mode;
             
-        if (!me.allowRightMouseSelection(e)) {
-            return;
-        }
-
         // checkOnly set, but we didn't click on a checker.
         if (me.checkOnly && !checker) {
             return;
@@ -231,18 +276,40 @@ Ext.define('Ext.selection.CheckboxModel', {
      * @private
      */
     onSelectChange: function() {
-        var me = this;
-        me.callParent(arguments);
-        me.updateHeaderState();
+        this.callParent(arguments);
+        if (!this.bulkChange) {
+            this.updateHeaderState();
+        }
     },
 
     /**
      * @private
      */
     onStoreLoad: function() {
-        var me = this;
-        me.callParent(arguments);
-        me.updateHeaderState();
+        this.callParent(arguments);
+        this.updateHeaderState();
+    },
+
+    onStoreAdd: function() {
+        this.callParent(arguments);
+        this.updateHeaderState();
+    },
+
+    onStoreRemove: function() {
+        this.callParent(arguments);
+        this.updateHeaderState();
+    },
+    
+    onStoreRefresh: function(){
+        this.callParent(arguments);    
+        this.updateHeaderState();
+    },
+    
+    maybeFireSelectionChange: function(fireEvent) {
+        if (fireEvent && !this.bulkChange) {
+            this.updateHeaderState();
+        }
+        this.callParent(arguments);
     },
 
     /**
@@ -250,7 +317,28 @@ Ext.define('Ext.selection.CheckboxModel', {
      */
     updateHeaderState: function() {
         // check to see if all records are selected
-        var hdSelectStatus = this.selected.getCount() === this.store.getCount();
-        this.toggleUiHeader(hdSelectStatus);
+        var me = this,
+            store = me.store,
+            storeCount = store.getCount(),
+            views = me.views,
+            hdSelectStatus = false,
+            selectedCount = 0,
+            selected, len, i;
+            
+        if (storeCount > 0) {
+            selected = me.selected;
+            hdSelectStatus = true;
+            for (i = 0, len = selected.getCount(); i < len; ++i) {
+                if (!me.storeHasSelected(selected.getAt(i))) {
+                    break;
+                }
+                ++selectedCount;
+            }
+            hdSelectStatus = storeCount === selectedCount;
+        }
+            
+        if (views && views.length) {
+            me.toggleUiHeader(hdSelectStatus);
+        }
     }
 });

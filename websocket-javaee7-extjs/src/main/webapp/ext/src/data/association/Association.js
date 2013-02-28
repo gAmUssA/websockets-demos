@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @author Ed Spencer
  *
@@ -47,19 +64,21 @@
  *                 "parent_id": null,
  *                 "name": "Parent Group"
  *             },
- *             "child_groups": [{
- *                 "id": 2,
- *                 "parent_id": 10,
- *                 "name": "Child Group 1"
- *             },{
- *                 "id": 3,
- *                 "parent_id": 10,
- *                 "name": "Child Group 2"
- *             },{
- *                 "id": 4,
- *                 "parent_id": 10,
- *                 "name": "Child Group 3"
- *             }]
+ *             "nested" : {
+ *                 "child_groups": [{
+ *                     "id": 2,
+ *                     "parent_id": 10,
+ *                     "name": "Child Group 1"
+ *                 },{
+ *                     "id": 3,
+ *                     "parent_id": 10,
+ *                     "name": "Child Group 2"
+ *                 },{
+ *                     "id": 4,
+ *                     "parent_id": 10,
+ *                     "name": "Child Group 3"
+ *                 }]
+ *             }
  *         }
  *     }
  *
@@ -81,7 +100,7 @@
  *             primaryKey: 'id',
  *             foreignKey: 'parent_id',
  *             autoLoad: true,
- *             associationKey: 'child_groups' // read child data from child_groups
+ *             associationKey: 'nested.child_groups' // read child data from nested.child_groups
  *         }, {
  *             type: 'belongsTo',
  *             model: 'Group',
@@ -153,6 +172,8 @@ Ext.define('Ext.data.association.Association', {
      * The name of the property in the data to read the association from. Defaults to the name of the associated model.
      */
 
+    associationKeyFunction : null,
+
     defaultReaderType: 'json',
 
     isAssociation: true,
@@ -195,12 +216,22 @@ Ext.define('Ext.data.association.Association', {
     constructor: function(config) {
         Ext.apply(this, config);
 
-        var me = this,
+        var me              = this,
             types           = Ext.ModelManager.types,
             ownerName       = config.ownerModel,
             associatedName  = config.associatedModel,
             ownerModel      = types[ownerName],
-            associatedModel = types[associatedName];
+            associatedModel = types[associatedName],
+            associationKey  = config.associationKey,
+            keyReIdx;
+
+        if (associationKey) {
+            keyReIdx = String(associationKey).search(/[\[\.]/);
+
+            if (keyReIdx >= 0) {
+                me.associationKeyFunction = Ext.functionFactory('obj', 'return obj' + (keyReIdx > 0 ? '.' : '') + associationKey);
+            }
+        }
 
         me.initialConfig = config;
 

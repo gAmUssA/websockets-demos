@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @class Ext.chart.series.Line
  * @extends Ext.chart.series.Cartesian
@@ -108,13 +125,6 @@ Ext.define('Ext.chart.series.Line', {
     type: 'line',
 
     alias: 'series.line',
-
-    /**
-     * @cfg {String} axis
-     * The position of the axis to bind the values to. Possible values are 'left', 'bottom', 'top' and 'right'.
-     * You must explicitly set this value to bind the values of the line series to the ones in the axis, otherwise a
-     * relative scale will be used.
-     */
 
     /**
      * @cfg {Number} selectionTolerance
@@ -298,7 +308,7 @@ Ext.define('Ext.chart.series.Line', {
             yValueMap = {},
             onbreak = false,
             storeIndices = [],
-            markerStyle = me.markerStyle,
+            markerStyle = Ext.apply({}, me.markerStyle),
             seriesStyle = me.seriesStyle,
             colorArrayStyle = me.colorArrayStyle,
             colorArrayLength = colorArrayStyle && colorArrayStyle.length || 0,
@@ -307,6 +317,8 @@ Ext.define('Ext.chart.series.Line', {
             boundAxes = me.getAxesForXAndYFields(),
             boundXAxis = boundAxes.xAxis,
             boundYAxis = boundAxes.yAxis,
+            xAxisType = boundXAxis ? chartAxes.get(boundXAxis).type : '',
+            yAxisType = boundYAxis ? chartAxes.get(boundYAxis).type : '',
             shadows, shadow, shindex, fromPath, fill, fillPath, rendererAttributes,
             x, y, prevX, prevY, firstX, firstY, markerCount, i, j, ln, axis, ends, marker, markerAux, item, xValue,
             yValue, coords, xScale, yScale, minX, maxX, minY, maxY, line, animation, endMarkerStyle,
@@ -340,7 +352,7 @@ Ext.define('Ext.chart.series.Line', {
 
         //prepare style objects for line and markers
         endMarkerStyle = Ext.apply(markerStyle || {}, me.markerConfig, {
-            fill: me.seriesStyle.fill || colorArrayStyle[seriesIdx % colorArrayStyle.length]
+            fill: me.seriesStyle.fill || colorArrayStyle[me.themeIdx % colorArrayStyle.length]
         });
         type = endMarkerStyle.type;
         delete endMarkerStyle.type;
@@ -427,7 +439,9 @@ Ext.define('Ext.chart.series.Line', {
         for (i = 0, ln = data.length; i < ln; i++) {
             record = data[i];
             xValue = record.get(me.xField);
-
+            if (xAxisType == 'Time' && typeof xValue == "string") {
+                xValue = Date.parse(xValue);
+            }
             // Ensure a value
             if (typeof xValue == 'string' || typeof xValue == 'object' && !Ext.isDate(xValue)
                 //set as uniform distribution if the axis is a category axis.
@@ -441,6 +455,9 @@ Ext.define('Ext.chart.series.Line', {
 
             // Filter out values that don't fit within the pan/zoom buffer area
             yValue = record.get(me.yField);
+            if (yAxisType == 'Time' && typeof yValue == "string") {
+                yValue = Date.parse(yValue);
+            }
             //skip undefined values
             if (typeof yValue == 'undefined' || (typeof yValue == 'string' && !yValue)) {
                 //<debug warn>
@@ -595,6 +612,7 @@ Ext.define('Ext.chart.series.Line', {
                 path: dummyPath,
                 stroke: endLineStyle.stroke || endLineStyle.fill
             }, endLineStyle || {}));
+            me
 
             //set configuration opacity
             me.line.setAttributes({
@@ -612,7 +630,7 @@ Ext.define('Ext.chart.series.Line', {
             });
             if (!endLineStyle.stroke && colorArrayLength) {
                 me.line.setAttributes({
-                    stroke: colorArrayStyle[seriesIdx % colorArrayLength]
+                    stroke: colorArrayStyle[me.themeIdx % colorArrayLength]
                 }, true);
             }
             if (enableShadows) {
@@ -639,7 +657,7 @@ Ext.define('Ext.chart.series.Line', {
                 me.fillPath = surface.add({
                     group: group,
                     type: 'path',
-                    fill: endLineStyle.fill || colorArrayStyle[seriesIdx % colorArrayLength],
+                    fill: endLineStyle.fill || colorArrayStyle[me.themeIdx % colorArrayLength],
                     path: dummyPath
                 });
             }
@@ -691,7 +709,7 @@ Ext.define('Ext.chart.series.Line', {
                 me.onAnimate(me.fillPath, {
                     to: Ext.apply({}, {
                         path: fillPath,
-                        fill: endLineStyle.fill || colorArrayStyle[seriesIdx % colorArrayLength],
+                        fill: endLineStyle.fill || colorArrayStyle[me.themeIdx % colorArrayLength],
                         'stroke-width': 0,
                         opacity: fillOpacity
                     }, endLineStyle || {})
@@ -706,7 +724,7 @@ Ext.define('Ext.chart.series.Line', {
                         if (item) {
                             rendererAttributes = me.renderer(item, store.getAt(i), item._to, i, store);
                             me.onAnimate(item, {
-                                to: Ext.apply(rendererAttributes, endMarkerStyle || {})
+                                to: Ext.applyIf(rendererAttributes, endMarkerStyle || {})
                             });
                             item.show(true);
                         }
@@ -878,19 +896,22 @@ Ext.define('Ext.chart.series.Line', {
 
     // @private Overriding highlights.js highlightItem method.
     highlightItem: function() {
-        var me = this;
+        var me = this,
+            line = me.line;
+                
         me.callParent(arguments);
-        if (me.line && !me.highlighted) {
-            if (!('__strokeWidth' in me.line)) {
-                me.line.__strokeWidth = parseFloat(me.line.attr['stroke-width']) || 0;
+        if (line && !me.highlighted) {
+            if (!('__strokeWidth' in line)) {
+                line.__strokeWidth = parseFloat(line.attr['stroke-width']) || 0;
             }
-            if (me.line.__anim) {
-                me.line.__anim.paused = true;
+            if (line.__anim) {
+                line.__anim.paused = true;
             }
-            me.line.__anim = Ext.create('Ext.fx.Anim', {
-                target: me.line,
+            
+            line.__anim = new Ext.fx.Anim({
+                target: line,
                 to: {
-                    'stroke-width': me.line.__strokeWidth + 3
+                    'stroke-width': line.__strokeWidth + 3
                 }
             });
             me.highlighted = true;
@@ -899,13 +920,17 @@ Ext.define('Ext.chart.series.Line', {
 
     // @private Overriding highlights.js unHighlightItem method.
     unHighlightItem: function() {
-        var me = this;
+        var me = this,
+            line = me.line,
+            width;
+            
         me.callParent(arguments);
-        if (me.line && me.highlighted) {
-            me.line.__anim = Ext.create('Ext.fx.Anim', {
-                target: me.line,
+        if (line && me.highlighted) {
+            width = line.__strokeWidth || parseFloat(line.attr['stroke-width']) || 0;
+            line.__anim = new Ext.fx.Anim({
+                target: line,
                 to: {
-                    'stroke-width': me.line.__strokeWidth
+                    'stroke-width': width
                 }
             });
             me.highlighted = false;

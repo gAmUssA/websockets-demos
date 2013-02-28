@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @class Ext.chart.series.Column
  *
@@ -90,15 +107,27 @@ Ext.define('Ext.chart.series.Column', {
 
     column: true,
 
+    // private: true if the columns are bound to a numerical x-axis; otherwise they are evenly distributed along the axis
+    boundColumn: false,
+
     /**
-     * @cfg {Number} xPadding
-     * Padding between the left/right axes and the bars
+     * @cfg {String} axis
+     * The position of the axis to bind the values to. Possible values are 'left', 'bottom', 'top' and 'right'.
+     * You must explicitly set this value to bind the values of the column series to the ones in the axis, otherwise a
+     * relative scale will be used.
+     */
+
+    /**
+     * @cfg {Number/Object} xPadding Padding between the left/right axes and the bars.
+     * The possible values are a number (the number of pixels for both left and right padding)
+     * or an object with `{ left, right }` properties.
      */
     xPadding: 10,
 
     /**
-     * @cfg {Number} yPadding
-     * Padding between the top/bottom axes and the bars
+     * @cfg {Number/Object} yPadding Padding between the top/bottom axes and the bars.
+     * The possible values are a number (the number of pixels for both top and bottom padding)
+     * or an object with `{ top, bottom }` properties.
      */
     yPadding: 0
 });

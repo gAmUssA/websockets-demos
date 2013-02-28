@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @author Ed Spencer
  *
@@ -205,6 +222,12 @@ Ext.define('Ext.data.reader.Json', {
      * @cfg {String} record The optional location within the JSON response that the record data itself can be found at.
      * See the JsonReader intro docs for more details. This is not often needed.
      */
+    
+    /**
+     * @cfg {String} [metaProperty="metaData"]
+     * Name of the property from which to retrieve the `metaData` attribute. See {@link #metaData}.
+     */
+    metaProperty: 'metaData',
 
     /**
      * @cfg {Boolean} useSimpleAccessors True to ensure that field names/mappings are treated as literals when
@@ -223,9 +246,17 @@ Ext.define('Ext.data.reader.Json', {
      * @return {Ext.data.ResultSet} A ResultSet containing model instances and meta data about the results
      */
     readRecords: function(data) {
+        var me = this,
+            meta;
+            
         //this has to be before the call to super because we use the meta data in the superclass readRecords
-        if (data.metaData) {
-            this.onMetaChange(data.metaData);
+        if (me.getMeta) {
+            meta = me.getMeta(data);
+            if (meta) {
+                me.onMetaChange(meta);
+            }
+        } else if (data.metaData) {
+            me.onMetaChange(data.metaData);
         }
 
         /**
@@ -233,8 +264,8 @@ Ext.define('Ext.data.reader.Json', {
          * A copy of this.rawData.
          * @deprecated Will be removed in Ext JS 5.0. This is just a copy of this.rawData - use that instead.
          */
-        this.jsonData = data;
-        return this.callParent([data]);
+        me.jsonData = data;
+        return me.callParent([data]);
     },
 
     //inherit docs
@@ -263,16 +294,19 @@ Ext.define('Ext.data.reader.Json', {
 
     //inherit docs
     buildExtractors : function() {
-        var me = this;
+        var me = this,
+            metaProp = me.metaProperty;
 
         me.callParent(arguments);
 
         if (me.root) {
             me.getRoot = me.createAccessor(me.root);
         } else {
-            me.getRoot = function(root) {
-                return root;
-            };
+            me.getRoot = Ext.identityFn;
+        }
+        
+        if (metaProp) {
+            me.getMeta = me.createAccessor(metaProp);
         }
     },
 
@@ -312,9 +346,11 @@ Ext.define('Ext.data.reader.Json', {
      *
      * - 'someProperty'
      * - 'some.property'
-     * - 'some["property"]'
+     * - '["someProperty"]'
+     * - 'values[0]'
      * 
-     * This is used by buildExtractors to create optimized extractor functions when casting raw data into model instances.
+     * This is used by {@link #buildExtractors} to create optimized extractor functions for properties that are looked
+     * up directly on the source object (e.g. {@link #successProperty}, {@link #messageProperty}, etc.).
      */
     createAccessor: (function() {
         var re = /[\[\.]/;
@@ -345,30 +381,57 @@ Ext.define('Ext.data.reader.Json', {
      * 
      * - 'someProperty'
      * - 'some.property'
-     * - 'some["property"]'
+     * - '["someProperty"]'
+     * - 'values[0]'
      * 
-     * This is used by buildExtractors to create optimized on extractor function which converts raw data into model instances.
+     * This is used by {@link #buildRecordDataExtractor} to create optimized extractor expressions when converting raw
+     * data into model instances. This method is used at the field level to dynamically map values to model fields.
      */
     createFieldAccessExpression: (function() {
         var re = /[\[\.]/;
 
         return function(field, fieldVarName, dataName) {
-            var me     = this,
-                hasMap = (field.mapping !== null),
-                map    = hasMap ? field.mapping : field.name,
+            var mapping = field.mapping,
+                hasMap = mapping || mapping === 0,
+                map    = hasMap ? mapping : field.name,
                 result,
-                operatorSearch;
+                operatorIndex;
+
+            // mapping: false means that the Field will never be read from server data.
+            if (mapping === false) {
+                return;
+            }
 
             if (typeof map === 'function') {
                 result = fieldVarName + '.mapping(' + dataName + ', this)';
-            } else if (this.useSimpleAccessors === true || ((operatorSearch = String(map).search(re)) < 0)) {
+            } else if (this.useSimpleAccessors === true || ((operatorIndex = String(map).search(re)) < 0)) {
                 if (!hasMap || isNaN(map)) {
                     // If we don't provide a mapping, we may have a field name that is numeric
                     map = '"' + map + '"';
                 }
                 result = dataName + "[" + map + "]";
+            } else if (operatorIndex === 0) {
+                // If it matched at index 0 then it must be bracket syntax (e.g. ["foo"]). In this case simply
+                // join the two, e.g. 'field["foo"]':
+                result = dataName + map;
             } else {
-                result = dataName + (operatorSearch > 0 ? '.' : '') + map;
+                // If it matched at index > 0 it must be either dot syntax (e.g. field.foo) or a values array
+                // item (e.g. values[0]). For the latter, we can simply concatenate the values reference to
+                // the source directly like 'field.values[0]'. For dot notation we have to support arbitrary
+                // levels (field.foo.bar), any of which could be null or undefined, so we have to create the
+                // returned value such that the references will be assigned defensively in the calling code.
+                // The output should look like 'field.foo && field.foo.bar' in that case.
+                var parts = map.split('.'),
+                    len = parts.length,
+                    i = 1,
+                    tempResult = dataName + '.' + parts[0],
+                    buffer = [tempResult]; // for 'field.values[0]' this will be the returned result
+                
+                for (; i < len; i++) {
+                    tempResult += '.' + parts[i];
+                    buffer.push(tempResult);
+                }
+                result = buffer.join(' && ');
             }
             return result;
         };

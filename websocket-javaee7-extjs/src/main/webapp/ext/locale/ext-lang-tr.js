@@ -1,13 +1,20 @@
-/**
- * List compiled by mystix on the extjs.com forums.
- * Thank you Mystix!
- *
- * Turkish translation by Alper YAZGAN
- * 2008-01-24, 10:29 AM
- *
- * Updated to 2.2 by YargicX
- * 2008-10-05, 06:22 PM
- */
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 Ext.onReady(function() {
     var cm = Ext.ClassManager,
         exists = Ext.Function.bind(cm.get, cm);
@@ -23,7 +30,7 @@ Ext.onReady(function() {
 
     Ext.define("Ext.locale.tr.grid.Grid", {
         override: "Ext.grid.Grid",
-        ddText: "Seçili satýr sayýsý : {0}"
+        ddText: "Seçili satır sayısı : {0}"
     });
 
     Ext.define("Ext.locale.tr.TabPanelItem", {
@@ -33,7 +40,7 @@ Ext.onReady(function() {
 
     Ext.define("Ext.locale.tr.form.field.Base", {
         override: "Ext.form.field.Base",
-        invalidText: "Bu alandaki deðer geçersiz"
+        invalidText: "Bu alandaki değer geçersiz"
     });
 
     // changing the msg text below will affect the LoadMask
@@ -43,34 +50,34 @@ Ext.onReady(function() {
     });
 
     if (Ext.Date) {
-        Ext.Date.monthNames = ["Ocak", "Þžubat", "Mart", "Nisan", "Mayýs", "Haziran", "Temmuz", "Aðustos", "Eylül", "Ekim", "Kasým", "Aralýk"];
+        Ext.Date.monthNames = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
 
         Ext.Date.getShortMonthName = function(month) {
             return Ext.Date.monthNames[month].substring(0, 3);
         };
 
         Ext.Date.monthNumbers = {
-            Jan: 0,
-            Feb: 1,
-            Mar: 2,
-            Apr: 3,
-            May: 4,
-            Jun: 5,
-            Jul: 6,
-            Aug: 7,
-            Sep: 8,
-            Oct: 9,
-            Nov: 10,
-            Dec: 11
+            "Ocak": 0,
+            "Şubat": 1,
+            "Mart": 2,
+            "Nisan": 3,
+            "Mayıs": 4,
+            "Haziran": 5,
+            "Temmuz": 6,
+            "Ağustos": 7,
+            "Eylül": 8,
+            "Ekim": 9,
+            "Kasım": 10,
+            "Aralık": 11
         };
 
         Ext.Date.getMonthNumber = function(name) {
             return Ext.Date.monthNumbers[name.substring(0, 1).toUpperCase() + name.substring(1, 3).toLowerCase()];
         };
 
-        Ext.Date.dayNames = ["Pazar", "Pazartesi", "Salý", "Ç‡arþŸamba", "PerþŸembe", "Cuma", "Cumartesi"];
+        Ext.Date.dayNames = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"];
 
-        Ext.Date.shortDayNames = ["Paz", "Pzt", "Sal", "ÇrþŸ", "Prþ", "Cum", "Cmt"];
+        Ext.Date.shortDayNames = ["Paz", "Pzt", "Sal", "Çrş", "Prş", "Cum", "Cmt"];
 
         Ext.Date.getShortDayName = function(day) {
             return Ext.Date.shortDayNames[day];
@@ -80,9 +87,9 @@ Ext.onReady(function() {
     if (Ext.MessageBox) {
         Ext.MessageBox.buttonText = {
             ok: "Tamam",
-            cancel: "Ä°ptal",
+            cancel: "İptal",
             yes: "Evet",
-            no: "Hayýr"
+            no: "Hayır"
         };
     }
 
@@ -106,25 +113,25 @@ Ext.onReady(function() {
         monthNames: Ext.Date.monthNames,
         dayNames: Ext.Date.dayNames,
         nextText: 'Gelecek Ay (Control+Right)',
-        prevText: 'Ã–nceki Ay (Control+Left)',
-        monthYearText: 'Bir ay sŸeçiniz (Yýlý artýrmak/azaltmak için Control+Up/Down)',
-        todayTip: "{0} (BoþŸluk TuþŸu - Spacebar)",
+        prevText: 'Önceki Ay (Control+Left)',
+        monthYearText: 'Bir ay seçiniz (Yılı artırmak/azaltmak için Control+Up/Down)',
+        todayTip: "{0} (Boşluk Tuşu - Spacebar)",
         format: "d/m/Y",
         startDay: 1
     });
 
     Ext.define("Ext.locale.tr.picker.Month", {
         override: "Ext.picker.Month",
-        okText: "&#160;Tamam&#160;",
-        cancelText: "Ä°ptal"
+        okText: "*Tamam*",
+        cancelText: "İptal"
     });
 
     Ext.define("Ext.locale.tr.toolbar.Paging", {
         override: "Ext.PagingToolbar",
         beforePageText: "Sayfa",
         afterPageText: " / {0}",
-        firstText: "Ä°lk Sayfa",
-        prevText: "Ã–nceki Sayfa",
+        firstText: "İlk Sayfa",
+        prevText: "Önceki Sayfa",
         nextText: "Sonraki Sayfa",
         lastText: "Son Sayfa",
         refreshText: "Yenile",
@@ -134,9 +141,9 @@ Ext.onReady(function() {
 
     Ext.define("Ext.locale.tr.form.field.Text", {
         override: "Ext.form.field.Text",
-        minLengthText: "Girilen verinin uzunluðu en az {0} olabilir",
-        maxLengthText: "Girilen verinin uzunluðu en fazla {0} olabilir",
-        blankText: "Bu alan boþŸ býrakýlamaz",
+        minLengthText: "Girilen verinin uzunluğu en az {0} olabilir",
+        maxLengthText: "Girilen verinin uzunluğu en fazla {0} olabilir",
+        blankText: "Bu alan boş bırakılamaz",
         regexText: "",
         emptyText: null
     });
@@ -145,16 +152,16 @@ Ext.onReady(function() {
         override: "Ext.form.field.Number",
         minText: "En az {0} girilebilir",
         maxText: "En çok {0} girilebilir",
-        nanText: "{0} geçersiz bir sayýdýr"
+        nanText: "{0} geçersiz bir sayıdır"
     });
 
     Ext.define("Ext.locale.tr.form.field.Date", {
         override: "Ext.form.field.Date",
         disabledDaysText: "Disabled",
         disabledDatesText: "Disabled",
-        minText: "Bu tarih, {0} tarihinden daha sonra olmalýdýr",
-        maxText: "Bu tarih, {0} tarihinden daha önce olmalýdýr",
-        invalidText: "{0} geçersiz bir tarihdir - tarih formatý {1} þŸeklinde olmalýdýr",
+        minText: "Bu tarih, {0} tarihinden daha sonra olmalıdır",
+        maxText: "Bu tarih, {0} tarihinden daha önce olmalıdır",
+        invalidText: "{0} geçersiz bir tarihdir - tarih formatı {1} şeklinde olmalıdır",
         format: "d/m/Y",
         altFormats: "d.m.y|d.m.Y|d/m/y|d-m-Y|d-m-y|d.m|d/m|d-m|dm|dmY|dmy|d|Y.m.d|Y-m-d|Y/m/d"
     });
@@ -169,81 +176,81 @@ Ext.onReady(function() {
     });
 
     if (exists('Ext.form.field.VTypes')) {
-        Ext.form.field.VTypes["emailText"] = 'Bu alan "user@example.com" þŸeklinde elektronik posta formatýnda olmalýdýr';
-        Ext.form.field.VTypes["urlText"] = 'Bu alan "http://www.example.com" þŸeklinde URL adres formatýnda olmalýdýr';
+        Ext.form.field.VTypes["emailText"] = 'Bu alan "user@example.com" şeklinde elektronik posta formatında olmalıdır';
+        Ext.form.field.VTypes["urlText"] = 'Bu alan "http://www.example.com" şeklinde URL adres formatında olmalıdır';
         Ext.form.field.VTypes["alphaText"] = 'Bu alan sadece harf ve _ içermeli';
-        Ext.form.field.VTypes["alphanumText"] = 'Bu alan sadece harf, sayý ve _ içermeli';
+        Ext.form.field.VTypes["alphanumText"] = 'Bu alan sadece harf, sayı ve _ içermeli';
     }
 
     Ext.define("Ext.locale.tr.form.field.HtmlEditor", {
         override: "Ext.form.field.HtmlEditor",
-        createLinkText: 'Lütfen bu baðlantý için gerekli URL adresini giriniz:'
+        createLinkText: 'Lütfen bu bağlantı için gerekli URL adresini giriniz:'
     }, function() {
         Ext.apply(Ext.form.field.HtmlEditor.prototype, {
             buttonTips: {
                 bold: {
-                    title: 'Kalýn(Bold) (Ctrl+B)',
-                    text: 'Þžeçili yazýyý kalýn yapar.',
+                    title: 'Kalın(Bold) (Ctrl+B)',
+                    text: 'Seçili yazıyı kalın yapar.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 italic: {
-                    title: 'Ä°talik(Italic) (Ctrl+I)',
-                    text: 'Þžeçili yazýyý italik yapar.',
+                    title: 'İtalik(Italic) (Ctrl+I)',
+                    text: 'Seçili yazıyı italik yapar.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 underline: {
                     title: 'Alt Ã‡izgi(Underline) (Ctrl+U)',
-                    text: 'Þžeçili yazýnýn altýný çizer.',
+                    text: 'Seçili yazının altını çizer.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 increasefontsize: {
                     title: 'Fontu büyült',
-                    text: 'Yazý fontunu büyütür.',
+                    text: 'Yazı fontunu büyütür.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 decreasefontsize: {
                     title: 'Fontu küçült',
-                    text: 'Yazý fontunu küçültür.',
+                    text: 'Yazı fontunu küçültür.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 backcolor: {
                     title: 'Arka Plan Rengi',
-                    text: 'Seçili yazýnýn arka plan rengini deðiþŸtir.',
+                    text: 'Seçili yazının arka plan rengini değiştir.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 forecolor: {
-                    title: 'Yazý Rengi',
-                    text: 'Seçili yazýnýn rengini deðiþŸtir.',
+                    title: 'Yazı Rengi',
+                    text: 'Seçili yazının rengini değiştir.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 justifyleft: {
                     title: 'Sola Daya',
-                    text: 'Yazýyý sola daya.',
+                    text: 'Yazıyı sola daya.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 justifycenter: {
                     title: 'Ortala',
-                    text: 'Yazýyý editörde ortala.',
+                    text: 'Yazıyı editörde ortala.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 justifyright: {
-                    title: 'Saða daya',
-                    text: 'Yazýyý saða daya.',
+                    title: 'Sağa daya',
+                    text: 'Yazıyı sağa daya.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 insertunorderedlist: {
-                    title: 'Noktalý Liste',
-                    text: 'Noktalý listeye baþŸla.',
+                    title: 'Noktalı Liste',
+                    text: 'Noktalı listeye başla.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 insertorderedlist: {
-                    title: 'Numaralý Liste',
-                    text: 'Numaralý lisyeye baþŸla.',
+                    title: 'Numaralı Liste',
+                    text: 'Numaralı lisyeye başla.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 createlink: {
                     title: 'Web Adresi(Hyperlink)',
-                    text: 'Seçili yazýyý web adresi(hyperlink) yap.',
+                    text: 'Seçili yazıyı web adresi(hyperlink) yap.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 sourceedit: {
@@ -257,10 +264,10 @@ Ext.onReady(function() {
 
     Ext.define("Ext.locale.tr.grid.header.Container", {
         override: "Ext.grid.header.Container",
-        sortAscText: "Artan sýrada sýrala",
-        sortDescText: "Azalan sýrada sýrala",
+        sortAscText: "Artan sırada sırala",
+        sortDescText: "Azalan sırada sırala",
         lockText: "Kolonu kilitle",
-        unlockText: "Kolon kilidini kaldýr",
+        unlockText: "Kolon kilidini kaldır",
         columnsText: "Kolonlar"
     });
 
@@ -274,8 +281,7 @@ Ext.onReady(function() {
     Ext.define("Ext.locale.tr.grid.PropertyColumnModel", {
         override: "Ext.grid.PropertyColumnModel",
         nameText: "Ad",
-        valueText: "Deðer",
+        valueText: "Değer",
         dateFormat: "d/m/Y"
     });
-
 });

@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Simple plugin for using an Ext.tip.Tip with a slider to show the slider value. In general this class is not created
  * directly, instead pass the {@link Ext.slider.Multi#useTips} and {@link Ext.slider.Multi#tipText} configuration
@@ -33,14 +50,14 @@ Ext.define('Ext.slider.Tip', {
     
     /**
      * @cfg {Array} [offsets=null]
-     * Offsets for aligning the tip to the slider. See {@link Ext.dom.Element#alignTo}. Default values
+     * Offsets for aligning the tip to the slider. See {@link Ext.util.Positionable#alignTo}. Default values
      * for offsets are provided by specifying the {@link #position} config.
      */
     offsets : null,
     
     /**
      * @cfg {String} [align=null]
-     * Alignment configuration for the tip to the slider. See {@link Ext.dom.Element#alignTo}. Default
+     * Alignment configuration for the tip to the slider. See {@link Ext.util.Positionable#alignTo}. Default
      * values for alignment are provided by specifying the {@link #position} config.
      */
     align: null,

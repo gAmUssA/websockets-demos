@@ -1,0 +1,33 @@
+.#{$prefix}accordion-layout-ct {
+    background-color: $accordion-background-color;
+    padding: $accordion-padding;
+}
+
+.#{$prefix}accordion-hd .#{$prefix}panel-header-text-container {
+    color: $accordion-header-color;
+    font-weight: $accordion-header-font-weight;
+    font-family: $accordion-header-font-family;
+    text-transform: $accordion-header-text-transform;
+}
+
+.#{$prefix}accordion-item {
+    margin: $accordion-item-margin;
+
+    .#{$prefix}accordion-hd {
+        background: $accordion-header-background-color;
+        border-top-color: $panel-header-inner-border-color;
+        padding: $accordion-header-padding;
+    }
+
+    .#{$prefix}accordion-hd-sibling-expanded {
+        border-top-color: $panel-border-color;
+    }
+
+    .#{$prefix}accordion-hd-last-collapsed {
+        border-bottom-color: $accordion-header-background-color;
+    }
+
+    .#{$prefix}accordion-body {
+        border-width: $accordion-body-border-width;
+    }
+}

@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * A specialized SplitButton that contains a menu of {@link Ext.menu.CheckItem} elements. The button automatically
  * cycles through each menu item on click, raising the button's {@link #change} event (or calling the button's
@@ -73,7 +90,7 @@ Ext.define('Ext.button.Cycle', {
      * available choices.
      */
 
-    // private
+    // @private
     getButtonText: function(item) {
         var me = this,
             text = '';
@@ -128,7 +145,7 @@ Ext.define('Ext.button.Cycle', {
         return this.activeItem;
     },
 
-    // private
+    // @private
     initComponent: function() {
         var me      = this,
             checked = 0,
@@ -192,7 +209,7 @@ Ext.define('Ext.button.Cycle', {
         }
     },
 
-    // private
+    // @private
     checkHandler: function(item, pressed) {
         if (pressed) {
             this.setActiveItem(item);

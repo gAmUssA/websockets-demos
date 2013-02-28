@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * A Column definition class which renders boolean data fields.  See the {@link Ext.grid.column.Column#xtype xtype}
  * config option of {@link Ext.grid.column.Column} for more details.
@@ -70,11 +87,12 @@ Ext.define('Ext.grid.column.Boolean', {
     undefinedText: '&#160;',
 
     /**
-     * @cfg renderer
+     * @cfg {Object} renderer
      * @hide
      */
+    
     /**
-     * @cfg scope
+     * @cfg {Object} scope
      * @hide
      */
 

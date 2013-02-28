@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @docauthor Jason Johnston <jason@sencha.com>
  * 
@@ -140,9 +157,8 @@ Ext.define('Ext.form.Panel', {
      */
 
     /**
-     * @cfg {String} layout
+     * @cfg {Ext.enums.Layout/Object} layout
      * The {@link Ext.container.Container#layout} for the form panel's immediate child items.
-     * Defaults to `'anchor'`.
      */
     layout: 'anchor',
 
@@ -152,6 +168,7 @@ Ext.define('Ext.form.Panel', {
         'api', 
         'baseParams', 
         'errorReader', 
+        'jsonSubmit',
         'method', 
         'paramOrder',
         'paramsAsHash',
@@ -218,7 +235,7 @@ Ext.define('Ext.form.Panel', {
 
     // Initialize the BasicForm after all layouts have been completed.
     afterFirstLayout: function() {
-        this.callParent();
+        this.callParent(arguments);
         this.form.initialize();
     },
 
@@ -273,6 +290,36 @@ Ext.define('Ext.form.Panel', {
      */
     getValues: function(asString, dirtyOnly, includeEmptyText, useDataValues) {
         return this.getForm().getValues(asString, dirtyOnly, includeEmptyText, useDataValues);
+    },
+    
+    /**
+     * Convenience function to check if the form has any dirty fields. This is the same as calling
+     * {@link Ext.form.Basic#isDirty this.getForm().isDirty()}.
+     *
+     * @inheritdoc Ext.form.Basic#isDirty
+     */
+    isDirty: function () {
+        return this.form.isDirty();
+    },
+    
+    /**
+     * Convenience function to check if the form has all valid fields. This is the same as calling
+     * {@link Ext.form.Basic#isValid this.getForm().isValid()}.
+     *
+     * @inheritdoc Ext.form.Basic#isValid
+     */
+    isValid: function () {
+       return this.form.isValid();
+    },
+    
+    /**
+     * Convenience function to check if the form has any invalid fields. This is the same as calling
+     * {@link Ext.form.Basic#hasInvalidField this.getForm().hasInvalidField()}.
+     *
+     * @inheritdoc Ext.form.Basic#hasInvalidField
+     */
+    hasInvalidField: function () {
+        return this.form.hasInvalidField();
     },
 
     beforeDestroy: function() {
@@ -333,8 +380,7 @@ Ext.define('Ext.form.Panel', {
     checkChange: function() {
         var fields = this.form.getFields().items,
             f,
-            fLen   = fields.length,
-            field;
+            fLen   = fields.length;
 
         for (f = 0; f < fLen; f++) {
             fields[f].checkChange();

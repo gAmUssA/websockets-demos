@@ -1,0 +1,48 @@
+//backgrounds
+$menu-background-color: #fff !default;
+//border
+$menu-item-active-border-color: adjust-color($base-color, $saturation: 23%, $lightness: -3%) !default;
+$menu-separator-border-color: $neutral-color !default;
+$menu-separator-background-color: #FFF !default;
+$menu-separator-size: 2px !default;
+$menu-border-color: $neutral-color !default;
+$menu-border-style: solid !default;
+$menu-border-width: null !default;
+
+//sizes
+$menu-item-font-size: $font-size !default;
+$menu-item-margin: 1px !default;
+$menu-item-height: 24px !default;
+$menu-item-border-width: 1px !default;
+$menu-item-cursor: pointer !default;
+$menu-item-active-background-color: $base-color !default;
+$menu-item-background-gradient: null !default;
+$menu-item-active-border-radius: 0 !default;
+$menu-item-icon-size: 16px !default;
+$menu-item-icon-horizontal-spacing: 3px !default;
+$menu-item-icon-background-position: center center !default;
+$menu-item-icon-top: round(($menu-item-height - vertical($menu-item-border-width) - $menu-item-icon-size) / 2) + 1 !default;
+$menu-item-text-horizontal-spacing: 4px !default;
+$menu-item-separator-margin: 2px 0 !default;
+
+// Right (or left in RTL mode) padding on menu items
+$menu-item-trailing-padding: 0 !default;
+
+$menu-item-arrow-height: 9px !default;
+$menu-item-arrow-width: 12px !default;
+$menu-item-arrow-horizontal-spacing: 0 !default;
+$menu-item-arrow-top: round(($menu-item-height - vertical($menu-item-border-width) - $menu-item-arrow-height) / 2) !default;
+$menu-item-disabled-opacity: .5 !default;
+$menu-scroller-height: 8px !default;
+
+$menu-padding: 2px !default;
+
+//text
+$menu-text-color: #000 !default;
+
+//icons
+$menu-icon-arrow: 'menu/menu-parent' !default;
+$menu-icon-arrow-left: 'menu/menu-parent-left' !default;
+$menu-icon-checked: 'menu/checked' !default;
+$menu-icon-group-checked: 'menu/group-checked' !default;
+$menu-icon-unchecked: 'menu/unchecked' !default;

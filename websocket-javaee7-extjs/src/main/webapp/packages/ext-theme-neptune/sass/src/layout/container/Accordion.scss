@@ -1,0 +1,17 @@
+.#{$prefix}accordion-hd {
+    .#{$prefix}tool {
+        background-image: none;
+    }
+    .#{$prefix}tool-collapse-top,
+    .#{$prefix}tool-collapse-bottom {
+        background-image: theme-background-image('accordion/tool-collapse');
+    }
+
+    .#{$prefix}tool-expand-top,
+    .#{$prefix}tool-expand-bottom {
+        background-image: theme-background-image('accordion/tool-expand');
+    }
+}
+.#{$prefix}accordion-item .#{$prefix}accordion-hd-over {
+    background-color: $accordion-header-over-background-color;
+}

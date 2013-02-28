@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * This class is used as a mixin.
  *
@@ -5,20 +22,24 @@
  * classes. In general it will not be used directly.
  */
 Ext.define('Ext.util.Bindable', {
-    
+
     /**
      * Binds a store to this instance.
      * @param {Ext.data.AbstractStore/String} [store] The store to bind or ID of the store.
      * When no store given (or when `null` or `undefined` passed), unbinds the existing store.
-     * @param {Boolean} [initial=false] True to not remove listeners from existing store.
      */
-    bindStore: function(store, initial){
+    bindStore: function(store, initial, propertyName) {
+        // Private params
+        // @param {Boolean} [initial=false] True to not remove listeners from existing store.
+        // @param {String} [propertyName="store"] The property in this object under which to cache the passed Store.
+        propertyName = propertyName || 'store';
+
         var me = this,
-            oldStore = me.store;
-        
-        if (!initial && me.store) {
+            oldStore = me[propertyName];
+
+        if (!initial && oldStore) {
             // Perform implementation-specific unbinding operations *before* possible Store destruction.
-            me.onUnbindStore(oldStore, initial);
+            me.onUnbindStore(oldStore, initial, propertyName);
 
             if (store !== oldStore && oldStore.autoDestroy) {
                 oldStore.destroyStore();
@@ -29,12 +50,12 @@ Ext.define('Ext.util.Bindable', {
         if (store) {
             store = Ext.data.StoreManager.lookup(store);
             me.bindStoreListeners(store);
-            me.onBindStore(store, initial);
+            me.onBindStore(store, initial, propertyName);
         }
-        me.store = store || null;
+        me[propertyName] = store || null;
         return me;
     },
-    
+
     /**
      * Gets the current store instance.
      * @return {Ext.data.AbstractStore} The store, null if one does not exist.
@@ -42,7 +63,7 @@ Ext.define('Ext.util.Bindable', {
     getStore: function(){
         return this.store;
     },
-    
+
     /**
      * Unbinds listeners from this component to the store. By default it will remove
      * anything bound by the bindStoreListeners method, however it can be overridden
@@ -57,7 +78,7 @@ Ext.define('Ext.util.Bindable', {
             store.un(listeners);
         }
     },
-    
+
     /**
      * Binds listeners for this component to the store. By default it will add
      * anything bound by the getStoreListeners method, however it can be overridden
@@ -68,23 +89,24 @@ Ext.define('Ext.util.Bindable', {
     bindStoreListeners: function(store) {
         // Can be overridden in the subclass for more complex binding
         var me = this,
-            listeners = Ext.apply({}, me.getStoreListeners());
-            
+            listeners = Ext.apply({}, me.getStoreListeners(store));
+
         if (!listeners.scope) {
             listeners.scope = me;
         }
         me.storeListeners = listeners;
         store.on(listeners);
     },
-    
+
     /**
      * Gets the listeners to bind to a new store.
      * @protected
+     * @param {Ext.data.Store} store The Store which is being bound to for which a listeners object should be returned.
      * @return {Object} The listeners to be bound to the store in object literal form. The scope
      * may be omitted, it is assumed to be the current instance.
      */
     getStoreListeners: Ext.emptyFn,
-    
+
     /**
      * Template method, it is called when an existing store is unbound
      * from the current instance.
@@ -93,7 +115,7 @@ Ext.define('Ext.util.Bindable', {
      * @param {Boolean} initial True if this store is being bound as initialization of the instance.
      */
     onUnbindStore: Ext.emptyFn,
-    
+
     /**
      * Template method, it is called when a new store is bound
      * to the current instance.

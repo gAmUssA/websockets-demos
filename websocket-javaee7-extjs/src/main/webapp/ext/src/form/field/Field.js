@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @docauthor Jason Johnston <jason@sencha.com>
  *
@@ -71,6 +88,8 @@ Ext.define('Ext.form.field.Field', {
      */
     suspendCheckChange: 0,
 
+    bubbleEvents: 'validitychange',
+
     /**
      * Initializes this Field mixin on the current instance. Components using this mixin should call this method during
      * their own initialization process.
@@ -102,6 +121,22 @@ Ext.define('Ext.form.field.Field', {
         );
 
         this.initValue();
+        
+        //<debug>
+        var badNames = [
+            'tagName',
+            'nodeName',
+            'children',
+            'childNodes'
+        ], name = this.name;
+            
+        if (name && Ext.Array.indexOf(badNames, name) > -1) {
+            Ext.log.warn(
+                ['It is recommended to not use "', name, '" as a field name, because it ',
+                'can cause naming collisions during form submission.'].join('')
+            );
+        }
+        //</debug>
     },
 
     /**
@@ -131,9 +166,7 @@ Ext.define('Ext.form.field.Field', {
      * @param {Object} value The initial value
      * @return {Object} The modified initial value
      */
-    transformOriginalValue: function(value){
-        return value;
-    },
+    transformOriginalValue: Ext.identityFn,
 
     /**
      * Returns the {@link Ext.form.field.Field#name name} attribute of the field. This is used as the parameter name

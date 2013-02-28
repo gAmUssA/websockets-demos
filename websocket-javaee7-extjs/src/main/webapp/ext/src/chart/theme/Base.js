@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Provides default colors for non-specified things. Should be sub-classed when creating new themes.
  * @private
@@ -11,6 +28,7 @@ Ext.define('Ext.chart.theme.Base', {
     /* End Definitions */
 
     constructor: function(config) {
+        var ident = Ext.identityFn;
         Ext.chart.theme.call(this, config, {
             background: false,
             axis: {
@@ -22,28 +40,28 @@ Ext.define('Ext.chart.theme.Base', {
                 font: '12px Arial, Helvetica, sans-serif',
                 spacing: 2,
                 padding: 5,
-                renderer: function(v) { return v; }
+                renderer: ident
             },
             axisLabelRight: {
                 fill: '#444',
                 font: '12px Arial, Helvetica, sans-serif',
                 spacing: 2,
                 padding: 5,
-                renderer: function(v) { return v; }
+                renderer: ident
             },
             axisLabelBottom: {
                 fill: '#444',
                 font: '12px Arial, Helvetica, sans-serif',
                 spacing: 2,
                 padding: 5,
-                renderer: function(v) { return v; }
+                renderer: ident
             },
             axisLabelLeft: {
                 fill: '#444',
                 font: '12px Arial, Helvetica, sans-serif',
                 spacing: 2,
                 padding: 5,
-                renderer: function(v) { return v; }
+                renderer: ident
             },
             axisTitleTop: {
                 font: 'bold 18px Arial',

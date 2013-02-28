@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Component layout for editors
  * @private
@@ -17,14 +34,53 @@ Ext.define('Ext.layout.container.Editor', {
         height: 'field'    
     },
 
+    sizePolicies: {
+        // indexed by autoSize.width
+        $: {
+            // indexed by autoSize.height
+            $: {
+                readsWidth: 1,
+                readsHeight: 1,
+                setsWidth: 0,
+                setsHeight: 0
+            },
+            boundEl: {
+                readsWidth: 1,
+                readsHeight: 0,
+                setsWidth: 0,
+                setsHeight: 1
+            }
+        },
+
+        boundEl: {
+            // indexed by autoSize.height
+            $: {
+                readsWidth: 0,
+                readsHeight: 1,
+                setsWidth: 1,
+                setsHeight: 0
+            },
+            boundEl: {
+                readsWidth: 0,
+                readsHeight: 0,
+                setsWidth: 1,
+                setsHeight: 1
+            }
+        }
+    },
+
     getItemSizePolicy: function (item) {
         var me = this,
-            autoSize = me.owner.autoSize;
+            autoSize = me.owner.autoSize,
+            key = autoSize && autoSize.width,
+            policy = me.sizePolicies;
 
-        return me.sizePolicy || (me.sizePolicy = {
-            setsWidth:  autoSize && autoSize.width  === 'boundEl' ? 1 : 0,
-            setsHeight: autoSize && autoSize.height === 'boundEl' ? 1 : 0
-        });
+        policy = policy[key] || policy.$;
+
+        key = autoSize && autoSize.height;
+        policy = policy[key] || policy.$;
+
+        return policy;
     },
 
     calculate: function(ownerContext) {

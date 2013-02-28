@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Base class for any Ext.Component that may contain other Components. Containers handle the basic behavior of
  * containing items, namely adding, inserting and removing items.
@@ -149,32 +166,6 @@ Ext.define('Ext.container.Container', {
     alias: 'widget.container',
     alternateClassName: 'Ext.Container',
 
-    /*
-     * For more information on the following methods, see the note for the
-     * hierarchyEventSource observer defined in the class' callback
-     */
-    fireHierarchyEvent: function (ename) {
-        this.hierarchyEventSource.fireEvent(ename, this);
-    },
-
-    // note that the collapse and expand events are fired explicitly from Panel.js
-    afterHide: function() {
-        this.callParent(arguments);
-        this.fireHierarchyEvent('hide');
-    },
-    
-    afterShow: function(){
-        this.callParent(arguments);
-        this.fireHierarchyEvent('show');
-    },
-
-    onAdded: function() {
-        this.callParent(arguments);
-        if (this.hierarchyEventSource.hasListeners.added) {
-            this.fireHierarchyEvent('added');
-        }
-    },
-
     /**
      * Return the immediate child Component in which the passed element is located.
      * @param {Ext.Element/HTMLElement/String} el The element to test (or ID of element).
@@ -198,23 +189,4 @@ Ext.define('Ext.container.Container', {
         }
         return null;
     }
-}, function () {
-    /*
-     * The observer below is used to be able to detect showing/hiding at various levels
-     * in the hierarchy. While it's not particularly expensive to bubble an event up,
-     * cascading an event down can be quite costly.
-     * 
-     * The main usage for this is to do with floating components. For example, the load mask
-     * is a floating component. The component it is masking may be inside several containers.
-     * As such, we need to know when component is hidden, either directly, or via a parent
-     * container being hidden. We can subscribe to these events and filter out the appropriate
-     * container.
-     */
-    this.hierarchyEventSource = this.prototype.hierarchyEventSource = new Ext.util.Observable({ events: {
-        hide: true,
-        show: true,
-        collapse: true,
-        expand: true,
-        added: true
-    }});
 });

@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Provides a time input field with a time dropdown and automatic time validation.
  *
@@ -376,7 +393,7 @@ Ext.define('Ext.form.field.Time', {
             maxHeight: me.pickerMaxHeight
         }, me.listConfig);
         picker = me.callParent();
-        me.store = picker.store;
+        me.bindStore(picker.store);
         return picker;
     },
     
@@ -398,21 +415,22 @@ Ext.define('Ext.form.field.Time', {
      * Handles a time being selected from the Time picker.
      */
     onListSelectionChange: function(list, recordArray) {
-        var me = this,
-            record = recordArray[0],
-            val = record ? record.get('date') : null;
-            
-        if (!me.ignoreSelection) {
-            me.skipSync = true;
-            me.setValue(val);
-            me.skipSync = false;
-            me.fireEvent('select', me, val);
-            me.picker.clearHighlight();
-            me.collapse();
-            me.inputEl.focus();
+        if (recordArray.length) {
+            var me = this,
+                val = recordArray[0].get('date');
+
+            if (!me.ignoreSelection) {
+                me.skipSync = true;
+                me.setValue(val);
+                me.skipSync = false;
+                me.fireEvent('select', me, val);
+                me.picker.clearHighlight();
+                me.collapse();
+                me.inputEl.focus();
+            }
         }
     },
-    
+
     /**
      * @private 
      * Synchronizes the selection in the picker to match the current value
@@ -433,7 +451,7 @@ Ext.define('Ext.form.field.Time', {
             me.ignoreSelection++;
             if (value === null) {
                 selModel.deselectAll();
-            } else if(Ext.isDate(value)) {
+            } else if (Ext.isDate(value)) {
                 // find value, select it
                 data = picker.store.data.items;
                 dLen = data.length;
@@ -454,10 +472,15 @@ Ext.define('Ext.form.field.Time', {
     },
 
     postBlur: function() {
-        var me = this;
+        var me = this,
+            val = me.getValue();
 
         me.callParent(arguments);
-        me.setRawValue(me.formatDate(me.getValue()));
+
+        // Only set the raw value if the current value is valid and is not falsy
+        if (me.wasValid && val) {
+            me.setRawValue(me.formatDate(val));
+        }
     },
 
     setValue: function() {
@@ -465,7 +488,7 @@ Ext.define('Ext.form.field.Time', {
         // Store MUST be created for parent setValue to function
         this.getPicker();
 
-        this.callParent(arguments);
+        return this.callParent(arguments);
     },
 
     getValue: function() {

@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Simple helper class for easily creating image components. This renders an image tag to
  * the DOM with the configured src.
@@ -46,6 +63,12 @@ Ext.define('Ext.Img', {
     alt: '',
 
     /**
+     * @cfg {String} title
+     * Specifies addtional information about the image.
+     */
+    title: '',
+
+    /**
      * @cfg {String} imgCls
      * Optional CSS classes to add to the img element.
      */
@@ -72,8 +95,12 @@ Ext.define('Ext.Img', {
         }
 
         img.src = me.src || Ext.BLANK_IMAGE_URL;
+
         if (me.alt) {
             img.alt = me.alt;
+        }
+        if (me.title) {
+            img.title = me.title;
         }
 
         return config;

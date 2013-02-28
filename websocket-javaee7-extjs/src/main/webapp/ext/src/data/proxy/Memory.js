@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @author Ed Spencer
  *
@@ -53,6 +70,13 @@ Ext.define('Ext.data.proxy.Memory', {
     extend: 'Ext.data.proxy.Client',
     alias: 'proxy.memory',
     alternateClassName: 'Ext.data.MemoryProxy',
+
+    /**
+     * @cfg {Boolean} [enablePaging=false]
+     * Configure as `true` to enable this MemoryProxy to honour a read operation's `start` and `limit` options.
+     *
+     * When `true`, read operations will be ablew to read *pages* of records from the data object.
+     */
 
     /**
      * @cfg {Object} data
@@ -139,12 +163,56 @@ Ext.define('Ext.data.proxy.Memory', {
      * @param {Object} scope The scope to call the callback function in
      */
     read: function(operation, callback, scope) {
-        var me = this;
-
-        operation.resultSet = me.getReader().read(me.data);
+        var me = this,
+            resultSet = operation.resultSet = me.getReader().read(me.data),
+            records = resultSet.records,
+            sorters = operation.sorters,
+            groupers = operation.groupers,
+            filters = operation.filters;
 
         operation.setCompleted();
-        operation.setSuccessful();
+
+        // Apply filters, sorters, and start/limit options
+        if (resultSet.success) {
+
+            // Filter the resulting array of records
+            if (filters && filters.length) {
+                records = resultSet.records = Ext.Array.filter(records, Ext.util.Filter.createFilterFn(filters));
+            }
+
+            // Remotely, groupers just mean top priority sorters
+            if (groupers && groupers.length) {
+                Ext.Array.insert(sorters||[], 0, groupers);
+            }
+
+            // Sort by the specified groupers and sorters
+            if (sorters && sorters.length) {
+                resultSet.records = Ext.Array.sort(records, Ext.util.Sortable.createComparator(sorters));
+            }
+
+            // Reader reads the whole passed data object.
+            // If successful and we were given a start and limit, slice the result.
+            if (me.enablePaging && operation.start !== undefined && operation.limit !== undefined) {
+
+                // Attempt to read past end of memory dataset - convert to failure
+                if (operation.start >= resultSet.total) {
+                    resultSet.success = false;
+                    resultSet.count = 0;
+                    resultSet.records = [];
+                }
+                // Range is valid, slice it up.
+                else {
+                    resultSet.records = Ext.Array.slice(resultSet.records, operation.start, operation.start + operation.limit);
+                    resultSet.count = resultSet.records.length;
+                }
+            }
+        }
+
+        if (resultSet.success) {
+            operation.setSuccessful();
+        } else {
+            me.fireEvent('exception', me, null, operation);
+        }
         Ext.callback(callback, scope || me, [operation]);
     },
 

@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * This is a layout that inherits the anchoring of {@link Ext.layout.container.Anchor} and adds the
  * ability for x/y positioning using the standard x and y component config options.
@@ -117,5 +134,74 @@ Ext.define('Ext.layout.container.Absolute', {
             return false;
         }
         return this.callParent(arguments);
+    },
+
+    calculateContentSize: function (ownerContext, dimensions) {
+        var me = this,
+            containerDimensions = (dimensions || 0) |
+                   ((ownerContext.widthModel.shrinkWrap ? 1 : 0) |
+                    (ownerContext.heightModel.shrinkWrap ? 2 : 0)),
+            calcWidth = (containerDimensions & 1) || undefined,
+            calcHeight = (containerDimensions & 2) || undefined,
+            childItems = ownerContext.childItems,
+            length = childItems.length,
+            contentHeight = 0,
+            contentWidth = 0,
+            needed = 0,
+            props = ownerContext.props,
+            targetPadding, child, childContext, height, i, margins, width;
+
+        if (calcWidth) {
+            if (isNaN(props.contentWidth)) {
+                ++needed;
+            } else {
+                calcWidth = undefined;
+            }
+        }
+        if (calcHeight) {
+            if (isNaN(props.contentHeight)) {
+                ++needed;
+            } else {
+                calcHeight = undefined;
+            }
+        }
+
+        if (needed) {
+            for (i = 0; i < length; ++i) {
+                childContext = childItems[i];
+                child = childContext.target;
+                height = calcHeight && childContext.getProp('height');
+                width = calcWidth && childContext.getProp('width');
+                margins = childContext.getMarginInfo();
+
+                height += margins.bottom;
+                width  += margins.right;
+
+                contentHeight = Math.max(contentHeight, (child.y || 0) + height);
+                contentWidth = Math.max(contentWidth, (child.x || 0) + width);
+
+                if (isNaN(contentHeight) && isNaN(contentWidth)) {
+                    me.done = false;
+                    return;
+                }
+            }
+
+            if (calcWidth || calcHeight) {
+                targetPadding = ownerContext.targetContext.getPaddingInfo();
+            }
+            if (calcWidth && !ownerContext.setContentWidth(contentWidth + targetPadding.width)) {
+                me.done = false;
+            }
+            if (calcHeight && !ownerContext.setContentHeight(contentHeight + targetPadding.height)) {
+                me.done = false;
+            }
+
+            /* add a '/' to turn on this log ('//* enables, '/*' disables)
+            if (me.done) {
+                var el = ownerContext.targetContext.el.dom;
+                Ext.log(this.owner.id, '.contentSize: ', contentWidth, 'x', contentHeight,
+                    ' => scrollSize: ', el.scrollWidth, 'x', el.scrollHeight);
+            }/**/
+        }
     }
 });

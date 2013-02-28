@@ -1,0 +1,30 @@
+.#{$prefix}accordion-hd {
+    .#{$prefix}tool-collapse-top,
+    .#{$prefix}tool-collapse-bottom {
+        background-position: 0 ($accordion-header-tool-size * -17);
+    }
+
+    .#{$prefix}tool-expand-top,
+    .#{$prefix}tool-expand-bottom {
+        background-position: 0 ($accordion-header-tool-size * -16);
+    }
+
+    .#{$prefix}tool-over {
+        .#{$prefix}tool-collapse-top,
+        .#{$prefix}tool-collapse-bottom {
+            background-position: (-$accordion-header-tool-size) ($accordion-header-tool-size * -17);
+        }
+
+        .#{$prefix}tool-expand-top,
+        .#{$prefix}tool-expand-bottom {
+            background-position: (-$accordion-header-tool-size) ($accordion-header-tool-size * -16);
+        }
+    }
+
+    // !important is needed to override dock layout's border:0 !important
+    border-width: $accordion-header-border-width !important;
+    @include single-box-shadow($accordion-header-background-color, 0, 0, 0, 0, true);
+}
+.#{$prefix}accordion-hd-sibling-expanded {
+    @include single-box-shadow($panel-header-inner-border-color, 0, 1px, 0, 0, true);
+}

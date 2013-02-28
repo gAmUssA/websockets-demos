@@ -1,3 +1,21 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
+//@tag core
 /**
  * This class parses the XTemplate syntax and calls abstract methods to process the parts.
  * @private
@@ -8,10 +26,10 @@ Ext.define('Ext.XTemplateParser', {
     },
 
     /**
-     * @property {Number} level The 'for' loop context level. This is adjusted up by one
-     * prior to calling {@link #doFor} and down by one after calling the corresponding
-     * {@link #doEnd} that closes the loop. This will be 1 on the first {@link #doFor}
-     * call.
+     * @property {Number} level The 'for' or 'foreach' loop context level. This is adjusted
+     * up by one prior to calling {@link #doFor} or {@link #doForEach} and down by one after
+     * calling the corresponding {@link #doEnd} that closes the loop. This will be 1 on the
+     * first {@link #doFor} or {@link #doForEach} call.
      */
 
     /**
@@ -106,6 +124,15 @@ Ext.define('Ext.XTemplateParser', {
      * @method doFor
      */
     // doFor: function (action, actions)
+
+    /**
+     * This method is called to process `<tpl foreach="action">`. If there are other
+     * attributes, these are passed in the actions object.
+     * @param {String} action
+     * @param {Object} actions Other actions keyed by the attribute name (such as 'exec').
+     * @method doForEach
+     */
+    // doForEach: function (action, actions)
 
     /**
      * This method is called to process `<tpl exec="action">`. If there are other attributes,
@@ -216,6 +243,16 @@ Ext.define('Ext.XTemplateParser', {
                     me.doFor(actions['for'], actions);
                     stack.push({ type: 'for', actions: actions });
                 }
+                else if (actions['foreach']) {
+                    ++me.level;
+
+                    // Extract property name to use from indexed item
+                    if (prop = me.propRe.exec(m[4])) {
+                        actions.propName = prop[1] || prop[2];
+                    }
+                    me.doForEach(actions['foreach'], actions);
+                    stack.push({ type: 'foreach', actions: actions });
+                }
                 else if (actions.exec) {
                     me.doExec(actions.exec, actions);
                     stack.push({ type: 'exec', actions: actions });
@@ -232,7 +269,7 @@ Ext.define('Ext.XTemplateParser', {
             } else {
                 frame = stack.pop();
                 me.doEnd(frame.type, frame.actions);
-                if (frame.type == 'for') {
+                if (frame.type == 'for' || frame.type == 'foreach') {
                     --me.level;
                 }
             }
@@ -241,8 +278,8 @@ Ext.define('Ext.XTemplateParser', {
 
     // Internal regexes
     
-    topRe:     /(?:(\{\%)|(\{\[)|\{([^{}]*)\})|(?:<tpl([^>]*)\>)|(?:<\/tpl>)/g,
-    actionsRe: /\s*(elif|elseif|if|for|exec|switch|case|eval)\s*\=\s*(?:(?:"([^"]*)")|(?:'([^']*)'))\s*/g,
+    topRe:     /(?:(\{\%)|(\{\[)|\{([^{}]+)\})|(?:<tpl([^>]*)\>)|(?:<\/tpl>)/g,
+    actionsRe: /\s*(elif|elseif|if|for|foreach|exec|switch|case|eval|between)\s*\=\s*(?:(?:"([^"]*)")|(?:'([^']*)'))\s*/g,
     propRe:    /prop=(?:(?:"([^"]*)")|(?:'([^']*)'))/,
     defaultRe: /^\s*default\s*$/,
     elseRe:    /^\s*else\s*$/

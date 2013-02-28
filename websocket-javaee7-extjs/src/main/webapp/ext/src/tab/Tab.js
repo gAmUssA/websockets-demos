@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @author Ed Spencer
  * 
@@ -10,11 +27,8 @@ Ext.define('Ext.tab.Tab', {
     alias: 'widget.tab',
 
     requires: [
-        'Ext.layout.component.Tab',
         'Ext.util.KeyNav'
     ],
-
-    componentLayout: 'tab',
 
     /**
      * @property {Boolean} isTab
@@ -115,6 +129,8 @@ Ext.define('Ext.tab.Tab', {
         if (me.card) {
             me.setCard(me.card);
         }
+
+        me.overCls = ['over', me.position + '-over'];
     },
 
     getTemplateArgs: function() {
@@ -135,6 +151,10 @@ Ext.define('Ext.tab.Tab', {
         me.callParent();
         
         me.addClsWithUI(me.position);
+
+        if (me.active) {
+            me.addClsWithUI([me.activeCls, me.position + '-' + me.activeCls]);
+        }
 
         // Set all the state classNames, as they need to include the UI
         // me.disabledCls = me.getClsWithUIs('disabled');
@@ -162,6 +182,8 @@ Ext.define('Ext.tab.Tab', {
     onRender: function() {
         var me = this;
 
+        me.setElOrientation();
+
         me.callParent(arguments);
 
         me.keyNav = new Ext.util.KeyNav(me.el, {
@@ -169,6 +191,14 @@ Ext.define('Ext.tab.Tab', {
             del: me.onDeleteKey,
             scope: me
         });
+    },
+
+    setElOrientation: function() {
+        var position = this.position;
+
+        if (position === 'left' || position === 'right') {
+            this.el.setVertical(position === 'right' ? 90 : 270);
+        }
     },
 
     // inherit docs

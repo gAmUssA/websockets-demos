@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * This is a base class for layouts that contain a single item that automatically expands to fill the layout's
  * container. This class is intended to be extended or created via the layout:'fit'
@@ -75,10 +92,10 @@ Ext.define('Ext.layout.container.Fit', {
     manageMargins: true,
 
     sizePolicies: {
-        0: { setsWidth: 0, setsHeight: 0 },
-        1: { setsWidth: 1, setsHeight: 0 },
-        2: { setsWidth: 0, setsHeight: 1 },
-        3: { setsWidth: 1, setsHeight: 1 }
+        0: { readsWidth: 1, readsHeight: 1, setsWidth: 0, setsHeight: 0 },
+        1: { readsWidth: 0, readsHeight: 1, setsWidth: 1, setsHeight: 0 },
+        2: { readsWidth: 1, readsHeight: 0, setsWidth: 0, setsHeight: 1 },
+        3: { readsWidth: 0, readsHeight: 0, setsWidth: 1, setsHeight: 1 }
     },
 
     getItemSizePolicy: function (item, ownerSizeModel) {
@@ -164,11 +181,11 @@ Ext.define('Ext.layout.container.Fit', {
         c = ownerContext.target;
         ownerContext.overflowX = (!ownerContext.widthModel.shrinkWrap && 
                                    ownerContext.maxChildMinWidth &&
-                                   (c.autoScroll || c.overflowX)) || undef;
+                                   c.scrollFlags.x) || undef;
 
         ownerContext.overflowY = (!ownerContext.heightModel.shrinkWrap &&
                                    ownerContext.maxChildMinHeight &&
-                                   (c.autoScroll || c.overflowY)) || undef;
+                                   c.scrollFlags.y) || undef;
     },
 
     calculate : function (ownerContext) {

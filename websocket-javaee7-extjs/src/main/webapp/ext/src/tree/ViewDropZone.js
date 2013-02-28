@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @private
  */
@@ -5,7 +22,7 @@ Ext.define('Ext.tree.ViewDropZone', {
     extend: 'Ext.view.DropZone',
 
     /**
-     * @cfg {Boolean} allowParentInsert
+     * @cfg {Boolean} allowParentInserts
      * Allow inserting a dragged node between an expanded parent node and its first child that will become a
      * sibling of the parent when dropped.
      */
@@ -32,21 +49,22 @@ Ext.define('Ext.tree.ViewDropZone', {
 
     indicatorCls: Ext.baseCSSPrefix + 'tree-ddindicator',
 
-    // private
+    // @private
     expandNode : function(node) {
         var view = this.view;
+        this.expandProcId = false;
         if (!node.isLeaf() && !node.isExpanded()) {
             view.expand(node);
             this.expandProcId = false;
         }
     },
 
-    // private
+    // @private
     queueExpand : function(node) {
         this.expandProcId = Ext.Function.defer(this.expandNode, this.expandDelay, this, [node]);
     },
 
-    // private
+    // @private
     cancelExpand : function() {
         if (this.expandProcId) {
             clearTimeout(this.expandProcId);
@@ -73,7 +91,7 @@ Ext.define('Ext.tree.ViewDropZone', {
             return noAppend ? false : 'append';
         }
 
-        if (!this.allowParentInsert) {
+        if (!this.allowParentInserts) {
             noBelow = record.hasChildNodes() && record.isExpanded();
         }
 
@@ -126,10 +144,7 @@ Ext.define('Ext.tree.ViewDropZone', {
         if (Ext.Array.contains(draggedRecords, targetNode)) {
              return false;
         }
-
-        // @TODO: fire some event to notify that there is a valid drop possible for the node you're dragging
-        // Yes: this.fireViewEvent(blah....) fires an event through the owning View.
-        return true;
+        return view.fireEvent('nodedragover', targetNode, position, data, e) !== false;
     },
 
     onNodeOver : function(node, dragZone, e, data) {
@@ -138,7 +153,6 @@ Ext.define('Ext.tree.ViewDropZone', {
             view = this.view,
             targetNode = view.getRecord(node),
             indicator = this.getIndicator(),
-            indicatorX = 0,
             indicatorY = 0;
 
         // auto node expand check
@@ -183,6 +197,12 @@ Ext.define('Ext.tree.ViewDropZone', {
         return returnCls;
     },
 
+    // The mouse is no longer over a tree node, so dropping is not valid
+    onNodeOut : function(n, dd, e, data){
+        this.valid = false;
+        this.getIndicator().hide();
+    },
+
     onContainerOver : function(dd, e, data) {
         return e.getTarget('.' + this.indicatorCls) ? this.currentCls : this.dropNotAllowed;
     },
@@ -195,21 +215,25 @@ Ext.define('Ext.tree.ViewDropZone', {
     handleNodeDrop : function(data, targetNode, position) {
         var me = this,
             view = me.view,
-            parentNode = targetNode.parentNode,
-            store = view.getStore(),
-            recordDomNodes = [],
-            records, i, len,
+            parentNode = targetNode ? targetNode.parentNode : view.panel.getRootNode(),
+            Model = view.getStore().treeStore.model,
+            records, i, len, record,
             insertionMethod, argList,
-            needTargetExpand,
-            transferData,
-            processDrop;
+            needTargetExpand, recParent,
+            transferData;
 
-        // If the copy flag is set, create a copy of the Models with the same IDs
+        // If the copy flag is set, create a copy of the models
         if (data.copy) {
             records = data.records;
             data.records = [];
             for (i = 0, len = records.length; i < len; i++) {
-                data.records.push(Ext.apply({}, records[i].data));
+                record = records[i];
+                if (record.isNode) {
+                    data.records.push(record.copy(undefined, true));
+                } else {
+                    // If it's not a node, make a node copy
+                    data.records.push(new Model(record[record.persistenceProperty], record.getId()));
+                }
             }
         }
 
@@ -237,51 +261,79 @@ Ext.define('Ext.tree.ViewDropZone', {
             targetNode = parentNode;
         }
         else {
-            if (!targetNode.isExpanded()) {
+            if (!(targetNode.isExpanded() || targetNode.isLoading())) {
                 needTargetExpand = true;
             }
             insertionMethod = targetNode.appendChild;
             argList = [null];
         }
-
+        
         // A function to transfer the data into the destination tree
         transferData = function() {
-            var node,
-                r, rLen, color, n;
+            var color,
+                n;
+
+            // Coalesce layouts caused by node removal, appending and sorting
+            Ext.suspendLayouts();
+
+            // Insert the records into the target node
             for (i = 0, len = data.records.length; i < len; i++) {
                 argList[0] = data.records[i];
-                node = insertionMethod.apply(targetNode, argList);
-                
-                if (Ext.enableFx && me.dropHighlight) {
-                    recordDomNodes.push(view.getNode(node));
-                }
+                insertionMethod.apply(targetNode, argList);
+            }
+
+            // If configured to sort on drop, do it according to the TreeStore's comparator
+            if (me.sortOnDrop) {
+                targetNode.sort(targetNode.getOwnerTree().store.generateComparator());
             }
             
+            Ext.resumeLayouts(true);
+
             // Kick off highlights after everything's been inserted, so they are
             // more in sync without insertion/render overhead.
+            // Element.highlight can handle highlighting table nodes.
             if (Ext.enableFx && me.dropHighlight) {
-                //FIXME: the check for n.firstChild is not a great solution here. Ideally the line should simply read 
-                //Ext.fly(n.firstChild) but this yields errors in IE6 and 7. See ticket EXTJSIV-1705 for more details
-                rLen  = recordDomNodes.length;
                 color = me.dropHighlightColor;
 
-                for (r = 0; r < rLen; r++) {
-                    n = recordDomNodes[r];
-
+                for (i = 0; i < len; i++) {
+                    n = view.getNode(data.records[i]);
                     if (n) {
-                        Ext.fly(n.firstChild ? n.firstChild : n).highlight(color);
+                        Ext.fly(n).highlight(color);
                     }
                 }
             }
         };
 
+        // Remove nodes from their current place in case there's a delay while the target node loads
+        view.getSelectionModel().clearSelections();
+        for (i = 0, len = data.records.length; i < len; i++) {
+            record = data.records[i];
+            // If we're dragging from a non-tree source we might not have a parent yet
+            recParent = record.parentNode;
+            if (recParent) {
+                recParent.removeChild(record);
+            }
+        }
+
         // If dropping right on an unexpanded node, transfer the data after it is expanded.
         if (needTargetExpand) {
             targetNode.expand(false, transferData);
+        }
+        // If the node is waiting for its children, we must transfer the data after the expansion.
+        // The expand event does NOT signal UI expansion, it is the SIGNAL for UI expansion.
+        // It's listened for by the NodeStore on the root node. Which means that listeners on the target
+        // node get notified BEFORE UI expansion. So we need a delay.
+        // TODO: Refactor NodeInterface.expand/collapse to notify its owning tree directly when it needs to expand/collapse.
+        else if (targetNode.isLoading()) {
+            targetNode.on({
+                expand: transferData,
+                delay: 1,
+                single: true
+            });
         }
         // Otherwise, call the data transfer function immediately
         else {
             transferData();
         }
-    }
+    }    
 });

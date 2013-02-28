@@ -1,0 +1,52 @@
+.#{$prefix}item-disabled {
+    .#{$prefix}tbar-page-first {
+        background-image: theme-background-image('grid/page-first');
+        @include opacity(0.5);
+    }
+    
+    .#{$prefix}tbar-page-prev {
+        background-image: theme-background-image('grid/page-prev');
+        @include opacity(0.5);
+    }
+    
+    .#{$prefix}tbar-page-next {
+        background-image: theme-background-image('grid/page-next');
+        @include opacity(0.5);
+    }
+
+    .#{$prefix}tbar-page-last {
+        background-image: theme-background-image('grid/page-last');
+        @include opacity(0.5);
+    }
+    
+    .#{$prefix}tbar-loading {
+        background-image: theme-background-image('grid/refresh');
+        @include opacity(0.5);
+    }
+}
+
+@if $include-rtl {        
+    .#{$prefix}item-disabled {
+        .#{$prefix}rtl {
+            &.#{$prefix}tbar-page-first {
+                background-image: theme-background-image('grid/page-last');
+                @include opacity(0.5);
+            }
+            
+            &.#{$prefix}tbar-page-prev {
+                background-image: theme-background-image('grid/page-next');
+                @include opacity(0.5);
+            }
+            
+            &.#{$prefix}tbar-page-next {
+                background-image: theme-background-image('grid/page-prev');
+                @include opacity(0.5);
+            }
+            
+            &.#{$prefix}tbar-page-last {
+                background-image: theme-background-image('grid/page-first');
+                @include opacity(0.5);
+            }
+        }
+    }
+}

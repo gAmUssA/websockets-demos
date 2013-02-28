@@ -1,8 +1,25 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @class Ext.state.LocalStorageProvider
  * A Provider implementation which saves and retrieves state via the HTML5 localStorage object.
- * If the browser does not support local storage, an exception will be thrown upon instantiating
- * this class.
+ * If the browser does not support local storage, there will be no attempt to read the state.
+ * Before creating this class, a check should be made to {@link Ext.supports#LocalStorage}.
  */
 
 Ext.define('Ext.state.LocalStorageProvider', {
@@ -18,7 +35,11 @@ Ext.define('Ext.state.LocalStorageProvider', {
         var me = this;
         me.callParent(arguments);
         me.store = me.getStorageObject();
-        me.state = me.readLocalStorage();
+        if (me.store) {
+            me.state = me.readLocalStorage();
+        } else {
+            me.state = {};
+        }
     },
     
     readLocalStorage: function(){
@@ -57,16 +78,12 @@ Ext.define('Ext.state.LocalStorageProvider', {
     },
     
     getStorageObject: function(){
-        try {
-            var supports = 'localStorage' in window && window['localStorage'] !== null;
-            if (supports) {
-                return window.localStorage;
-            }
-        } catch (e) {
-            return false;
+        if (Ext.supports.LocalStorage) {
+            return window.localStorage;
         }
         //<debug>
         Ext.Error.raise('LocalStorage is not supported by the current browser');
         //</debug>
+        return false;
     }    
 });

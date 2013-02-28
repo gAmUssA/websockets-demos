@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Provides a common registry of all menus on a page.
  * @singleton
@@ -11,6 +28,8 @@ Ext.define('Ext.menu.Manager', {
     alternateClassName: 'Ext.menu.MenuMgr',
 
     uses: ['Ext.menu.Menu'],
+    
+    menuSelector: '.' + Ext.baseCSSPrefix + 'menu',
 
     menus: {},
     groups: {},
@@ -63,10 +82,7 @@ Ext.define('Ext.menu.Manager', {
     onShow: function(m) {
         var me = this,
             active   = me.active,
-            last     = active.last(),
-            attached = me.attached,
-            menuEl   = m.getEl(),
-            zIndex;
+            attached = me.attached;
 
         me.lastShow = new Date();
         active.add(m);
@@ -74,7 +90,7 @@ Ext.define('Ext.menu.Manager', {
             Ext.getDoc().on('mousedown', me.onMouseDown, me, {
                 // On IE we have issues with the menu stealing focus at certain points
                 // during the head, so give it a short buffer
-                buffer: Ext.isIE ? 10 : undefined
+                buffer: Ext.isIE9m ? 10 : undefined
             });
             me.attached = true;
         }
@@ -104,18 +120,27 @@ Ext.define('Ext.menu.Manager', {
         }
     },
 
-    // private
+    // @private
     onMouseDown: function(e) {
         var me = this,
             active = me.active,
-            lastShow = me.lastShow;
+            lastShow = me.lastShow,
+            doHide = true;
 
-        if (Ext.Date.getElapsed(lastShow) > 50 && active.length > 0 && !e.getTarget('.' + Ext.baseCSSPrefix + 'menu')) {
-            me.hideAll();
+        if (Ext.Date.getElapsed(lastShow) > 50 && active.length > 0 && !e.getTarget(me.menuSelector)) {
+            // Because we use a buffer in IE, the target may have been removed from the
+            // DOM by the time we get here, so the selector will never find the menu. In this
+            // case, it's safer to not hide than menus than to do so
+            if (Ext.isIE9m && !Ext.getBody().contains(e.target)) {
+                doHide = false;
+            }
+            if (doHide) {
+                me.hideAll();
+            }
         }
     },
 
-    // private
+    // @private
     register: function(menu) {
         var me = this;
 
@@ -158,7 +183,7 @@ Ext.define('Ext.menu.Manager', {
         }
     },
 
-    // private
+    // @private
     unregister: function(menu) {
         var me = this,
             menus = me.menus,
@@ -175,7 +200,7 @@ Ext.define('Ext.menu.Manager', {
         });
     },
 
-    // private
+    // @private
     registerCheckable: function(menuItem) {
         var groups  = this.groups,
             groupId = menuItem.group;
@@ -189,7 +214,7 @@ Ext.define('Ext.menu.Manager', {
         }
     },
 
-    // private
+    // @private
     unregisterCheckable: function(menuItem) {
         var groups  = this.groups,
             groupId = menuItem.group;

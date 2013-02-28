@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Node Store
  * @private
@@ -6,6 +23,12 @@ Ext.define('Ext.data.NodeStore', {
     extend: 'Ext.data.Store',
     alias: 'store.node',
     requires: ['Ext.data.NodeInterface'],
+
+    /**
+     * @property {Boolean} isNodeStore
+     * `true` in this class to identify an object as an instantiated NodeStore, or subclass thereof.
+     */
+    isNodeStore: true,
 
     /**
      * @cfg {Ext.data.Model} node
@@ -25,17 +48,29 @@ Ext.define('Ext.data.NodeStore', {
      * updated in this Store's internal flat data structure.
      */
     recursive: false,
-    
-    /** 
+
+    /**
      * @cfg {Boolean} rootVisible
      * False to not include the root node in this Stores collection.
-     */    
+     */
     rootVisible: false,
 
     /**
      * @cfg {Ext.data.TreeStore} treeStore
      * The TreeStore that is used by this NodeStore's Ext.tree.View.
      */
+
+    /**
+     * @protected
+     * Recursion level counter. Incremented when expansion or collaping of a node is initiated,
+     * including when nested nodes below the expanding/collapsing root begin expanding or collapsing.
+     * 
+     * This ensures that collapsestart, collapsecomplete, expandstart and expandcomplete only
+     * fire on the top level node being collapsed/expanded.
+     * 
+     * Also, allows listeners to the `add` and `remove` events to know whether a collapse of expand is in progress.
+     */
+    isExpandingOrCollapsing: 0,
 
     constructor: function(config) {
         var me = this,
@@ -60,6 +95,13 @@ Ext.define('Ext.data.NodeStore', {
             me.node = null;
             me.setNode(node);
         }
+    },
+
+    // NodeStores are never buffered or paged. They are loaded from the TreeStore to reflect all visible
+    // nodes.
+    // BufferedRenderer always asks for the *total* count, so this must return the count.
+    getTotalCount: function() {
+        return this.getCount();
     },
 
     setNode: function(node) {
@@ -102,22 +144,53 @@ Ext.define('Ext.data.NodeStore', {
             }
         }
     },
-
+ 
     onNodeSort: function(node, childNodes) {
         var me = this;
 
         if ((me.indexOf(node) !== -1 || (node === me.node && !me.rootVisible) && node.isExpanded())) {
+            Ext.suspendLayouts();
             me.onNodeCollapse(node, childNodes, true);
             me.onNodeExpand(node, childNodes, true);
+            Ext.resumeLayouts(true);
         }
     },
 
+    // Triggered by a NodeInterface's bubbled "expand" event.
     onNodeExpand: function(parent, records, suppressEvent) {
         var me = this,
             insertIndex = me.indexOf(parent) + 1,
+            toAdd = [];
+
+        // Used by the TreeView to bracket recursive expand & collapse ops
+        // and refresh the size. This is most effective when folder nodes are loaded,
+        // and this method is able to recurse.
+        if (!suppressEvent) {
+            me.fireEvent('beforeexpand', parent, records, insertIndex);
+        }
+
+        me.handleNodeExpand(parent, records, toAdd);
+
+        // The add event from this insertion is handled by TreeView.onAdd.
+        // That implementation calls parent and then ensures the previous sibling's joining lines are correct.
+        // The datachanged event is relayed by the TreeStore. Internally, that's not used.
+        me.insert(insertIndex, toAdd);
+
+        // Triggers the TreeView's onExpand method which calls refreshSize,
+        // and fires its afteritemexpand event
+        if (!suppressEvent) {
+            me.fireEvent('expand', parent, records);
+        }
+    },
+
+    // Collects child nodes to remove into the passed toRemove array.
+    // When available, all descendant nodes are pushed into that array using recursion.
+    handleNodeExpand: function(parent, records, toAdd) {
+        var me = this,
             ln = records ? records.length : 0,
             i, record;
 
+        // recursive is hardcoded to true in TreeView.
         if (!me.recursive && parent !== me.node) {
             return;
         }
@@ -126,54 +199,80 @@ Ext.define('Ext.data.NodeStore', {
             return;
         }
 
-        if (!suppressEvent && me.fireEvent('beforeexpand', parent, records, insertIndex) === false) {
-            return;
-        }
-
         if (ln) {
-            me.insert(insertIndex, records);
+            // The view items corresponding to these are rendered.
+            // Loop through and expand any of the non-leaf nodes which are expanded
             for (i = 0; i < ln; i++) {
                 record = records[i];
+
+                // Add to array being collected by recursion when child nodes are loaded.
+                // Must be done here in loop so that child nodes are inserted into the stream in place
+                // in recursive calls.
+                toAdd.push(record);
+
                 if (record.isExpanded()) {
                     if (record.isLoaded()) {
-                        // Take a shortcut
-                        me.onNodeExpand(record, record.childNodes, true);
+                        // Take a shortcut - appends to toAdd array
+                        me.handleNodeExpand(record, record.childNodes, toAdd);
                     }
                     else {
+                        // Might be asynchronous if child nodes are not immediately available
                         record.set('expanded', false);
                         record.expand();
                     }
                 }
             }
         }
-
-        if (!suppressEvent) {
-            me.fireEvent('expand', parent, records);
-        }
     },
 
+    // Triggered by a NodeInterface's bubbled "collapse" event.
     onNodeCollapse: function(parent, records, suppressEvent) {
         var me = this,
-            ln = records.length,
             collapseIndex = me.indexOf(parent) + 1,
-            i, record;
+            node, lastNodeIndexPlus, sibling, found;
 
         if (!me.recursive && parent !== me.node) {
             return;
         }
 
-        if (!suppressEvent && me.fireEvent('beforecollapse', parent, records, collapseIndex) === false) {
-            return;
+        // Used by the TreeView to bracket recursive expand & collapse ops
+        // and refresh the size. This is most effective when folder nodes are loaded,
+        // and this method is able to recurse.
+        // Also sets up the animWrap object if we are animating.
+        if (!suppressEvent) {
+            me.fireEvent('beforecollapse', parent, records, collapseIndex);
         }
 
-        for (i = 0; i < ln; i++) {
-            record = records[i];
-            me.remove(record);
-            if (record.isExpanded()) {
-                me.onNodeCollapse(record, record.childNodes, true);
+        // Only attempt to remove the records if they are there.
+        // Collapsing an ancestor node *immediately removes from the view, ALL its descendant nodes at all levels*.
+        // But if the collapse was recursive, all descendant root nodes will still fire their
+        // events. But we must ignore those events here - we have nothing to do.
+        if (records.length && me.data.contains(records[0])) {
+            
+            // Calculate the index *one beyond* the last node we are going to remove
+            // Need to loop up the tree to find the nearest view sibling, since it could
+            // exist at some level above the current node.
+            node = parent;
+            while (node.parentNode) {
+                sibling = node.nextSibling;
+                if (sibling) {
+                    found = true;
+                    lastNodeIndexPlus = me.indexOf(sibling); 
+                    break;
+                } else {
+                    node = node.parentNode;
+                }
             }
+            if (!found) {
+                lastNodeIndexPlus = me.getCount();
+            }
+
+            // Remove the whole collapsed node set.
+            me.removeAt(collapseIndex, lastNodeIndexPlus - collapseIndex);
         }
 
+        // Triggers the TreeView's onCollapse method which calls refreshSize,
+        // and fires its afteritecollapse event
         if (!suppressEvent) {
             me.fireEvent('collapse', parent, records, collapseIndex);
         }
@@ -183,6 +282,7 @@ Ext.define('Ext.data.NodeStore', {
         var me = this,
             refNode, sibling;
 
+        // Only react to a node append if it is to a node which is expanded, and is part of a tree
         if (me.isVisible(node)) {
             if (index === 0) {
                 refNode = parent;
@@ -198,8 +298,11 @@ Ext.define('Ext.data.NodeStore', {
                 if (node.isLoaded()) {
                     // Take a shortcut
                     me.onNodeExpand(node, node.childNodes, true);
-                }
-                else {
+                } else if (!me.treeStore.fillCount ) {
+                    // If the node has been marked as expanded, it means the children
+                    // should be provided as part of the raw data. If we're filling the nodes,
+                    // the children may not have been loaded yet, so only do this if we're
+                    // not in the middle of populating the nodes.
                     node.set('expanded', false);
                     node.expand();
                 }
@@ -226,7 +329,7 @@ Ext.define('Ext.data.NodeStore', {
         }
     },
 
-    onNodeRemove: function(parent, node, index) {
+    onNodeRemove: function(parent, node, isMove) {
         var me = this;
         if (me.indexOf(node) != -1) {
             if (!node.isLeaf() && node.isExpanded()) {
@@ -239,16 +342,19 @@ Ext.define('Ext.data.NodeStore', {
     isVisible: function(node) {
         var parent = node.parentNode;
         while (parent) {
-            if (parent === this.node && !this.rootVisible && parent.isExpanded()) {
+            // Hit root and it is expanded, the node is visible
+            if (parent === this.node && parent.data.expanded) {
                 return true;
             }
 
-            if (this.indexOf(parent) === -1 || !parent.isExpanded()) {
+            // Hit a collapsed ancestor, the node is not visible
+            if (!parent.data.expanded) {
                 return false;
             }
 
             parent = parent.parentNode;
         }
-        return true;
+        // Walked off the top - the node is not part of the tree structure
+        return false;
     }
 });

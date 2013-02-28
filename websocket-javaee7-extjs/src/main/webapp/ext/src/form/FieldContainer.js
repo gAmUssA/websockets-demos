@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * FieldContainer is a derivation of {@link Ext.container.Container Container} that implements the
  * {@link Ext.form.Labelable Labelable} mixin. This allows it to be configured so that it is rendered with
@@ -104,8 +121,20 @@ Ext.define('Ext.form.FieldContainer', {
     alias: 'widget.fieldcontainer',
 
     componentLayout: 'fieldcontainer',
-    
+
     componentCls: Ext.baseCSSPrefix + 'form-fieldcontainer',
+    
+    // Used by the layout system, typically the scrolling el is the targetEl, however we need
+    // to let it know we're using something different
+    customOverflowEl: 'containerEl',
+    
+    childEls: [
+        'containerEl'
+    ],
+
+    /**
+     * @cfg autoScroll @hide
+     */
 
     /**
      * @cfg {Boolean} combineLabels
@@ -133,7 +162,7 @@ Ext.define('Ext.form.FieldContainer', {
 
     maskOnDisable: false,
 
-    fieldSubTpl: '{%this.renderContainer(out,values)%}',
+    fieldSubTpl: '<div id="{id}-containerEl">{%this.renderContainer(out,values)%}</div>',
 
     initComponent: function() {
         var me = this;
@@ -141,22 +170,36 @@ Ext.define('Ext.form.FieldContainer', {
         // Init mixins
         me.initLabelable();
         me.initFieldAncestor();
+        
+        if (me.labelAlign == 'top') {
+            // We need to add an extra offset to the DOM checks because
+            // the label is rendered inside the target element.
+            // See Ext.layout.container.Container::getPositionOffset
+            // for more details
+            me.itemNodeOffset = 1;
+        }
 
         me.callParent();
     },
-
-    beforeRender: function(){
-        this.callParent(arguments);
-        this.beforeLabelableRender(arguments);
+    
+    getOverflowEl: function(){
+        return this.containerEl;    
     },
 
     /**
      * @protected Called when a {@link Ext.form.Labelable} instance is added to the container's subtree.
      * @param {Ext.form.Labelable} labelable The instance that was added
      */
-    onLabelableAdded: function(labelable) {
+    onAdd: function(labelable) {
         var me = this;
-        me.mixins.fieldAncestor.onLabelableAdded.call(this, labelable);
+        
+        // Fix for https://sencha.jira.com/browse/EXTJSIV-6424
+        // In FF, positioning absolutely within a TD positions relative to the TR!
+        // So we must add the width of a visible, left-aligned label cell to the x coordinate.
+        if (Ext.isGecko && me.layout.type === 'absolute' && !me.hideLabel && me.labelAlign !== 'top') {
+            labelable.x += (me.labelWidth + me.labelPad);
+        }
+        me.callParent(arguments);
         me.updateLabel();
     },
 
@@ -164,10 +207,12 @@ Ext.define('Ext.form.FieldContainer', {
      * @protected Called when a {@link Ext.form.Labelable} instance is removed from the container's subtree.
      * @param {Ext.form.Labelable} labelable The instance that was removed
      */
-    onLabelableRemoved: function(labelable) {
+    onRemove: function(labelable, isDestroying) {
         var me = this;
-        me.mixins.fieldAncestor.onLabelableRemoved.call(this, labelable);
-        me.updateLabel();
+        me.callParent(arguments);
+        if (!isDestroying) {
+            me.updateLabel();
+        }   
     },
 
     initRenderTpl: function() {
@@ -225,6 +270,7 @@ Ext.define('Ext.form.FieldContainer', {
     updateLabel: function() {
         var me = this,
             label = me.labelEl;
+            
         if (label) {
             me.setFieldLabel(me.getFieldLabel());
         }
@@ -290,5 +336,11 @@ Ext.define('Ext.form.FieldContainer', {
 
     getTargetEl: function() {
         return this.bodyEl || this.callParent();
+    },
+
+    applyTargetCls: function(targetCls) {
+        var fieldBodyCls = this.fieldBodyCls;
+
+        this.fieldBodyCls = fieldBodyCls ? fieldBodyCls + ' ' + targetCls : targetCls;
     }
 });

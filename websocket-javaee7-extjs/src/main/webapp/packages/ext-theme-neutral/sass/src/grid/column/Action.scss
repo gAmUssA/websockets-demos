@@ -1,0 +1,13 @@
+.#{$prefix}action-col-cell .#{$prefix}grid-cell-inner {
+    line-height: 0;
+    // !important needed to override .x-tree-panel .x-grid-cell-inner's padding setting.
+    padding: 1px 2px 1px 4px!important;
+}
+
+.#{$prefix}action-col-cell .#{$prefix}item-disabled {
+    @include opacity(0.3);
+}
+
+.#{$prefix}grid-with-row-lines .#{$prefix}action-col-cell .#{$prefix}grid-cell-inner {
+    padding-top: 1px;
+}

@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @author Ed Spencer
  *
@@ -132,6 +149,25 @@ Ext.define('Ext.data.reader.Xml', {
      */
 
     /**
+     * @cfg {String} namespace
+     * A namespace prefix that will be prepended to the field name when reading a
+     * field from an XML node.  Take, for example, the following Model:
+     * 
+     *     Ext.define('Foo', {
+     *         extend: 'Ext.data.Model',
+     *         fields: ['bar', 'baz']
+     *     });
+     *     
+     * The reader would need to be configured with a namespace of 'n' in order to read XML
+     * data in the following format:
+     * 
+     *     <foo>
+     *         <n:bar>bar</n:bar>
+     *         <n:baz>baz</n:baz>
+     *     </foo>
+     */
+
+    /**
      * @private
      * Creates a function to return some particular key of data from a response. The totalProperty and
      * successProperty are treated as special cases for type casting, everything else is just a simple selector.
@@ -155,8 +191,17 @@ Ext.define('Ext.data.reader.Xml', {
     },
 
     getNodeValue: function(node) {
-        if (node && node.firstChild) {
-            return node.firstChild.nodeValue;
+        if (node) {
+            // overcome a limitation of maximum textnode size
+            // http://reference.sitepoint.com/javascript/Node/normalize
+            // https://developer.mozilla.org/En/DOM/Node.normalize
+            if (typeof node.normalize === 'function') {
+                node.normalize();
+            }
+            node = node.firstChild;
+            if (node) {
+                return node.nodeValue;
+            }
         }
         return undefined;
     },
@@ -279,8 +324,10 @@ Ext.define('Ext.data.reader.Xml', {
      * This is used by buildExtractors to create optimized on extractor function which converts raw data into model instances.
      */
     createFieldAccessExpression: function(field, fieldVarName, dataName) {
-        var selector = field.mapping || field.name,
-            result;
+        var namespace = this.namespace,
+            selector, result;
+
+        selector = field.mapping || ((namespace ? namespace + '|' : '') + field.name); 
 
         if (typeof selector === 'function') {
             result = fieldVarName + '.mapping(' + dataName + ', this)';

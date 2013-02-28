@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Represents a 2D point with x and y properties, useful for comparison and instantiation
  * from an event:
@@ -15,10 +32,11 @@ Ext.define('Ext.util.Point', {
         /**
          * Returns a new instance of Ext.util.Point base on the pageX / pageY values of the given event
          * @static
-         * @param {Event} e The event
+         * @param {Ext.EventObject/Event} e The event
          * @return {Ext.util.Point}
          */
         fromEvent: function(e) {
+            e = e.browserEvent || e;
             e = (e.changedTouches && e.changedTouches.length > 0) ? e.changedTouches[0] : e;
             return new this(e.pageX, e.pageY);
         }
@@ -71,6 +89,19 @@ Ext.define('Ext.util.Point', {
 
         return (this.x <= p.x + threshold.x && this.x >= p.x - threshold.x &&
                 this.y <= p.y + threshold.y && this.y >= p.y - threshold.y);
+    },
+
+    /**
+     * Determins whether this Point contained by the passed Region, Component or element.
+     * @param {Ext.util.Region/Ext.Component/Ext.dom.Element/HTMLElement} region The rectangle to checkthat this Point is within.
+     * @param {Object/Number} threshold Can be either an object with x and y properties or a number
+     * @return {Boolean}
+     */
+    isContainedBy: function(region) {
+        if (!(region instanceof Ext.util.Region)) {
+            region = Ext.get(region.el || region).getRegion();
+        }
+        return region.contains(this);
     },
 
     /**

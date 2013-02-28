@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Color picker provides a simple color palette for choosing colors. The picker can be rendered to any container. The
  * available default to a standard 40-color palette; this can be customized with the {@link #colors} config.
@@ -33,6 +50,12 @@ Ext.define('Ext.picker.Color', {
      * The CSS class to apply to the selected element
      */
     selectedCls: Ext.baseCSSPrefix + 'color-picker-selected',
+
+    /**
+     * @cfg {String} itemCls
+     * The CSS class to apply to the color picker's items
+     */
+    itemCls: Ext.baseCSSPrefix + 'color-picker-item',
 
     /**
      * @cfg {String} value
@@ -102,13 +125,13 @@ Ext.define('Ext.picker.Color', {
     
     renderTpl: [
         '<tpl for="colors">',
-            '<a href="#" class="color-{.}" hidefocus="on">',
-                '<em><span style="background:#{.}" unselectable="on">&#160;</span></em>',
+            '<a href="#" class="color-{.} {parent.itemCls}" hidefocus="on">',
+                '<span class="{parent.itemCls}-inner" style="background:#{.}">&#160;</span>',
             '</a>',
         '</tpl>'
     ],
 
-    // private
+    // @private
     initComponent : function(){
         var me = this;
 
@@ -129,7 +152,7 @@ Ext.define('Ext.picker.Color', {
     },
 
 
-    // private
+    // @private
     initRenderData : function(){
         var me = this;
         return Ext.apply(me.callParent(), {
@@ -151,7 +174,7 @@ Ext.define('Ext.picker.Color', {
         }
     },
 
-    // private
+    // @private
     afterRender : function(){
         var me = this,
             value;
@@ -164,7 +187,7 @@ Ext.define('Ext.picker.Color', {
         }
     },
 
-    // private
+    // @private
     handleClick : function(event, target){
         var me = this,
             color;

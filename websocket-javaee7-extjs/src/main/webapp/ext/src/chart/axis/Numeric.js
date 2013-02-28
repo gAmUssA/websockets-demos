@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @class Ext.chart.axis.Numeric
  *
@@ -25,7 +42,6 @@
  *         store: store,
  *         axes: [{
  *             type: 'Numeric',
- *             grid: true,
  *             position: 'left',
  *             fields: ['data1', 'data2', 'data3', 'data4', 'data5'],
  *             title: 'Sample Values',
@@ -81,7 +97,10 @@ Ext.define('Ext.chart.axis.Numeric', {
 
     /* End Definitions */
 
-    type: 'numeric',
+    type: 'Numeric',
+
+    // @private
+    isNumericAxis: true,
 
     alias: 'axis.numeric',
 
@@ -112,18 +131,16 @@ Ext.define('Ext.chart.axis.Numeric', {
     },
 
     /**
+     * @cfg {Number} minimum
      * The minimum value drawn by the axis. If not set explicitly, the axis
-     * minimum will be calculated automatically.
-     *
-     * @property {Number} minimum
+     * minimum will be calculated automatically. It is ignored for stacked charts.
      */
     minimum: NaN,
 
     /**
+     * @cfg {Number} maximum
      * The maximum value drawn by the axis. If not set explicitly, the axis
-     * maximum will be calculated automatically.
-     *
-     * @property {Number} maximum
+     * maximum will be calculated automatically. It is ignored for stacked charts.
      */
     maximum: NaN,
 
@@ -131,22 +148,20 @@ Ext.define('Ext.chart.axis.Numeric', {
      * @cfg {Boolean} constrain
      * If true, the values of the chart will be rendered only if they belong between minimum and maximum
      * If false, all values of the chart will be rendered, regardless of whether they belong between minimum and maximum or not
-     * Default's true if maximum and minimum is specified.
+     * Default's true if maximum and minimum is specified. It is ignored for stacked charts.
      */
     constrain: true,
 
     /**
+     * @cfg {Number} decimals
      * The number of decimals to round the value to.
-     *
-     * @property {Number} decimals
      */
     decimals: 2,
 
     /**
+     * @cfg {String} scale
      * The scaling algorithm to use on this axis. May be "linear" or
      * "logarithmic".  Currently only linear scale is implemented.
-     *
-     * @property {String} scale
      * @private
      */
     scale: "linear",
@@ -154,10 +169,11 @@ Ext.define('Ext.chart.axis.Numeric', {
     // @private constrains to datapoints between minimum and maximum only
     doConstrain: function() {
         var me = this,
-            store = me.chart.store,
+            chart = me.chart,
+            store = chart.getChartStore(),
             items = store.data.items,
             d, dLen, record,
-            series = me.chart.series.items,
+            series = chart.series.items,
             fields = me.fields,
             ln = fields.length,
             range = me.calcEnds(),
@@ -166,18 +182,14 @@ Ext.define('Ext.chart.axis.Numeric', {
             value, data = [],
             addRecord;
 
-        for (i = 0, l = series.length; i < l; i++) {
-            if (series[i].type === 'bar' && series[i].stacked) {
-                // Do not constrain stacked bar chart.
-                return;
-            }
-        }
-
         for (d = 0, dLen = items.length; d < dLen; d++) {
             addRecord = true;
             record = items[d];
             for (i = 0; i < ln; i++) {
                 value = record.get(fields[i]);
+                if (me.type == 'Time' && typeof value == "string") {
+                    value = Date.parse(value);
+                }
                 if (+value < +min) {
                     addRecord = false;
                     break;
@@ -191,37 +203,50 @@ Ext.define('Ext.chart.axis.Numeric', {
                 data.push(record);
             }
         }
-        me.chart.substore = Ext.create('Ext.data.Store', { model: store.model });
-        me.chart.substore.loadData(data); // data records must be loaded (not passed as config above because it's not json)
+        
+        chart.setSubStore(new Ext.data.Store({
+            model: store.model,
+            data: data
+        }));
     },
     /**
+     * @cfg {String} position
      * Indicates the position of the axis relative to the chart
-     *
-     * @property {String} position
      */
     position: 'left',
 
     /**
+     * @cfg {Boolean} adjustMaximumByMajorUnit
      * Indicates whether to extend maximum beyond data's maximum to the nearest
      * majorUnit.
-     *
-     * @property {Boolean} adjustMaximumByMajorUnit
      */
     adjustMaximumByMajorUnit: false,
 
     /**
+     * @cfg {Boolean} adjustMinimumByMajorUnit
      * Indicates whether to extend the minimum beyond data's minimum to the
      * nearest majorUnit.
-     *
-     * @property {Boolean} adjustMinimumByMajorUnit
      */
     adjustMinimumByMajorUnit: false,
 
     // applying constraint
     processView: function() {
         var me = this,
-            constrain = me.constrain;
-        if (constrain) {
+            chart = me.chart,
+            series = chart.series.items,
+            i, l;
+
+        for (i = 0, l = series.length; i < l; i++) {
+            if (series[i].stacked) {
+                // Do not constrain stacked charts (bar, column, or area).
+                delete me.minimum;
+                delete me.maximum;
+                me.constrain = false;
+                break;
+            }
+        }
+
+        if (me.constrain) {
             me.doConstrain();
         }
     },

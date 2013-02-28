@@ -1,0 +1,8 @@
+.#{$prefix}body {
+    color: $color;
+    font-size: $font-size;
+    font-family: $font-family;
+    @if $body-background-color != transparent {
+        background: $body-background-color;
+    }
+}

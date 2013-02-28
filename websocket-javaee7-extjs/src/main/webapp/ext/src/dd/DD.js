@@ -1,4 +1,21 @@
 /*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
+/*
  * This is a derivative of the similarly named class in the YUI Library.
  * The original license:
  * Copyright (c) 2006, Yahoo! Inc. All rights reserved.
@@ -101,12 +118,13 @@ Ext.define('Ext.dd.DD', {
                 Math.max(0, Math.min(oCoord.y, vpSize.height - elSize.height))
             ];
             fly.setXY(aCoord);
-            newLeft = fly.getLocalX();
+            newLeft = this.getLocalX(fly);
             newTop  = fly.getLocalY();
             this.deltaSetXY = [newLeft - oCoord.x, newTop - oCoord.y];
         } else {
             vpSize = this.cachedViewportSize;
-            fly.setLeftTop(
+            this.setLocalXY(
+                fly,
                 Math.max(0, Math.min(oCoord.x + this.deltaSetXY[0], vpSize.width - elSize.width)),
                 Math.max(0, Math.min(oCoord.y + this.deltaSetXY[1], vpSize.height - elSize.height))
             );
@@ -207,7 +225,9 @@ Ext.define('Ext.dd.DD', {
      * it to where the mouse location less the click offset would place us.
      * @param {Number} iPageX the X coordinate of the click
      * @param {Number} iPageY the Y coordinate of the click
-     * @return an object that contains the coordinates (Object.x and Object.y)
+     * @return {Object} An object that contains the coordinates (Object.x and Object.y)
+     * @return {Number} return.x
+     * @return {Number} return.y
      * @private
      */
     getTargetCoord: function(iPageX, iPageY) {
@@ -268,6 +288,14 @@ Ext.define('Ext.dd.DD', {
 
     toString: function() {
         return ("DD " + this.id);
+    },
+    
+    getLocalX: function(el) {
+        return el.getLocalX();
+    },
+
+    setLocalXY: function(el, x, y) {
+        el.setLocalXY(x, y);
     }
 
     //////////////////////////////////////////////////////////////////////////

@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  *
  */
@@ -59,6 +76,12 @@ Ext.define('Ext.container.DockingContainer', {
     },
 
     /**
+     * @private
+     * Number of dock 'left' and 'right' items.
+     */
+    horizontalDocks: 0,
+
+    /**
      * Adds docked item(s) to the container.
      *
      * @param {Object/Object[]} component The Component or array of components to add. The components
@@ -78,6 +101,9 @@ Ext.define('Ext.container.DockingContainer', {
         for (; i < length; i++) {
             item = items[i];
             item.dock = item.dock || 'top';
+            if (item.dock === 'left' || item.dock === 'right') {
+                me.horizontalDocks++;
+            }
 
             if (pos !== undefined) {
                 me.dockedItems.insert(pos + i, item);
@@ -234,6 +260,9 @@ Ext.define('Ext.container.DockingContainer', {
 
         if (!me.dockedItems.contains(item)) {
             return item;
+        }
+        if (item.dock === 'left' || item.dock === 'right') {
+            me.horizontalDocks--;
         }
 
         layout = me.componentLayout;

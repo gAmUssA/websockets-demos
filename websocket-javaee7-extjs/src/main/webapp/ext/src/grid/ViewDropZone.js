@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @private
  */
@@ -12,12 +29,12 @@ Ext.define('Ext.grid.ViewDropZone', {
             store = view.getStore(),
             index, records, i, len;
 
-        // If the copy flag is set, create a copy of the Models with the same IDs
+        // If the copy flag is set, create a copy of the models
         if (data.copy) {
             records = data.records;
             data.records = [];
             for (i = 0, len = records.length; i < len; i++) {
-                data.records.push(records[i].copy(records[i].getId()));
+                data.records.push(records[i].copy());
             }
         } else {
             /*
@@ -29,13 +46,20 @@ Ext.define('Ext.grid.ViewDropZone', {
             data.view.store.remove(data.records, data.view === view);
         }
 
-        index = store.indexOf(record);
+        if (record && position) {
+            index = store.indexOf(record);
 
-        // 'after', or undefined (meaning a drop at index -1 on an empty View)...
-        if (position !== 'before') {
-            index++;
+            // 'after', or undefined (meaning a drop at index -1 on an empty View)...
+            if (position !== 'before') {
+                index++;
+            }
+            store.insert(index, data.records);
         }
-        store.insert(index, data.records);
+        // No position specified - append.
+        else {
+            store.add(data.records);
+        }
+
         view.getSelectionModel().select(data.records);
     }
 });

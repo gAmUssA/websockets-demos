@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Private utility class for Ext.BorderSplitter.
  * @private
@@ -71,7 +88,7 @@ Ext.define('Ext.resizer.BorderSplitterTracker', {
 
         box = new Ext.util.Region(top, right, bottom, left);
 
-        me.constraintAdjusters[splitter.collapseDirection](box, minRange, maxRange, splitter);
+        me.constraintAdjusters[me.getCollapseDirection()](box, minRange, maxRange, splitter);
 
         me.dragInfo = {
             minRange: minRange,
@@ -105,7 +122,7 @@ Ext.define('Ext.resizer.BorderSplitterTracker', {
         // splitter is to the left of the box
         right: function (box, minRange, maxRange, splitter) {
             box.right = box.left - minRange;
-            box.left -= maxRange + splitter.getWidth();
+            box[0] = box.x = box.left = box.x - maxRange + splitter.getWidth();
         }
     },
 
@@ -206,5 +223,9 @@ Ext.define('Ext.resizer.BorderSplitterTracker', {
                 target.setSize(undefined, targetSize + delta);
             }
         }
+    },
+
+    getCollapseDirection: function() {
+        return this.splitter.collapseDirection;
     }
 });

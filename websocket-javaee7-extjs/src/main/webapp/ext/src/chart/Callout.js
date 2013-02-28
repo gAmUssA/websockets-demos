@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @class Ext.chart.Callout
  * A mixin providing callout functionality for Ext.chart.series.Series.
@@ -30,7 +47,7 @@ Ext.define('Ext.chart.Callout', {
             config = me.callouts,
             styles = config.styles,
             group = me.calloutsArray,
-            store = me.chart.store,
+            store = me.chart.getChartStore(),
             len = store.getCount(),
             ratio = items.length / len,
             previouslyPlacedCallouts = [],
@@ -49,7 +66,7 @@ Ext.define('Ext.chart.Callout', {
                 label = group[count];
                 storeItem = store.getAt(i);
                 
-                display = config.filter(storeItem);
+                display = (!config.filter || config.filter(storeItem));
                 
                 if (!display && !label) {
                     count++;
@@ -77,7 +94,9 @@ Ext.define('Ext.chart.Callout', {
                         }
                     }
                 }
-                config.renderer(label, storeItem);
+                if (config && config.renderer) {
+                    config.renderer(label, storeItem);
+                }
                 me.onPlaceCallout(label, storeItem, item, i, display, animate,
                                   j, count, previouslyPlacedCallouts);
                 previouslyPlacedCallouts.push(label);
@@ -91,9 +110,9 @@ Ext.define('Ext.chart.Callout', {
         var me = this,
             group = me.calloutsGroup,
             config = me.callouts,
-            styles = config.styles,
-            width = styles.width,
-            height = styles.height,
+            styles = (config ? config.styles : undefined),
+            width = (styles ? styles.width : 0),
+            height = (styles ? styles.height : 0),
             chart = me.chart,
             surface = chart.surface,
             calloutObj = {

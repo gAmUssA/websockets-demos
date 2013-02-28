@@ -1,4 +1,22 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 //@define Ext.fx.Easing
+
 /**
  * @class Ext.fx.Easing
  *
@@ -27,8 +45,6 @@
  *
  * @singleton
  */
-Ext.ns('Ext.fx');
-
 Ext.require('Ext.fx.CubicBezier', function() {
     var math = Math,
         pi = math.PI,
@@ -37,21 +53,11 @@ Ext.require('Ext.fx.CubicBezier', function() {
         sqrt = math.sqrt,
         abs = math.abs,
         backInSeed = 1.70158;
-    Ext.fx.Easing = {
-        // ease: Ext.fx.CubicBezier.cubicBezier(0.25, 0.1, 0.25, 1),
-        // linear: Ext.fx.CubicBezier.cubicBezier(0, 0, 1, 1),
-        // 'ease-in': Ext.fx.CubicBezier.cubicBezier(0.42, 0, 1, 1),
-        // 'ease-out': Ext.fx.CubicBezier.cubicBezier(0, 0.58, 1, 1),
-        // 'ease-in-out': Ext.fx.CubicBezier.cubicBezier(0.42, 0, 0.58, 1),
-        // 'easeIn': Ext.fx.CubicBezier.cubicBezier(0.42, 0, 1, 1),
-        // 'easeOut': Ext.fx.CubicBezier.cubicBezier(0, 0.58, 1, 1),
-        // 'easeInOut': Ext.fx.CubicBezier.cubicBezier(0.42, 0, 0.58, 1)
-    };
-
-    Ext.apply(Ext.fx.Easing, {
-        linear: function(n) {
-            return n;
-        },
+        
+    Ext.define('Ext.fx.Easing', {
+        singleton: true,
+        
+        linear: Ext.identityFn,
         ease: function(n) {
             var q = 0.07813 - n / 2,
                 alpha = -0.25,
@@ -122,16 +128,20 @@ Ext.require('Ext.fx.CubicBezier', function() {
             }
             return l;
         }
-    });
-    Ext.apply(Ext.fx.Easing, {
-        'back-in': Ext.fx.Easing.backIn,
-        'back-out': Ext.fx.Easing.backOut,
-        'ease-in': Ext.fx.Easing.easeIn,
-        'ease-out': Ext.fx.Easing.easeOut,
-        'elastic-in': Ext.fx.Easing.elasticIn,
-        'elastic-out': Ext.fx.Easing.elasticIn,
-        'bounce-in': Ext.fx.Easing.bounceIn,
-        'bounce-out': Ext.fx.Easing.bounceOut,
-        'ease-in-out': Ext.fx.Easing.easeInOut
+    }, function(){
+        var easing = Ext.fx.Easing.self,
+            proto = easing.prototype;
+            
+        easing.implement({
+            'back-in': proto.backIn,
+            'back-out': proto.backOut,
+            'ease-in': proto.easeIn,
+            'ease-out': proto.easeOut,
+            'elastic-in': proto.elasticIn,
+            'elastic-out': proto.elasticOut,
+            'bounce-in': proto.bounceIn,
+            'bounce-out': proto.bounceOut,
+            'ease-in-out': proto.easeInOut
+        });        
     });
 });

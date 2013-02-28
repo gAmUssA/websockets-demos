@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Catalonian Translation by halkon_polako 6-12-2007
  * December correction halkon_polako 11-12-2007
@@ -18,9 +35,9 @@ Ext.onReady(function() {
         emptyText: ""
     });
 
-    Ext.define("Ext.locale.ca.grid.Panel", {
-        override: "Ext.grid.Panel",
-        ddText: "{0} fila(es) seleccionada(es)"
+    Ext.define("Ext.locale.ca.grid.plugin.DragDrop", {
+        override: "Ext.grid.plugin.DragDrop",
+        dragText: "{0} fila(es) seleccionada(es)"
     });
 
     // changing the msg text below will affect the LoadMask
@@ -139,6 +156,11 @@ Ext.onReady(function() {
         minText: "El valor m&#237;nim per aquest camp &#233;s {0}",
         maxText: "El valor m&#224;xim per aquest camp &#233;s {0}",
         nanText: "{0} no &#233;s un nombre v&#224;lid"
+    });
+
+    Ext.define("Ext.locale.ca.form.field.File", { 
+        override: "Ext.form.field.File", 
+        buttonText: "Examinar..." 
     });
 
     Ext.define("Ext.locale.ca.form.field.Date", {

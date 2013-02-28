@@ -1,0 +1,65 @@
+.#{$prefix}menu {
+    outline: none;
+}
+
+.#{$prefix}menu-item {
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+// "Foreign" Components (such as form fields) put inside a Menu get this class.
+.#{$prefix}menu-item-cmp {
+
+    // Ensure labels are centered when in menus which enlarge the height of a Labelable Component
+    .#{$prefix}field-label-cell {
+        vertical-align: middle;
+    }
+}
+
+.#{$prefix}menu-icon-separator {
+    position: absolute;
+    top: 0px;
+    z-index: 0;
+    height: 100%;
+    overflow: hidden;
+    .#{$prefix}menu-plain & {
+        display: none;
+    }
+}
+
+.#{$prefix}menu-item-link {
+    text-decoration: none;
+    zoom: 1;
+}
+
+@if $include-ie {
+    .#{$prefix}menu-item-text {
+        zoom: 1;
+    }
+}
+
+.#{$prefix}menu-item-icon,
+.#{$prefix}menu-item-icon-right,
+.#{$prefix}menu-item-arrow {
+    position: absolute;
+}
+
+@if $include-opera {
+    .#{$prefix}opera {
+        // Opera 10.5 absolute positioning of submenu arrow has issues
+        // This will fix it, and not affect newer Operas
+        .#{$prefix}menu-item-link {
+            position: relative;
+        }
+    }
+}
+
+// TODO: is this even used?
+.#{$prefix}menu-focus {
+    display: block;
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    width: 0px;
+    height: 0px;
+}

@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @class Ext.chart.series.Cartesian
  *
@@ -14,20 +31,14 @@ Ext.define('Ext.chart.series.Cartesian', {
     /* End Definitions */
 
     /**
-     * The field used to access the x axis value from the items from the data
-     * source.
-     *
-     * @cfg xField
-     * @type String
+     * @cfg {String} xField
+     * The name of the data Model field corresponding to the x-axis value.
      */
     xField: null,
 
     /**
-     * The field used to access the y-axis value from the items from the data
-     * source.
-     *
-     * @cfg yField
-     * @type String
+     * @cfg {String/String[]} yField
+     * The name(s) of the data Model field(s) corresponding to the y-axis value(s).
      */
     yField: null,
 
@@ -154,12 +165,13 @@ Ext.define('Ext.chart.series.Cartesian', {
             chart = me.chart,
             store = chart.getChartStore(),
             data = store.data.items,
+            count = me.getRecordCount(),
             i, ln, record,
             min, max,
             xField = me.xField,
             xValue;
 
-        if (me.getRecordCount() > 0) {
+        if (count > 0) {
             min = Infinity;
             max = -min;
                 
@@ -172,6 +184,15 @@ Ext.define('Ext.chart.series.Cartesian', {
                 if (xValue < min) {
                     min = xValue;
                 }
+            }
+            
+            // If we made no progress, treat it like a category axis
+            if (min == Infinity) {
+                min = 0;
+            }
+            
+            if (max == -Infinity) {
+                max = count - 1;
             }
         } else {
             min = max = 0;
@@ -189,6 +210,7 @@ Ext.define('Ext.chart.series.Cartesian', {
             chart = me.chart,
             store = chart.getChartStore(),
             data = store.data.items,
+            count = me.getRecordCount(),
             i, ln, record,
             stacked = me.stacked,
             min, max,
@@ -215,7 +237,7 @@ Ext.define('Ext.chart.series.Cartesian', {
             }
         }
 
-        if (me.getRecordCount() > 0) {
+        if (count > 0) {
             min = Infinity;
             max = -min;
             
@@ -234,6 +256,15 @@ Ext.define('Ext.chart.series.Cartesian', {
                 } else {
                     me.eachYValue(record, eachYValue);
                 }
+            }
+            
+            // If we made no progress, treat it like a category axis
+            if (min == Infinity) {
+                min = 0;
+            }
+            
+            if (max == -Infinity) {
+                max = count - 1;
             }
         } else {
             min = max = 0;

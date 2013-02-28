@@ -1,6 +1,4 @@
 /**
- * @class Ext.ux.CheckColumn
- * @extends Ext.grid.column.Column
  * A Header subclass which renders a checkbox in each column cell which toggles the truthiness of the associated data field on click.
  *
  * Example usage:

@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * This layout implements the column arrangement for {@link Ext.form.CheckboxGroup} and {@link Ext.form.RadioGroup}.
  * It groups the component's sub-items into columns based on the component's
@@ -17,13 +34,16 @@ Ext.define('Ext.layout.container.CheckboxGroup', {
     autoFlex: true,
 
     type: 'checkboxgroup',
+    
+    createsInnerCt: true,
 
     childEls: [
         'innerCt'
     ],
 
     renderTpl: [
-        '<table id="{ownerId}-innerCt" role="presentation" style="{tableStyle}"><tbody><tr>',
+        '<table id="{ownerId}-innerCt" class="' + Ext.baseCSSPrefix + 'table-plain" cellpadding="0"',
+            'role="presentation" style="{tableStyle}"><tbody><tr>',
             '<tpl for="columns">',
                 '<td class="{parent.colCls}" valign="top" style="{style}">',
                     '{% this.renderColumn(out,parent,xindex-1) %}',
@@ -137,7 +157,7 @@ Ext.define('Ext.layout.container.CheckboxGroup', {
 
         // The columnNodes are widthed using their own width attributes, we just need to wait
         // for all children to have arranged themselves in that width, and then collect our height.
-        if (!ownerContext.getDomProp('containerChildrenDone')) {
+        if (!ownerContext.getDomProp('containerChildrenSizeDone')) {
             me.done = false;
         } else {
             targetContext = ownerContext.innerCtContext;

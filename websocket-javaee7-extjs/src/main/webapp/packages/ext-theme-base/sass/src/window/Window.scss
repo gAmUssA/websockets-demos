@@ -1,0 +1,26 @@
+.#{$prefix}window {
+    outline: none;
+    overflow: hidden;
+
+    .#{$prefix}window-wrap {
+        position: relative;
+    }
+}
+
+.#{$prefix}window-body {
+    position: relative;
+    overflow: hidden;
+}
+
+//maximized window
+.#{$prefix}window-maximized {
+    .#{$prefix}window-wrap {
+        .#{$prefix}window-header {
+            @include important-no-border-radius;
+        }
+    }
+}
+
+.#{$prefix}window-body-plain {
+    background: transparent;
+}

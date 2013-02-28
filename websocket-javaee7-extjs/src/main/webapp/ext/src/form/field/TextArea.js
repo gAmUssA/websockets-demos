@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @docauthor Robert Dougan <rob@sencha.com>
  *
@@ -42,13 +59,16 @@ Ext.define('Ext.form.field.TextArea', {
         'Ext.util.DelayedTask'
     ],
 
-    // This template includes a \n after <textarea> opening tag so that an initial value starting 
-    // with \n does not lose its first character when the markup is parsed.
-    // Both textareas below have the same value:
-    // <textarea>initial value</textarea>
-    // <textarea>
-    // initial value
-    // </textarea>
+    // This template includes a `\n` after `<textarea>` opening tag so that an
+    // initial value starting with `\n` does not lose its first character when
+    // the markup is parsed. Both textareas below have the same value:
+    //
+    //     <textarea>initial value</textarea>
+    //
+    //     <textarea>
+    //     initial value
+    //     </textarea>
+    //
     fieldSubTpl: [
         '<textarea id="{id}" {inputAttrTpl}',
             '<tpl if="name"> name="{name}"</tpl>',
@@ -60,7 +80,7 @@ Ext.define('Ext.form.field.TextArea', {
             '<tpl if="readOnly"> readonly="readonly"</tpl>',
             '<tpl if="disabled"> disabled="disabled"</tpl>',
             '<tpl if="tabIdx"> tabIndex="{tabIdx}"</tpl>',
-            ' class="{fieldCls} {typeCls}" ',
+            ' class="{fieldCls} {typeCls} {inputCls}" ',
             '<tpl if="fieldStyle"> style="{fieldStyle}"</tpl>',
             ' autocomplete="off">\n',
             '<tpl if="value">{[Ext.util.Format.htmlEncode(values.value)]}</tpl>',
@@ -125,6 +145,8 @@ Ext.define('Ext.form.field.TextArea', {
     
     returnRe: /\r/g,
 
+    inputCls: Ext.baseCSSPrefix + 'form-textarea',
+
     // private
     getSubTplData: function() {
         var me = this,
@@ -168,6 +190,10 @@ Ext.define('Ext.form.field.TextArea', {
     
     transformOriginalValue: function(value){
         return this.stripReturns(value); 
+    },
+    
+    getValue: function(){
+        return this.stripReturns(this.callParent());    
     },
     
     valueToRaw: function(value){
@@ -221,7 +247,7 @@ Ext.define('Ext.form.field.TextArea', {
     },
     
     isCutCopyPasteSelectAll: function(e, key) {
-        if (e.CTRL) {
+        if (e.ctrlKey) {
             return key === e.A || key === e.C || key === e.V || key === e.X;
         }
         return false;
@@ -262,7 +288,8 @@ Ext.define('Ext.form.field.TextArea', {
     beforeDestroy: function(){
         var task = this.pasteTask;
         if (task) {
-            task.delay();
+            task.cancel();
+            this.pasteTask = null;
         }    
         this.callParent();
     }

@@ -6,10 +6,9 @@
  */
 
 /**
- * Barebones iframe implementation. For serious iframe work, see the ManagedIFrame extension
+ * Barebones iframe implementation. For serious iframe work, see the
+ * ManagedIFrame extension
  * (http://www.sencha.com/forum/showthread.php?71961).
- *
- * @class Ext.ux.IFrame
  */
 Ext.define('Ext.ux.IFrame', {
     extend: 'Ext.Component',

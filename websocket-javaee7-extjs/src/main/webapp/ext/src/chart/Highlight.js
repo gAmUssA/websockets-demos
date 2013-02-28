@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @class Ext.chart.Highlight
  * A mixin providing highlight functionality for Ext.chart.series.Series.
@@ -11,12 +28,21 @@ Ext.define('Ext.chart.Highlight', {
     /* End Definitions */
 
     /**
-     * Highlight the given series item.
-     * @param {Boolean/Object} Default's false. Can also be an object width style properties (i.e fill, stroke, radius) 
-     * or just use default styles per series by setting highlight = true.
+     * @cfg {Boolean/Object} [highlight=false] Set to `true` to enable highlighting using the {@link #highlightCfg default highlight attributes}.
+     * 
+     * Can also be an object with style properties (i.e fill, stroke, stroke-width, radius) which are may override the {@link #highlightCfg default highlight attributes}.
      */
     highlight: false,
 
+    /**
+     * @property {Object} highlightCfg The default properties to apply as a highight. Value is
+     *
+     *    {
+     *        fill: '#fdd',
+     *        "stroke-width": 5,
+     *        stroke: "#f55'
+     *    }
+     */
     highlightCfg : {
         fill: '#fdd',
         "stroke-width": 5,
@@ -24,10 +50,9 @@ Ext.define('Ext.chart.Highlight', {
     },
 
     constructor: function(config) {
-        if (config.highlight) {
-            if (config.highlight !== true) { //is an object
-                this.highlightCfg = Ext.merge(this.highlightCfg, config.highlight);
-            }
+        // If configured with a highlight object, apply to to *a local copy of* this class's highlightCfg. Do not mutate the prototype's copy.
+        if (config.highlight && (typeof config.highlight !== 'boolean')) { //is an object
+            this.highlightCfg = Ext.merge({}, this.highlightCfg, config.highlight);
         }
     },
 
@@ -58,6 +83,7 @@ Ext.define('Ext.chart.Highlight', {
             sprite._defaults = Ext.apply({}, sprite.attr);
             from = {};
             to = {};
+            // TODO: Clean up code below.
             for (p in opts) {
                 if (! (p in sprite._defaults)) {
                     sprite._defaults[p] = surface.availableAttrs[p];
@@ -126,8 +152,7 @@ Ext.define('Ext.chart.Highlight', {
                 obj = {};
                 for (p in opts) {
                     if (Ext.isObject(sprite._defaults[p])) {
-                        obj[p] = {};
-                        Ext.apply(obj[p], sprite._defaults[p]);
+                        obj[p] = Ext.apply({}, sprite._defaults[p]);
                     }
                     else {
                         obj[p] = sprite._defaults[p];

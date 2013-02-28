@@ -1,9 +1,27 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * List compiled by mystix on the extjs.com forums.
  * Thank you Mystix!
  *
  * English (UK) Translations
  * updated to 2.2 by Condor (8 Aug 2008)
+ * updated by Dawesi (7 Dec 2012)
  */
 Ext.onReady(function() {
     var cm = Ext.ClassManager,
@@ -18,9 +36,9 @@ Ext.onReady(function() {
         emptyText: ""
     });
 
-    Ext.define("Ext.locale.en_GB.grid.Panel", {
-        override: "Ext.grid.Panel",
-        ddText: "{0} selected row{1}"
+    Ext.define("Ext.locale.en_GB.grid.plugin.DragDrop", {
+        override: "Ext.grid.plugin.DragDrop",
+        dragText: "{0} selected row{1}"
     });
 
     // changing the msg text below will affect the LoadMask
@@ -30,6 +48,7 @@ Ext.onReady(function() {
     });
 
     if (Ext.Date) {
+        Ext.Date.defaultDateFormat = "d/m/Y";
         Ext.Date.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
         Ext.Date.getShortMonthName = function(month) {
@@ -77,7 +96,7 @@ Ext.onReady(function() {
         Ext.apply(Ext.util.Format, {
             thousandSeparator: ',',
             decimalSeparator: '.',
-            currencySign: '£',
+            currencySign: 'Â£',
             // UK Pound
             dateFormat: 'd/m/Y'
         });
@@ -208,13 +227,13 @@ Ext.onReady(function() {
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 backcolor: {
-                    title: 'Text Highlight Color',
-                    text: 'Change the background color of the selected text.',
+                    title: 'Text Highlight Colour',
+                    text: 'Change the background colour of the selected text.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 forecolor: {
-                    title: 'Font Color',
-                    text: 'Change the color of the selected text.',
+                    title: 'Font Colour',
+                    text: 'Change the colour of the selected text.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 justifyleft: {
@@ -223,8 +242,8 @@ Ext.onReady(function() {
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 justifycenter: {
-                    title: 'Center Text',
-                    text: 'Center text in the editor.',
+                    title: 'Centre Text',
+                    text: 'Centre text in the editor.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 justifyright: {
@@ -262,6 +281,11 @@ Ext.onReady(function() {
         sortDescText: "Sort Descending",
         columnsText: "Columns"
     });
+    
+    Ext.define("Ext.locale.en_GB.grid.DateColumn", {        
+        override: "Ext.grid.DateColumn",       
+        format: 'd/m/Y'    
+    });  
 
     Ext.define("Ext.locale.en_GB.grid.GroupingFeature", {
         override: "Ext.grid.GroupingFeature",

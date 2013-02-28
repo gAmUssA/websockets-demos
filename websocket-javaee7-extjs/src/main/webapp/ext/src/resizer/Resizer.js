@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Applies drag handles to an element or component to make it resizable. The drag handles are inserted into the element
  * (or component's element) and positioned absolute.
@@ -45,6 +62,7 @@ Ext.define('Ext.resizer.Resizer', {
     pinnedCls: Ext.baseCSSPrefix + 'resizable-pinned',
     overCls:   Ext.baseCSSPrefix + 'resizable-over',
     wrapCls:   Ext.baseCSSPrefix + 'resizable-wrap',
+    delimiterRe: /(?:\s*[,;]\s*)|\s+/,
 
     /**
      * @cfg {Boolean} dynamic
@@ -170,7 +188,8 @@ Ext.define('Ext.resizer.Resizer', {
             pos, 
             handleEls = [],
             eastWestStyle, style,
-            box;
+            box,
+            unselectableCls = Ext.dom.Element.unselectableCls;
 
         me.addEvents(
             /**
@@ -310,7 +329,7 @@ Ext.define('Ext.resizer.Resizer', {
             me.handles = 'n s e w ne nw se sw';
         }
 
-        handles = me.handles = me.handles.split(/ |\s*?[,;]\s*?/);
+        handles = me.handles = me.handles.split(me.delimiterRe);
         possibles = me.possiblePositions;
         len = handles.length;
         handleCls = me.handleCls + ' ' + (me.target.isComponent ? (me.target.baseCls + '-handle ') : '') + me.handleCls + '-';
@@ -327,19 +346,26 @@ Ext.define('Ext.resizer.Resizer', {
                 } else {
                     style = '';
                 }
-                handleEls.push('<div id="' + me.el.id + '-' + pos + '-handle" class="' + handleCls + pos + ' ' + Ext.baseCSSPrefix + 'unselectable"' + style + '></div>');
+
+                handleEls.push(
+                    '<div id="', me.el.id, '-', pos, '-handle"',
+                        ' class="', handleCls, pos, ' ', unselectableCls, '"',
+                        ' unselectable="on"',
+                        style,
+                    '></div>'
+                );
             }
         }
         Ext.DomHelper.append(me.el, handleEls.join(''));
 
-        // store a reference to each handle elelemtn in this.east, this.west, etc
+        // store a reference to each handle element in this.east, this.west, etc
         for (i = 0; i < len; i++){
             // if specified and possible, create
             if (handles[i] && possibles[handles[i]]) {
                 pos = possibles[handles[i]];
                 me[pos] = me.el.getById(me.el.id + '-' + pos + '-handle');
                 me[pos].region = pos;
-                me[pos].unselectable();
+
                 if (me.transparent) {
                     me[pos].setOpacity(0);
                 }
@@ -445,13 +471,16 @@ Ext.define('Ext.resizer.Resizer', {
     },
 
     destroy: function() {
-        var i = 0,
+        var i,
             handles = this.handles,
             len = handles.length,
-            positions = this.possiblePositions;
+            positions = this.possiblePositions,
+            handle;
 
-        for (; i < len; i++) {
-            this[positions[handles[i]]].remove();
+        for (i = 0; i < len; i++) {
+            if (handle = this[positions[handles[i]]]) {
+                handle.remove();
+            }
         }
     },
 

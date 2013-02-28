@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @docauthor Robert Dougan <rob@sencha.com>
  *
@@ -95,6 +112,9 @@ Ext.define('Ext.form.field.Checkbox', {
     requires: ['Ext.XTemplate', 'Ext.form.CheckboxManager' ],
 
     componentLayout: 'field',
+    
+    // inputEl should always retain the same size, never stretch
+    stretchInputElFixed: false,
 
     childEls: [
         /**
@@ -123,7 +143,7 @@ Ext.define('Ext.form.field.Checkbox', {
             '<tpl if="tabIdx"> tabIndex="{tabIdx}"</tpl>',
             '<tpl if="disabled"> disabled="disabled"</tpl>',
             '<tpl if="fieldStyle"> style="{fieldStyle}"</tpl>',
-            ' class="{fieldCls} {typeCls}" autocomplete="off" hidefocus="true" />',
+            ' class="{fieldCls} {typeCls} {inputCls}" autocomplete="off" hidefocus="true" />',
         '<tpl if="boxLabel && boxLabelAlign == \'after\'">',
             '{beforeBoxLabelTpl}',
             '<label id="{cmpId}-boxLabelEl" {boxLabelAttrTpl} class="{boxLabelCls} {boxLabelCls}-{boxLabelAlign}" for="{id}">',
@@ -191,10 +211,10 @@ Ext.define('Ext.form.field.Checkbox', {
     isCheckbox: true,
 
     /**
-     * @cfg {String} [focusCls='x-form-cb-focus']
+     * @cfg {String} [focusCls='x-form-checkbox-focus']
      * The CSS class to use when the checkbox receives focus
      */
-    focusCls: 'form-cb-focus',
+    focusCls: 'form-checkbox-focus',
 
     /**
      * @cfg {String} [fieldCls='x-form-field']
@@ -216,7 +236,9 @@ Ext.define('Ext.form.field.Checkbox', {
 
     /**
      * @cfg {String} [checkedCls='x-form-cb-checked']
-     * The CSS class added to the component's main element when it is in the checked state.
+     * The CSS class(es) added to the component's main element when it is in the checked state.
+     * You can add your own class (checkedCls='myClass x-form-cb-checked') or replace the default 
+     * class altogether (checkedCls='myClass').
      */
     checkedCls: Ext.baseCSSPrefix + 'form-cb-checked',
 
@@ -274,6 +296,9 @@ Ext.define('Ext.form.field.Checkbox', {
 
     // private
     onRe: /^on$/i,
+
+    // the form-cb css class is for styling shared between checkbox and subclasses (radio)
+    inputCls: Ext.baseCSSPrefix + 'form-cb',
 
     initComponent: function() {
         this.callParent(arguments);

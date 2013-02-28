@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * This feature adds an aggregate summary row at the bottom of each group that is provided
  * by the {@link Ext.grid.feature.Grouping} feature. There are two aspects to the summary:
@@ -84,160 +101,19 @@
  */
 Ext.define('Ext.grid.feature.GroupingSummary', {
 
-    /* Begin Definitions */
-
     extend: 'Ext.grid.feature.Grouping',
 
     alias: 'feature.groupingsummary',
 
-    mixins: {
-        summary: 'Ext.grid.feature.AbstractSummary'
-    },
-
-    /* End Definitions */
-
-    init: function() {
-        this.mixins.summary.init.call(this);
-    },
-
-   /**
-    * Modifies the row template to include the summary row.
-    * @private
-    * @return {String} The modified template
-    */
-   getFeatureTpl: function() {
-        var tpl = this.callParent(arguments);
-
-        if (this.showSummaryRow) {
-            // lop off the end </tpl> so we can attach it
-            tpl = tpl.replace('</tpl>', '');
-            tpl += '{[this.printSummaryRow(xindex)]}</tpl>';
-        }
-        return tpl;
-    },
-
-    /**
-     * Gets any fragments needed for the template.
-     * @private
-     * @return {Object} The fragments
-     */
-    getFragmentTpl: function() {
-        var me = this,
-            fragments = me.callParent();
-
-        Ext.apply(fragments, me.getSummaryFragments());
-        if (me.showSummaryRow) {
-            // this gets called before render, so we'll setup the data here.
-            me.summaryGroups = me.view.store.getGroups();
-            me.summaryData = me.generateSummaryData();
-        }
-        return fragments;
-    },
-
-    /**
-     * Gets the data for printing a template row
-     * @private
-     * @param {Number} index The index in the template
-     * @return {Array} The template values
-     */
-    getPrintData: function(index){
-        var me = this,
-            columns = me.view.headerCt.getColumnsForTpl(),
-            i = 0,
-            length = columns.length,
-            data = [],
-            name = me.summaryGroups[index - 1].name,
-            active = me.summaryData[name],
-            column;
-
-        for (; i < length; ++i) {
-            column = columns[i];
-            column.gridSummaryValue = this.getColumnValue(column, active);
-            data.push(column);
-        }
-        return data;
-    },
-
-    /**
-     * Generates all of the summary data to be used when processing the template
-     * @private
-     * @return {Object} The summary data
-     */
-    generateSummaryData: function(){
-        var me = this,
-            data = {},
-            remoteData = {},
-            store = me.view.store,
-            groupField = this.getGroupField(),
-            reader = store.proxy.reader,
-            groups = me.summaryGroups,
-            columns = me.view.headerCt.getColumnsForTpl(),
-            remote,
-            i,
-            length,
-            fieldData,
-            root,
-            key,
-            comp,
-            summaryRows,
-            s,
-            sLen,
-            convertedSummaryRow;
-
-        for (i = 0, length = groups.length; i < length; ++i) {
-            data[groups[i].name] = {};
-        }
-
-        /**
-         * @cfg {String} [remoteRoot=undefined]
-         * The name of the property which contains the Array of summary objects.
-         * It allows to use server-side calculated summaries.
-         */
-        if (me.remoteRoot && reader.rawData) {
-            // reset reader root and rebuild extractors to extract summaries data
-            root = reader.root;
-            reader.root = me.remoteRoot;
-            reader.buildExtractors(true);
-            summaryRows = reader.getRoot(reader.rawData);
-            sLen      = summaryRows.length;
-
-            // Ensure the Reader has a data conversion function to convert a raw data row into a Record data hash
-            if (!reader.convertRecordData) {
-                reader.buildExtractors();
-            }
-
-            for (s = 0; s < sLen; s++) {
-                convertedSummaryRow = {};
-
-                // Convert a raw data row into a Record's hash object using the Reader
-                reader.convertRecordData(convertedSummaryRow, summaryRows[s]);
-                remoteData[convertedSummaryRow[groupField]] = convertedSummaryRow;
-            }
-
-            // restore initial reader configuration
-            reader.root = root;
-            reader.buildExtractors(true);
-        }
-
-        for (i = 0, length = columns.length; i < length; ++i) {
-            comp = Ext.getCmp(columns[i].id);
-            fieldData = me.getSummary(store, comp.summaryType, comp.dataIndex, true);
-
-            for (key in fieldData) {
-                if (fieldData.hasOwnProperty(key)) {
-                    data[key][comp.id] = fieldData[key];
-                }
-            }
-
-            for (key in remoteData) {
-                if (remoteData.hasOwnProperty(key)) {
-                    remote = remoteData[key][comp.dataIndex];
-                    if (remote !== undefined && data[key] !== undefined) {
-                        data[key][comp.id] = remote;
-                    }
-                }
+    showSummaryRow: true,
+    
+    vetoEvent: function(record, row, rowIndex, e){
+        var result = this.callParent(arguments);
+        if (result !== false) {
+            if (e.getTarget(this.summaryRowSelector)) {
+                result = false;
             }
         }
-        return data;
+        return result;
     }
 });

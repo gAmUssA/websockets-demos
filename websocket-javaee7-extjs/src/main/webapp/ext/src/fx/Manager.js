@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @class Ext.fx.Manager
  * Animation Manager which keeps track of all current animations and manages them on a frame by frame basis.
@@ -27,8 +44,12 @@ Ext.define('Ext.fx.Manager', {
     /* End Definitions */
 
     constructor: function() {
-        this.items = new Ext.util.MixedCollection();
-        this.mixins.queue.constructor.call(this);
+        var me = this;
+        me.items = new Ext.util.MixedCollection();
+        me.mixins.queue.constructor.call(me);
+        me.taskRunner = new Ext.util.TaskRunner({
+            fireIdleEvent: false
+        });
 
         // this.requestAnimFrame = (function() {
         //     var raf = window.requestAnimationFrame ||
@@ -115,8 +136,9 @@ Ext.define('Ext.fx.Manager', {
      * @param {Ext.fx.Anim} anim
      */
     addAnim: function(anim) {
-        var items = this.items,
-            task = this.task;
+        var me = this,
+            items = me.items,
+            task = me.task;
 
         // Make sure we use the anim's id, not the anim target's id here. The anim id will be unique on
         // each call to addAnim. `anim.target` is the DOM element being targeted, and since multiple animations
@@ -126,13 +148,13 @@ Ext.define('Ext.fx.Manager', {
 
         // Start the timer if not already running
         if (!task && items.length) {
-            task = this.task = {
-                run: this.runner,
-                interval: this.interval,
-                scope: this
+            task = me.task = {
+                run: me.runner,
+                interval: me.interval,
+                scope: me
             };
             //Ext.log('--->> Starting task');
-            Ext.TaskManager.start(task);
+            me.taskRunner.start(task);
         }
     },
 
@@ -151,7 +173,7 @@ Ext.define('Ext.fx.Manager', {
         // Stop the timer if there are no more managed Anims
         if (task && !items.length) {
             //Ext.log('[]--- Stopping task');
-            Ext.TaskManager.stop(task);
+            me.taskRunner.stop(task);
             delete me.task;
         }
     },

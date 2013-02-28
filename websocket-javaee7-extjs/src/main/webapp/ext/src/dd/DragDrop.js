@@ -1,4 +1,21 @@
 /*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
+/*
  * This is a derivative of the similarly named class in the YUI Library.
  * The original license:
  * Copyright (c) 2006, Yahoo! Inc. All rights reserved.
@@ -778,26 +795,34 @@ Ext.define('Ext.dd.DragDrop', {
      * @private
      */
     handleMouseDown: function(e, oDD){
-        if (this.primaryButtonOnly && e.button != 0) {
+        var me = this,
+            activeEl;
+
+        if ((me.primaryButtonOnly && e.button != 0) || me.isLocked()) {
             return;
         }
 
-        if (this.isLocked()) {
-            return;
-        }
+        me.DDMInstance.refreshCache(me.groups);
 
-        this.DDMInstance.refreshCache(this.groups);
+        if (me.hasOuterHandles || me.DDMInstance.isOverTarget(e.getPoint(), me))  {
+            if (me.clickValidator(e)) {
+                activeEl = Ext.Element.getActiveElement();
 
-        if (this.hasOuterHandles || this.DDMInstance.isOverTarget(e.getPoint(), this) )  {
-            if (this.clickValidator(e)) {
                 // set the initial element position
-                this.setStartPosition();
-                this.b4MouseDown(e);
-                this.onMouseDown(e);
+                me.setStartPosition();
+                me.b4MouseDown(e);
+                me.onMouseDown(e);
 
-                this.DDMInstance.handleMouseDown(e, this);
+                me.DDMInstance.handleMouseDown(e, me);
 
-                this.DDMInstance.stopEvent(e);
+                // We're going to stop this event.
+                // But we need blurs to proceed so that editors still disappear when you click draggable things.
+                // Like column headers in a cell editing grid: https://sencha.jira.com/browse/EXTJSIV-7802
+                if (activeEl) {
+                    Ext.fly(activeEl).blur();
+                }
+
+                me.DDMInstance.stopEvent(e);
             }
         }
     },

@@ -1,0 +1,41 @@
+.#{$prefix}docked {
+    position: absolute !important;
+    z-index: 1;
+}
+
+// Fast, vertical-only docking uses natural flow
+.#{$prefix}docked-vertical {
+    position: static;
+}
+
+.#{$prefix}docked-top {
+    border-bottom-width: 0 !important;
+}
+
+.#{$prefix}docked-bottom {
+    border-top-width: 0 !important;
+}
+
+.#{$prefix}docked-left {
+    border-right-width: 0 !important;
+}
+
+.#{$prefix}docked-right {
+    border-left-width: 0 !important;
+}
+
+.#{$prefix}docked-noborder-top {
+    border-top-width: 0 !important;
+}
+
+.#{$prefix}docked-noborder-right {
+    border-right-width: 0 !important;
+}
+
+.#{$prefix}docked-noborder-bottom {
+    border-bottom-width: 0 !important;
+}
+
+.#{$prefix}docked-noborder-left {
+    border-left-width: 0 !important;
+}

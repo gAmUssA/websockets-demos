@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Portuguese/Brazil Translation by Weber Souza
  * 08 April 2007
@@ -21,9 +38,9 @@ Ext.onReady(function() {
         emptyText: ""
     });
 
-    Ext.define("Ext.locale.pt_BR.grid.Panel", {
-        override: "Ext.grid.Panel",
-        ddText: "{0} linha(s) selecionada(s)"
+    Ext.define("Ext.locale.pt_BR.grid.plugin.DragDrop", {
+        override: "Ext.grid.plugin.DragDrop",
+        dragText: "{0} linha(s) selecionada(s)"
     });
 
     Ext.define("Ext.locale.pt_BR.TabPanelItem", {
@@ -33,7 +50,7 @@ Ext.onReady(function() {
 
     Ext.define("Ext.locale.pt_BR.form.field.Base", {
         override: "Ext.form.field.Base",
-        invalidText: "O valor para este campo &eacute; inv&aacute;lido"
+        invalidText: "O valor para este campo é inválido"
     });
 
     // changing the msg text below will affect the LoadMask
@@ -43,7 +60,7 @@ Ext.onReady(function() {
     });
 
     if (Ext.Date) {
-        Ext.Date.monthNames = ["Janeiro", "Fevereiro", "Mar&ccedil;o", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+        Ext.Date.monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
 
         Ext.Date.getShortMonthName = function(month) {
             return Ext.Date.monthNames[month].substring(0, 3);
@@ -68,7 +85,7 @@ Ext.onReady(function() {
             return Ext.Date.monthNumbers[name.substring(0, 1).toUpperCase() + name.substring(1, 3).toLowerCase()];
         };
 
-        Ext.Date.dayNames = ["Domingo", "Segunda", "Ter&ccedil;a", "Quarta", "Quinta", "Sexta", "S&aacute;bado"];
+        Ext.Date.dayNames = ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"];
     }
 
     if (Ext.MessageBox) {
@@ -76,7 +93,7 @@ Ext.onReady(function() {
             ok: "OK",
             cancel: "Cancelar",
             yes: "Sim",
-            no: "N&atilde;o"
+            no: "Não"
         };
     }
 
@@ -94,16 +111,16 @@ Ext.onReady(function() {
     Ext.define("Ext.locale.pt_BR.picker.Date", {
         override: "Ext.picker.Date",
         todayText: "Hoje",
-        minText: "Esta data &eacute; anterior a menor data",
-        maxText: "Esta data &eacute; posterior a maior data",
+        minText: "Esta data é anterior a menor data",
+        maxText: "Esta data é posterior a maior data",
         disabledDaysText: "",
         disabledDatesText: "",
         monthNames: Ext.Date.monthNames,
         dayNames: Ext.Date.dayNames,
-        nextText: 'Pr&oacute;ximo M&ecirc;s (Control+Direita)',
-        prevText: 'M&ecirc;s Anterior (Control+Esquerda)',
-        monthYearText: 'Escolha um M&ecirc;s (Control+Cima/Baixo para mover entre os anos)',
-        todayTip: "{0} (Espa&ccedil;o)",
+        nextText: 'Próximo Mês (Control+Direita)',
+        prevText: 'Mês Anterior (Control+Esquerda)',
+        monthYearText: 'Escolha um Mês (Control+Cima/Baixo para mover entre os anos)',
+        todayTip: "{0} (Espaç;o)",
         format: "d/m/Y",
         startDay: 0
     });
@@ -116,31 +133,31 @@ Ext.onReady(function() {
 
     Ext.define("Ext.locale.pt_BR.toolbar.Paging", {
         override: "Ext.PagingToolbar",
-        beforePageText: "P&aacute;gina",
+        beforePageText: "Página",
         afterPageText: "de {0}",
-        firstText: "Primeira P&aacute;gina",
-        prevText: "P&aacute;gina Anterior",
-        nextText: "Pr&oacute;xima P&aacute;gina",
-        lastText: "&Uacute;ltima P&aacute;gina",
+        firstText: "Primeira Página",
+        prevText: "Página Anterior",
+        nextText: "Próxima Página",
+        lastText: "Última Página",
         refreshText: "Atualizar",
-        displayMsg: "<b>{0} &agrave; {1} de {2} registro(s)</b>",
+        displayMsg: "<b>{0} à {1} de {2} registro(s)</b>",
         emptyMsg: 'Sem registros para exibir'
     });
 
     Ext.define("Ext.locale.pt_BR.form.field.Text", {
         override: "Ext.form.field.Text",
-        minLengthText: "O tamanho m&iacute;nimo para este campo &eacute; {0}",
-        maxLengthText: "O tamanho m&aacute;ximo para este campo &eacute; {0}",
-        blankText: "Este campo &eacute; obrigat&oacute;rio.",
+        minLengthText: "O tamanho mínimo para este campo é {0}",
+        maxLengthText: "O tamanho máximo para este campo é {0}",
+        blankText: "Este campo é obrigatório.",
         regexText: "",
         emptyText: null
     });
 
     Ext.define("Ext.locale.pt_BR.form.field.Number", {
         override: "Ext.form.field.Number",
-        minText: "O valor m&iacute;nimo para este campo &eacute; {0}",
-        maxText: "O valor m&aacute;ximo para este campo &eacute; {0}",
-        nanText: "{0} n&atilde;o &eacute; um n&uacute;mero v&aacute;lido"
+        minText: "O valor mínimo para este campo é {0}",
+        maxText: "O valor máximo para este campo é {0}",
+        nanText: "{0} não é um número válido"
     });
 
     Ext.define("Ext.locale.pt_BR.form.field.Date", {
@@ -149,7 +166,7 @@ Ext.onReady(function() {
         disabledDatesText: "Desabilitado",
         minText: "A data deste campo deve ser posterior a {0}",
         maxText: "A data deste campo deve ser anterior a {0}",
-        invalidText: "{0} n&atilde;o &eacute; uma data v&aacute;lida - deve ser informado no formato {1}",
+        invalidText: "{0} não é uma data válida - deve ser informado no formato {1}",
         format: "d/m/Y"
     });
 
@@ -164,10 +181,10 @@ Ext.onReady(function() {
 
     if (exists('Ext.form.field.VTypes')) {
         Ext.apply(Ext.form.field.VTypes, {
-            emailText: 'Este campo deve ser um endere&ccedil;o de e-mail v&aacute;lido, no formato "usuario@dominio.com.br"',
+            emailText: 'Este campo deve ser um endereç;o de e-mail válido, no formato "usuario@dominio.com.br"',
             urlText: 'Este campo deve ser uma URL no formato "http:/' + '/www.dominio.com.br"',
             alphaText: 'Este campo deve conter apenas letras e _',
-            alphanumText: 'Este campo deve conter apenas letras, n&uacute;meros e _'
+            alphanumText: 'Este campo deve conter apenas letras, números e _'
         });
     }
 
@@ -183,8 +200,8 @@ Ext.onReady(function() {
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 italic: {
-                    title: 'It&aacute;lico (Ctrl+I)',
-                    text: 'Deixa o texto selecionado em it&aacute;lico.',
+                    title: 'Itálico (Ctrl+I)',
+                    text: 'Deixa o texto selecionado em itálico.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 underline: {
@@ -213,8 +230,8 @@ Ext.onReady(function() {
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 justifyleft: {
-                    title: 'Alinhar &agrave; Esquerda',
-                    text: 'Alinha o texto &agrave; esquerda.',
+                    title: 'Alinhar à Esquerda',
+                    text: 'Alinha o texto à esquerda.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 justifycenter: {
@@ -223,8 +240,8 @@ Ext.onReady(function() {
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 justifyright: {
-                    title: 'Alinhar &agrave; Direita',
-                    text: 'Alinha o texto &agrave; direita.',
+                    title: 'Alinhar à Direita',
+                    text: 'Alinha o texto à direita.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 },
                 insertunorderedlist: {
@@ -244,7 +261,7 @@ Ext.onReady(function() {
                 },
                 sourceedit: {
                     title: 'Editar Fonte',
-                    text: 'Troca para o modo de edi&ccedil;&atilde;o de c&oacute;digo fonte.',
+                    text: 'Troca para o modo de edição de código fonte.',
                     cls: Ext.baseCSSPrefix + 'html-editor-tip'
                 }
             }

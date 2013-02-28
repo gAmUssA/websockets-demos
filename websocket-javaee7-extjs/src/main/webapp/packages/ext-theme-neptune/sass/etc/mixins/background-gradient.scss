@@ -1,0 +1,25 @@
+@function linear-gradient-glossy-button($direction, $bg-color) {
+    @return linear-gradient($direction, color_stops(
+        mix(#fff, $bg-color, 3%),
+        mix(#fff, $bg-color, 3%) 50%,
+        mix(#000, $bg-color, 3%) 51%,
+        mix(#000, $bg-color, 3%)
+    ));
+}
+
+@function linear-gradient-glossy-button-over($direction, $bg-color) {
+    @return linear-gradient-glossy-button($direction, $bg-color);
+}
+
+@function linear-gradient-glossy-button-pressed($direction, $bg-color) {
+    @return linear-gradient($direction, color_stops(
+        mix(#000, $bg-color, 3%),
+        mix(#000, $bg-color, 3%) 50%,
+        mix(#fff, $bg-color, 3%) 51%,
+        mix(#fff, $bg-color, 3%)
+    ));
+}
+
+@function linear-gradient-glossy-button-disabled($direction, $bg-color) {
+    @return linear-gradient-glossy-button($direction, $bg-color);
+}

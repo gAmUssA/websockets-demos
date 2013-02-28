@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * A type of axis whose units are measured in time values. Use this axis
  * for listing dates that you will want to group or dynamically change.
@@ -35,6 +52,8 @@ Ext.define('Ext.chart.axis.Time', {
 
     alternateClassName: 'Ext.chart.TimeAxis',
 
+    type: 'Time',
+
     alias: 'axis.time',
 
     uses: ['Ext.data.Store'],
@@ -60,8 +79,17 @@ Ext.define('Ext.chart.axis.Time', {
     toDate: false,
 
     /**
-     * @cfg {Array/Boolean} step
-     * An array with two components: The first is the unit of the step (day, month, year, etc). The second one is the number of units for the step (1, 2, etc.).
+     * @cfg {Array} step
+     * An array with two components: The first is the unit of the step (day, month, year, etc). The second one is a number.
+     * If the number is an integer, it represents the number of units for the step ([Ext.Date.DAY, 2] means "Every other day").
+     * If the number is a fraction, it represents the number of steps per unit ([Ext.Date.DAY, 1/2] means "Twice a day").
+     * If the unit is the month, the steps may be adjusted depending on the month. For instance [Ext.Date.MONTH, 1/3], which means "Three times a month",
+     * generates steps on the 1st, the 10th and the 20th of every month regardless of whether a month has 28 days or 31 days. The steps are generated
+     * as follows:
+     * - [Ext.Date.MONTH, n]: on the current date every 'n' months, maxed to the number of days in the month.
+     * - [Ext.Date.MONTH, 1/2]: on the 1st and 15th of every month.
+     * - [Ext.Date.MONTH, 1/3]: on the 1st, 10th and 20th of every month.
+     * - [Ext.Date.MONTH, 1/4]: on the 1st, 8th, 15th and 22nd of every month.
      *
      * Defaults to: [Ext.Date.DAY, 1].
      */
@@ -120,7 +148,6 @@ Ext.define('Ext.chart.axis.Time', {
             if (me.maximum) {
                 range.to = me.maximum;
             }
-            range.step = (range.to - range.from) / range.steps;
             return range;
         } else {
             return me.callParent(arguments);

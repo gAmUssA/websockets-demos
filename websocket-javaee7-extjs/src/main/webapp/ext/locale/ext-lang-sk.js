@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * List compiled by mystix on the extjs.com forums.
  * Thank you Mystix!
@@ -18,9 +35,9 @@ Ext.onReady(function() {
         emptyText: ""
     });
 
-    Ext.define("Ext.locale.sk.grid.Panel", {
-        override: "Ext.grid.Panel",
-        ddText: "{0} označených riadkov"
+    Ext.define("Ext.locale.sk.grid.plugin.DragDrop", {
+        override: "Ext.grid.plugin.DragDrop",
+        dragText: "{0} označených riadkov"
     });
 
     Ext.define("Ext.locale.sk.TabPanelItem", {
@@ -73,9 +90,9 @@ Ext.onReady(function() {
         disabledDatesText: "",
         monthNames: Ext.Date.monthNames,
         dayNames: Ext.Date.dayNames,
-        nextText: 'Ďalší Mesiac (Control+Doprava)',
-        prevText: 'Predch. Mesiac (Control+Doľava)',
-        monthYearText: 'Vyberte Mesiac (Control+Hore/Dole pre posun rokov)',
+        nextText: 'Ďalší mesiac (Control+Doprava)',
+        prevText: 'Predchádzajúci mesiac (Control+Doľava)',
+        monthYearText: 'Vyberte mesiac (Control+Hore/Dole pre posun rokov)',
         todayTip: "{0} (Medzerník)",
         format: "d.m.Y"
     });
@@ -84,13 +101,13 @@ Ext.onReady(function() {
         override: "Ext.PagingToolbar",
         beforePageText: "Strana",
         afterPageText: "z {0}",
-        firstText: "Prvá Strana",
-        prevText: "Predch. Strana",
-        nextText: "Ďalšia Strana",
+        firstText: 'Prvá strana',
+        prevText: 'Predchádzajúca strana',
+        nextText: 'Ďalšia strana',
         lastText: "Posledná strana",
         refreshText: "Obnoviť",
         displayMsg: "Zobrazujem {0} - {1} z {2}",
-        emptyMsg: 'iadne dáta'
+        emptyMsg: 'Žiadne dáta'
     });
 
     Ext.define("Ext.locale.sk.form.field.Text", {
@@ -141,9 +158,9 @@ Ext.onReady(function() {
         override: "Ext.grid.header.Container",
         sortAscText: "Zoradiť vzostupne",
         sortDescText: "Zoradiť zostupne",
-        lockText: "Zamknúť stľpec",
-        unlockText: "Odomknúť stľpec",
-        columnsText: "Stľpce"
+        lockText: 'Zamknúť stĺpec',
+        unlockText: 'Odomknúť stĺpec',
+        columnsText: 'Stĺpce'
     });
 
     Ext.define("Ext.locale.sk.grid.PropertyColumnModel", {

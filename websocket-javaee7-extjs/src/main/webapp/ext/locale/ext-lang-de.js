@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * German translation
  * 2007-Apr-07 update by schmidetzki and humpdi
@@ -9,18 +26,14 @@ Ext.onReady(function() {
     var cm = Ext.ClassManager,
         exists = Ext.Function.bind(cm.get, cm);
 
-    if (Ext.Updater) {
-        Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Übertrage Daten ...</div>';
-    }
-
     Ext.define("Ext.locale.de.view.View", {
         override: "Ext.view.View",
         emptyText: ""
     });
 
-    Ext.define("Ext.locale.de.grid.Panel", {
-        override: "Ext.grid.Panel",
-        ddText: "{0} Zeile(n) ausgewählt"
+    Ext.define("Ext.locale.de.grid.plugin.DragDrop", {
+        override: "Ext.grid.plugin.DragDrop",
+        dragText: "{0} Zeile(n) ausgewählt"
     });
 
     Ext.define("Ext.locale.de.TabPanelItem", {
@@ -37,15 +50,21 @@ Ext.onReady(function() {
         override: "Ext.form.field.Base",
         invalidText: "Der Wert des Feldes ist nicht korrekt"
     });
+    
+    Ext.define("Ext.locale.de.LoadMask", {
+        override: "Ext.LoadMask",
+        msg: "Lade Daten..."
+    });
 
-    // changing the msg text below will affect the LoadMask
     Ext.define("Ext.locale.de.view.AbstractView", {
         override: "Ext.view.AbstractView",
-        msg: "Übertrage Daten..."
+        loadingText: "Lade Daten..."
     });
 
     if (Ext.Date) {
         Ext.Date.monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
+        
+        Ext.Date.defaultFormat = 'd.m.Y';
 
         Ext.Date.getShortMonthName = function(month) {
             return Ext.Date.monthNames[month].substring(0, 3);
@@ -168,7 +187,8 @@ Ext.onReady(function() {
         maxText: "Das Datum in diesem Feld muss vor dem {0} liegen",
         invalidText: "{0} ist kein gültiges Datum - es muss im Format {1} eingegeben werden",
         format: "d.m.Y",
-        altFormats: "j.n.Y|j.n.y|j.n.|j.|j/n/Y|j/n/y|j-n-y|j-n-Y|j/n|j-n|dm|dmy|dmY|j|Y-n-j"
+        altFormats: "j.n.Y|j.n.y|j.n.|j.|j/n/Y|j/n/y|j-n-y|j-n-Y|j/n|j-n|dm|dmy|dmY|j|Y-n-j|Y-m-d",
+        startDay: 1
     });
 
     Ext.define("Ext.locale.de.form.field.ComboBox", {
@@ -279,7 +299,7 @@ Ext.onReady(function() {
     });
 
     Ext.define("Ext.locale.de.grid.GroupingFeature", {
-        override: "Ext.grid.GroupingFeature",
+        override: "Ext.grid.feature.Grouping",
         emptyGroupText: '(Keine)',
         groupByText: 'Dieses Feld gruppieren',
         showGroupsText: 'In Gruppen anzeigen'

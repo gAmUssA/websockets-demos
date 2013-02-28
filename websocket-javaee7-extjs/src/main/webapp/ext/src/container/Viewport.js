@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * A specialized container representing the viewable application area (the browser viewport).
  *
@@ -116,9 +133,9 @@ Ext.define('Ext.container.Viewport', {
     initComponent : function() {
         var me = this,
             html = document.body.parentNode,
-            el;
+            el = me.el = Ext.getBody();
 
-        // Get the DOM disruption over with beforfe the Viewport renders and begins a layout
+        // Get the DOM disruption over with before the Viewport renders and begins a layout
         Ext.getScrollbarSize();
         
         // Clear any dimensions, we will size later on
@@ -127,16 +144,18 @@ Ext.define('Ext.container.Viewport', {
         me.callParent(arguments);
         Ext.fly(html).addCls(Ext.baseCSSPrefix + 'viewport');
         if (me.autoScroll) {
+            Ext.fly(html).setStyle(me.getOverflowStyle());
             delete me.autoScroll;
-            Ext.fly(html).setStyle('overflow', 'auto');
         }
-        me.el = el = Ext.getBody();
-        el.setHeight = Ext.emptyFn;
-        el.setWidth = Ext.emptyFn;
-        el.setSize = Ext.emptyFn;
+        el.setHeight = el.setWidth = Ext.emptyFn;
         el.dom.scroll = 'no';
         me.allowDomMove = false;
         me.renderTo = me.el;
+    },
+    
+    // override here to prevent an extraneous warning
+    applyTargetCls: function(targetCls) {
+        this.el.addCls(targetCls);
     },
     
     onRender: function() {
@@ -165,5 +184,9 @@ Ext.define('Ext.container.Viewport', {
         if (width != this.width || height != this.height) {
             this.setSize(width, height);
         }
+    },
+
+    initHierarchyState: function(hierarchyState) {
+        this.callParent([this.hierarchyState = Ext.rootHierarchyState]);
     }
 });

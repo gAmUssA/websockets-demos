@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * This class functions **between siblings of a {@link Ext.layout.container.VBox VBox} or {@link Ext.layout.container.HBox HBox}
  * layout** to resize both immediate siblings.
@@ -23,7 +40,8 @@ Ext.define('Ext.resizer.Splitter', {
     renderTpl: [
         '<tpl if="collapsible===true">',
             '<div id="{id}-collapseEl" class="', Ext.baseCSSPrefix, 'collapse-el ',
-                Ext.baseCSSPrefix, 'layout-split-{collapseDir}">&#160;</div>',
+                Ext.baseCSSPrefix, 'layout-split-{collapseDir}{childElCls}">&#160;',
+            '</div>',
         '</tpl>'
     ],
 
@@ -93,6 +111,13 @@ Ext.define('Ext.resizer.Splitter', {
     vertical: false,
 
     /**
+     * @cfg {Number} size
+     * The size of the splitter. This becomes the height for vertical splitters and 
+     * width for horizontal splitters.
+     */
+    size: 5,
+
+    /**
      * Returns the config object (with an `xclass` property) for the splitter tracker. This
      * is overridden by {@link Ext.resizer.BorderSplitter BorderSplitter} to create a
      * {@link Ext.resizer.BorderSplitterTracker BorderSplitterTracker}.
@@ -121,7 +146,7 @@ Ext.define('Ext.resizer.Splitter', {
             me[stretchSizeProp] = '100%';
         }
         if (!me.hasOwnProperty(fixedSizeProp)) {
-            me[fixedSizeProp] = 5;
+            me[fixedSizeProp] = me.size;
         }
 
         if (target.collapsed) {
@@ -138,6 +163,8 @@ Ext.define('Ext.resizer.Splitter', {
             collapseDir: collapseDir,
             collapsible: me.collapsible || target.collapsible
         });
+
+        me.protoEl.unselectable();
     },
 
     onRender: function() {
@@ -162,7 +189,6 @@ Ext.define('Ext.resizer.Splitter', {
             scope: me
         });
 
-        me.el.unselectable();
         if (me.canResize) {
             me.tracker = Ext.create(me.getTrackerConfig());
             // Relay the most important events to our owner (could open wider later):

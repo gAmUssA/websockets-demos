@@ -1,0 +1,11 @@
+{
+    "name": "ext-theme-classic",
+    "type": "LIB",
+    "version": "4.2.0.489",
+    "compatVersion": "4.2.0",
+    "extend": "ext-theme-neutral",
+    "requires": [{
+		"name": "ext-theme-neutral",
+		"version": "4.2.0.489"
+	}]
+}

@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @author Ed Spencer
  * @class Ext.data.association.BelongsTo
@@ -189,15 +206,27 @@ Ext.define('Ext.data.association.BelongsTo', {
      */
     createSetter: function() {
         var me = this,
-            foreignKey = me.foreignKey;
+            foreignKey = me.foreignKey,
+            instanceName = me.instanceName;
 
         //'this' refers to the Model instance inside this function
         return function(value, options, scope) {
-            // If we pass in an instance, pull the id out
-            if (value && value.isModel) {
-                value = value.getId();
+            // If we were passed a record, the value to set is the key of that record.
+            var setByRecord = value && value.isModel,
+                valueToSet = setByRecord ? value.getId() : value;
+
+            // Setter was passed a record.
+            if (setByRecord) {
+                this[instanceName] = value;
             }
-            this.set(foreignKey, value);
+
+            // Otherwise, if the key of foreign record !== passed value, delete the cached foreign record
+            else if (this[instanceName] instanceof Ext.data.Model && !this.isEqual(this.get(foreignKey), valueToSet)) {
+                delete this[instanceName];
+            }
+
+            // Set the forign key value
+            this.set(foreignKey, valueToSet);
 
             if (Ext.isFunction(options)) {
                 options = {

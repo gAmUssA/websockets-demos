@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @private
  * Base class for Box Layout overflow handlers. These specialized classes are invoked when a Box Layout
@@ -18,9 +35,8 @@ Ext.define('Ext.layout.container.boxOverflow.None', {
 
     beginLayout: Ext.emptyFn,
     beginLayoutCycle: Ext.emptyFn,
-    finishedLayout: Ext.emptyFn,
 
-    completeLayout: function (ownerContext) {
+    calculate: function(ownerContext) {
         var me = this,
             plan = ownerContext.state.boxPlan,
             overflow;
@@ -46,6 +62,25 @@ Ext.define('Ext.layout.container.boxOverflow.None', {
             }
         } else {
             me.clearOverflow();
+        }
+    },
+
+    completeLayout: Ext.emptyFn,
+
+    finishedLayout: function (ownerContext) {
+        var me = this,
+            owner = me.layout.owner,
+            hiddens,
+            hiddenCount;
+
+        // Only count hidden children if someone is interested when the overflow state changes
+        if (owner.hasListeners.overflowchange) {
+            hiddens = owner.query('>[hidden]');
+            hiddenCount = hiddens.length;
+            if (hiddenCount !== me.lastHiddenCount) {
+                owner.fireEvent('overflowchange', me.lastHiddenCount, hiddenCount, hiddens);
+                me.lastHiddenCount = hiddenCount;
+            }
         }
     },
 

@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Exports a {@link Ext.draw.Surface Surface} to an image. To do this,
  * the svg string must be sent to a remote server and processed.
@@ -22,6 +39,7 @@
  * **Important**: By default, chart data is sent to a server operated
  * by Sencha to do data processing. You may change this default by
  * setting the {@link #defaultUrl} of this class.
+ * In addition, please note that this service only creates PNG images.
  */
 Ext.define('Ext.draw.engine.ImageExporter', {
     singleton: true,

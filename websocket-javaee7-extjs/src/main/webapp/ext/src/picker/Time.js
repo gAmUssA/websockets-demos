@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * A time picker which provides a list of times from which to choose. This is used by the Ext.form.field.Time
  * class to allow browsing and selection of valid times, but could also be used with other components.
@@ -83,6 +100,14 @@ Ext.define('Ext.picker.Time', {
         me.absMax = dateUtil.add(clearTime(new Date(initDate[0], initDate[1], initDate[2])), 'mi', (24 * 60) - 1);
 
         me.store = me.createStore();
+
+        // Add our min/max range filter, but do not apply it.
+        // The owning TimeField will filter it.
+        me.store.addFilter(me.rangeFilter = new Ext.util.Filter({
+            id: 'time-picker-filter'
+        }), false);
+
+        // Updates the range filter's filterFn according to our configured min and max
         me.updateList();
 
         me.callParent();
@@ -129,10 +154,11 @@ Ext.define('Ext.picker.Time', {
             min = me.normalizeDate(me.minValue || me.absMin),
             max = me.normalizeDate(me.maxValue || me.absMax);
 
-        me.store.filterBy(function(record) {
+        me.rangeFilter.setFilterFn(function(record) {
             var date = record.get('date');
             return date >= min && date <= max;
         });
+        me.store.filter();
     },
 
     /**
@@ -160,6 +186,12 @@ Ext.define('Ext.picker.Time', {
             fields: ['disp', 'date'],
             data: times
         });
+    },
+
+    focusNode: function (rec) {
+        // We don't want the view being focused when interacting with the inputEl (see Ext.form.field.ComboBox:onKeyUp)
+        // so this is here to prevent focus of the boundlist view. See EXTJSIV-7319.
+        return false;
     }
 
 });

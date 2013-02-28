@@ -1,3 +1,21 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
+//@tag core
 /**
  * A template class that supports advanced functionality like:
  *
@@ -38,6 +56,8 @@
  * - If the value specified in for is an array, it will auto-fill, repeating the template block inside the tpl
  *   tag for each item in the array.
  * - If for="." is specified, the data object provided is examined.
+ * - If between="..." is specified, the provided value will be inserted between the items.
+ *   This is also supported in the "foreach" looping template.
  * - While processing an array, the special variable {#} will provide the current array index + 1 (starts at 1, not 0).
  *
  * Examples:
@@ -45,6 +65,7 @@
  *     <tpl for=".">...</tpl>       // loop through array at root node
  *     <tpl for="foo">...</tpl>     // loop through array at foo node
  *     <tpl for="foo.bar">...</tpl> // loop through array at foo.bar node
+ *     <tpl for="." between=",">...</tpl> // loop through array at root node and insert ',' between each item
  *
  * Using the sample data above:
  *
@@ -93,6 +114,19 @@
  *                 '<p>Dad: {parent.name}</p>',
  *             '</tpl>',
  *         '</tpl></p>'
+ *     );
+ *     tpl.overwrite(panel.body, data);
+ *     
+ * The **foreach** operator is used to loop over an object's properties.  The following
+ * example demonstrates looping over the main data object's properties:
+ * 
+ *     var tpl = new Ext.XTemplate(
+ *         '<dl>',
+ *             '<tpl foreach=".">',
+ *                 '<dt>{$}</dt>', // the special **`{$}`** variable contains the property name
+ *                 '<dd>{.}</dd>', // within the loop, the **`{.}`** variable is set to the property value
+ *             '</tpl>',
+ *         '</dl>'
  *     );
  *     tpl.overwrite(panel.body, data);
  *
@@ -193,8 +227,10 @@
  * - **values**: The values in the current scope. If you are using scope changing sub-templates,
  *   you can change what values is.
  * - **parent**: The scope (values) of the ancestor template.
- * - **xindex**: If you are in a looping template, the index of the loop you are in (1-based).
- * - **xcount**: If you are in a looping template, the total length of the array you are looping.
+ * - **xindex**: If you are in a "for" or "foreach" looping template, the index of the loop you are in (1-based).
+ * - **xcount**: If you are in a "for" looping template, the total length of the array you are looping.
+ * - **xkey**: If you are in a "foreach" looping template, the key of the current property
+ * being examined.
  *
  * This example demonstrates basic row striping using an inline code block and the xindex variable:
  *
@@ -272,6 +308,7 @@ Ext.define('Ext.XTemplate', {
      * @cfg {Boolean} compiled
      * Only applies to {@link Ext.Template}, XTemplates are compiled automatically on the
      * first call to {@link #apply} or {@link #applyOut}.
+     * @hide
      */
 
     /**
@@ -298,7 +335,7 @@ Ext.define('Ext.XTemplate', {
         }
 
         try {
-            me.fn.call(me, out, values, parent || me.emptyObj, 1, 1);
+            me.fn(out, values, parent || me.emptyObj, 1, 1);
         } catch (e) {
             //<debug>
             Ext.log('Error: ' + e.message);
@@ -323,27 +360,40 @@ Ext.define('Ext.XTemplate', {
          * shared by all classes that derive from that base. To further complicate matters,
          * these templates are seldom actual instances but are rather configurations. For
          * example:
-         * 
+         *
          *      Ext.define('MyApp.Class', {
+         *          extraCls: 'extra-class',
+         *
          *          someTpl: [
-         *              'tpl text here'
-         *          ]
+         *              '<div class="{%this.emitClass(out)%}"></div>',
+         *          {
+         *              // Member fn - outputs the owing class's extra CSS class
+         *              emitClass: function(out) {
+         *                  out.push(this.owner.extraCls);
+         *              }
+         *          }]
          *      });
-         * 
+         *
          * The goal being to share that template definition with all instances and even
          * instances of derived classes, until `someTpl` is overridden. This method will
          * "upgrade" these configurations to be real `XTemplate` instances *in place* (to
          * avoid creating one instance per object).
+         *
+         * The resulting XTemplate will have an `owner` reference injected which refers back
+         * to the owning object whether that is an object which has an *own instance*, or a
+         * class prototype. Through this link, XTemplate member functions will be able to access
+         * prototype properties of its owning class.
          *
          * @param {Object} instance The object from which to get the `XTemplate` (must be
          * an instance of an {@link Ext#define}'d class).
          * @param {String} name The name of the property by which to get the `XTemplate`.
          * @return {Ext.XTemplate} The `XTemplate` instance or null if not found.
          * @protected
+         * @static
          */
         getTpl: function (instance, name) {
             var tpl = instance[name], // go for it! 99% of the time we will get it!
-                proto;
+                owner;
 
             if (tpl && !tpl.isTemplate) { // tpl is just a configuration (not an instance)
                 // create the template instance from the configuration:
@@ -351,15 +401,13 @@ Ext.define('Ext.XTemplate', {
 
                 // and replace the reference with the new instance:
                 if (instance.hasOwnProperty(name)) { // the tpl is on the instance
-                    instance[name] = tpl;
+                    owner = instance;
                 } else { // must be somewhere in the prototype chain
-                    for (proto = instance.self.prototype; proto; proto = proto.superclass) {
-                        if (proto.hasOwnProperty(name)) {
-                            proto[name] = tpl;
-                            break;
-                        }
+                    for (owner = instance.self.prototype; owner && !owner.hasOwnProperty(name); owner = owner.superclass) {
                     }
                 }
+                owner[name] = tpl;
+                tpl.owner = owner;
             }
             // else !tpl (no such tpl) or the tpl is an instance already... either way, tpl
             // is ready to return

@@ -1,0 +1,96 @@
+.#{$prefix}grid-row-editor {
+    position: absolute !important;
+    z-index: 1;
+    zoom: 1;
+    overflow: visible !important;
+
+    .#{$prefix}form-checkbox {
+        margin-top: $grid-row-editor-checkbox-margin-top;
+        margin-left: $grid-row-editor-checkbox-margin-left;
+    }
+    .#{$prefix}form-display-field {
+        font: $grid-editor-font;
+    }
+
+    .#{$prefix}panel-body {
+        background-color: $grid-row-editor-background-color;
+        border-top: $grid-row-editor-border;
+        border-bottom: $grid-row-editor-border;
+        padding: $grid-row-editor-padding;
+    }
+}
+
+.#{$prefix}grid-row-editor-buttons {
+    background-color: $grid-row-editor-background-color;
+    position: absolute;
+    bottom: -31px;
+    padding: 4px;
+    height: 32px;
+
+    .#{$prefix}strict .#{$prefix}ie7m & {
+        width: 192px;
+        height: 24px;
+    }
+}
+
+.#{$prefix}grid-row-editor-buttons-ml,
+.#{$prefix}grid-row-editor-buttons-mr,
+.#{$prefix}grid-row-editor-buttons-bl,
+.#{$prefix}grid-row-editor-buttons-br,
+.#{$prefix}grid-row-editor-buttons-bc {
+    position: absolute;
+    overflow: hidden;
+}
+
+.#{$prefix}grid-row-editor-buttons-bl,
+.#{$prefix}grid-row-editor-buttons-br {
+    width: 4px;
+    height: 4px;
+    bottom: 0px;
+    background-image: theme-background-image('panel/panel-default-framed-corners');
+}
+.#{$prefix}grid-row-editor-buttons-bl {
+    left: 0px;
+    background-position: 0px -16px;
+}
+.#{$prefix}grid-row-editor-buttons-br {
+    right: 0px;
+    background-position: 0px -20px;
+}
+
+.#{$prefix}grid-row-editor-buttons-bc {
+    position: absolute;
+    left: 4px;
+    bottom: 0px;
+    width: 192px;
+    height: 1px;
+    background-color: $grid-row-editor-border-color;
+}
+
+.#{$prefix}grid-row-editor-buttons-ml,
+.#{$prefix}grid-row-editor-buttons-mr {
+    height: 27px;
+    width: 1px;
+    top: 1px;
+    background-color: $grid-row-editor-border-color;
+}
+.#{$prefix}grid-row-editor-buttons-ml {
+    left: 0px
+}
+.#{$prefix}grid-row-editor-buttons-mr {
+    background-position: 0px -20px;
+    right: 0px;
+}
+
+.#{$prefix}grid-row-editor-errors {
+    ul {
+        margin-left: 5px;
+    }
+    li {
+        list-style: disc;
+        margin-left: 15px;
+    }
+}
+
+
+

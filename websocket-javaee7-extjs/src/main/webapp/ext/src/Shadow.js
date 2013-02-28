@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Simple class that can provide a shadow effect for any element.  Note that the element
  * MUST be absolutely positioned, and the shadow does not provide any shimming.  This
@@ -6,6 +23,11 @@
  */
 Ext.define('Ext.Shadow', {
     requires: ['Ext.ShadowPool'],
+
+    localXYNames: {
+        get: 'getLocalXY',
+        set: 'setLocalXY'
+    },
 
     /**
      * Creates new Shadow.
@@ -80,6 +102,24 @@ Ext.define('Ext.Shadow', {
                     };
                 }
                 break;
+            case "bottom":
+                if (Ext.supports.CSS3BoxShadow) {
+                    adjusts = {
+                        t: offset,
+                        l: 0,
+                        h: -offset,
+                        w: 0
+                    };
+                }
+                else {
+                    adjusts = {
+                        t: offset,
+                        l: 0,
+                        h: 0,
+                        w: 0
+                    };
+                }
+                break;
         }
         me.adjusts = adjusts;
     },
@@ -148,7 +188,7 @@ Ext.define('Ext.Shadow', {
      */
     show: function(target) {
         var me = this,
-            index;
+            index, xy;
         
         target = Ext.get(target);
         if (!me.el) {
@@ -162,9 +202,10 @@ Ext.define('Ext.Shadow', {
         if (Ext.isIE && !Ext.supports.CSS3BoxShadow) {
             me.el.dom.style.filter = "progid:DXImageTransform.Microsoft.alpha(opacity=" + me.opacity + ") progid:DXImageTransform.Microsoft.Blur(pixelradius=" + (me.offset) + ")";
         }
+        xy = target[me.localXYNames.get]();
         me.realign(
-            target.getLocalX(),
-            target.getLocalY(),
+            xy[0],
+            xy[1],
             target.dom.offsetWidth,
             target.dom.offsetHeight
         );
@@ -191,15 +232,14 @@ Ext.define('Ext.Shadow', {
             return;
         }
         var adjusts = this.adjusts,
-            d = this.el.dom,
-            targetStyle = d.style,
+            el = this.el,
+            targetStyle = el.dom.style,
             shadowWidth,
             shadowHeight,
             sws,
             shs;
 
-        targetStyle.left = (l + adjusts.l) + "px";
-        targetStyle.top = (t + adjusts.t) + "px";
+        el[this.localXYNames.set](l + adjusts.l, t + adjusts.t);
         shadowWidth = Math.max(targetWidth + adjusts.w, 0);
         shadowHeight = Math.max(targetHeight + adjusts.h, 0);
         sws = shadowWidth + "px";
@@ -209,7 +249,7 @@ Ext.define('Ext.Shadow', {
             targetStyle.height = shs;
 
             if (Ext.supports.CSS3BoxShadow) {
-                targetStyle[this.boxShadowProperty] = '0 0 ' + this.offset + 'px #888';
+                targetStyle[this.boxShadowProperty] = '0 0 ' + (this.offset + 2) + 'px #888';
             }
         }
     },

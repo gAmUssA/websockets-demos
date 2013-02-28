@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * @author Aaron Conran
  * @docauthor Ed Spencer
@@ -163,7 +180,7 @@
  *
  * - {@link Ext.toolbar.Paging Paging toolbar} - paging through large sets of data.
  *
- * - {@link Ext.grid.PagingScroller Infinite scrolling} - another way to handle large sets of data.
+ * - {@link Ext.grid.plugin.BufferedRenderer Infinite scrolling} - another way to handle large sets of data.
  *
  * - {@link Ext.grid.RowNumberer RowNumberer} - automatically numbered rows.
  *
@@ -182,24 +199,6 @@ Ext.define('Ext.grid.Panel', {
 
     lockable: false,
 
-    // Required for the Lockable Mixin. These are the configurations which will be copied to the
-    // normal and locked sub tablepanels
-    bothCfgCopy: [
-        'invalidateScrollerOnRefresh',
-        'hideHeaders',
-        'enableColumnHide',
-        'enableColumnMove',
-        'enableColumnResize',
-        'sortableColumns'
-    ],
-    normalCfgCopy: [ 
-        'verticalScroller', 
-        'verticalScrollDock', 
-        'verticalScrollerType', 
-        'scroll'
-    ],
-    lockedCfgCopy: [],
-
     /**
      * @cfg {Boolean} rowLines False to remove row line styling
      */
@@ -212,11 +211,23 @@ Ext.define('Ext.grid.Panel', {
      */
 
     /**
+     * @event beforereconfigure
+     * Fires before a reconfigure to enable modification of incoming Store and columns.
+     * @param {Ext.grid.Panel} this
+     * @param {Ext.data.Store} store The store that was passed to the {@link #method-reconfigure} method
+     * @param {Object[]} columns The column configs that were passed to the {@link #method-reconfigure} method
+     * @param {Ext.data.Store} oldStore The store that will be replaced
+     * @param {Ext.grid.column.Column[]} The column headers that will be replaced.
+     */
+
+    /**
      * @event reconfigure
      * Fires after a reconfigure.
      * @param {Ext.grid.Panel} this
      * @param {Ext.data.Store} store The store that was passed to the {@link #method-reconfigure} method
      * @param {Object[]} columns The column configs that were passed to the {@link #method-reconfigure} method
+     * @param {Ext.data.Store} oldStore The store that was replaced
+     * @param {Ext.grid.column.Column[]} The column headers that were replaced.
      */
 
     /**

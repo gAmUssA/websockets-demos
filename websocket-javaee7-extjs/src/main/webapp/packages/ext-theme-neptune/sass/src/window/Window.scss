@@ -1,0 +1,8 @@
+.#{$prefix}window-header {
+    .#{$prefix}tool-over {
+        background-image: theme-background-image('tools/tool-bg-over');
+    }
+    .#{$prefix}tool-pressed {
+        background-image: theme-background-image('tools/tool-bg-pressed');
+    }
+}

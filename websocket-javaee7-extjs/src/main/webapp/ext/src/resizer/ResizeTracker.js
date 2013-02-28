@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 /**
  * Private utility class for Ext.resizer.Resizer.
  * @private
@@ -60,7 +77,7 @@ Ext.define('Ext.resizer.ResizeTracker', {
 
     onBeforeStart: function(e) {
         // record the startBox
-        this.startBox = this.el.getBox();
+        this.startBox = this.target.getBox();
     },
 
     /**
@@ -95,11 +112,6 @@ Ext.define('Ext.resizer.ResizeTracker', {
             proxy = target.getProxy().addCls(cls);
         } else {
             renderTo = Ext.getBody();
-            if (Ext.scopeResetCSS) {
-                renderTo = Ext.getBody().createChild({
-                    cls: Ext.resetCls
-                });
-            }
             proxy = target.createProxy({
                 tag: 'div',
                 cls: cls,
@@ -149,6 +161,8 @@ Ext.define('Ext.resizer.ResizeTracker', {
             axis, // 1 = x, 2 = y, 3 = x and y.
             newBox,
             newHeight, newWidth;
+
+        region = me.convertRegionName(region);
 
         switch (region) {
             case 'south':
@@ -313,27 +327,14 @@ Ext.define('Ext.resizer.ResizeTracker', {
     },
 
     resize: function(box, direction, atEnd) {
-        var target = this.getResizeTarget(atEnd);
-        if (target.isComponent) {
-            target.setSize(box.width, box.height);
-            if (target.floating) {
-                target.setPagePosition(box.x, box.y);
-            }
-        } else {
-            target.setBox(box);
-        }
+        var me = this,
+            target = me.getResizeTarget(atEnd);
+
+        target.setBox(box);
 
         // update the originalTarget if it was wrapped, and the target passed in was the wrap el.
-        target = this.originalTarget;
-        if (target && (this.dynamic || atEnd)) {
-            if (target.isComponent) {
-                target.setSize(box.width, box.height);
-                if (target.floating) {
-                    target.setPagePosition(box.x, box.y);
-                }
-            } else {
-                target.setBox(box);
-            }
+        if (me.originalTarget && (me.dynamic || atEnd)) {
+            me.originalTarget.setBox(box);
         }
     },
 
@@ -342,5 +343,9 @@ Ext.define('Ext.resizer.ResizeTracker', {
         if (this.proxy) {
             this.proxy.hide();
         }
+    },
+
+    convertRegionName: function(name) {
+        return name;
     }
 });

@@ -1,4 +1,21 @@
 /*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
+/*
  * The dirty implementation in this class is quite naive. The reasoning for this is that the dirty state
  * will only be used in very specific circumstances, specifically, after the render process has begun but
  * the component is not yet rendered to the DOM. As such, we want it to perform as quickly as possible
@@ -70,6 +87,7 @@ Ext.define('Ext.util.ProtoElement', (function () {
             this.removedClasses = {};
             // clear the style, it will be recreated if we add anything new
             delete this.style;
+            delete this.unselectableAttr;
         },
 
         /**
@@ -79,7 +97,7 @@ Ext.define('Ext.util.ProtoElement', (function () {
          */
         addCls: function (cls) {
             var me = this,
-                add = splitWords(cls),
+                add = (typeof cls === 'string') ? splitWords(cls) : cls,
                 length = add.length,
                 list = me.classList,
                 map = me.classMap,
@@ -167,6 +185,15 @@ Ext.define('Ext.util.ProtoElement', (function () {
             return me;
         },
 
+        unselectable: function() {
+            // See Ext.dom.Element.unselectable for an explanation of what is required to make an element unselectable
+            this.addCls(Ext.dom.Element.unselectableCls);
+
+            if (Ext.isOpera) {
+                this.unselectableAttr = true;
+            }
+        },
+
         /**
          * Writes style and class properties to given object.
          * Styles will be written to {@link #styleProp} and class names to {@link #clsProp}.
@@ -197,6 +224,10 @@ Ext.define('Ext.util.ProtoElement', (function () {
                 if (removedClasses.length) {
                     to[me.removedProp] = removedClasses.join(' ');
                 }
+            }
+
+            if (me.unselectableAttr) {
+                to.unselectable = 'on';
             }
 
             return to;

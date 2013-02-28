@@ -1,3 +1,20 @@
+/*
+This file is part of Ext JS 4.2
+
+Copyright (c) 2011-2013 Sencha Inc
+
+Contact:  http://www.sencha.com/contact
+
+Pre-release code in the Ext repository is intended for development purposes only and will
+not always be stable. 
+
+Use of pre-release code is permitted with your application at your own risk under standard
+Ext license terms. Public redistribution is prohibited.
+
+For early licensing, please contact us at licensing@sencha.com
+
+Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+*/
 ﻿
 /**
  * France (France) translation
@@ -19,9 +36,9 @@ Ext.onReady(function() {
         emptyText: ""
     });
 
-    Ext.define("Ext.locale.fr.grid.Panel", {
-        override: "Ext.grid.Panel",
-        ddText: "{0} ligne{1} sélectionnée{1}"
+    Ext.define("Ext.locale.fr.grid.plugin.DragDrop", {
+        override: "Ext.grid.plugin.DragDrop",
+        dragText: "{0} ligne{1} sélectionnée{1}"
     });
 
     // changing the msg text below will affect the LoadMask
@@ -51,6 +68,7 @@ Ext.onReady(function() {
             "Mai": 4,
             "Juin": 5,
             "Juillet": 6,
+            "Juil": 6, 
             "Août": 7,
             "Septembre": 8,
             "Sept": 8,
@@ -161,6 +179,11 @@ Ext.onReady(function() {
         minText: "La valeur minimum de ce champ doit être de {0}",
         maxText: "La valeur maximum de ce champ doit être de {0}",
         nanText: "{0} n'est pas un nombre valide"
+    });
+
+    Ext.define("Ext.locale.fr.form.field.File", { 
+        override: "Ext.form.field.File", 
+        buttonText: "Parcourir..." 
     });
 
     Ext.define("Ext.locale.fr.form.field.Date", {
