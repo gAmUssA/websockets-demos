@@ -108,6 +108,5 @@ Ext.define('Clear.data.Operation', {
 	        	result = resultSet.records;
     	} 
     	return result;
-    },
- 
+    }
 });

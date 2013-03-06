@@ -1,4 +1,4 @@
-package demos.common.domain;
+package demo.common.domain;
 
 /**
  * TODO

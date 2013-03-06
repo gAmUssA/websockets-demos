@@ -7,6 +7,10 @@ Ext.define('WebSocketDemo.controller.Main', {
         {
             ref: 'TheMyPanel',
             selector: 'mypanel'
+        },
+        {
+            ref: 'stockGrid',
+            selector: 'stockgrid'
         }
     ],
     init: function () {
@@ -38,23 +42,45 @@ Ext.define('WebSocketDemo.controller.Main', {
                 }
             }
         });
-        Ext.ux.WebSocketManager.register (ws);
+        Ext.ux.WebSocketManager.register(ws);
     },
     onMessage: function (data) {
-        console.log("data: " + data);
+        //console.log("data: " + data);
+        // TODO fix override issue
         var myStore = this.getStockStore();
         var a = Ext.JSON.decode(data);
-        //delete a.id;
+
+        if (Object.prototype.toString.call(a) === '[object Array]') {
+            myStore.loadRawData(a, false);
+            return;
+        }
+
         var record = myStore.createModel(a);
-        //record.set({'symbol': a.symbol, 'price': a.price});
+
+        var index = myStore.findBy(function (record, index) {
+            return record.get("symbol") === a.symbol;
+        });
+
+        if (index !== -1) {
+            var diff = (myStore.getAt(index).get('price')) - (record.get('price'));
+            record.set('change', parseFloat(diff).toFixed(4));
+        }
+
+        myStore.removeAt(index);
         myStore.add(record);
+        var row = this.getStockGrid().getView().getNode(index);
+        //this.getStockGrid().getView().select(index);
 
-        /*var store = this.getStore('WebSocketDemo.store.StockStore');
-        var modelInst = store.createModel({symbol:"MSFT",price:"8.670652407001079",id:1023332});
+        var select = Ext.get(row).select('td');
+        select.highlight("3892d3", {
+            attr: "backgroundColor",
+            easing: 'easeOut',
+            duration: 500
+        });
 
-        store.add(modelInst);*/
+
     },
-    onCloseClick: function(data){
+    onCloseClick: function (data) {
         console.log("closing connection...");
         Ext.ux.WebSocketManager.closeAll();
     }

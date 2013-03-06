@@ -56,6 +56,6 @@ Ext.define('Clear.override.direct.RemotingProvider', {
     	            type: 'rpc',
     	            tid: transaction.id
     	        };
-    	    },
+           }
    });
 } );

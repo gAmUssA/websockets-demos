@@ -1,35 +1,30 @@
 Ext.define('WebSocketDemo.view.MyGridPanel', {
-    extend: 'Ext.grid.Panel',
+    extend: 'Ext.panel.Panel',
     alias: 'widget.mypanel',
     autoScroll: true,
-    store: 'StockStore',
-    plugins: [
-        /*{ptype: 'cellediting'}*/
-    ],
+    minWidth: 400,
+    minHeight: 140,
+    width: 800,
+    height: 600,
+    layout: {type: 'border', padding: 6},
+    defaults: {
+        collapsible: true,
+        split: true
+    },
 
-    columns: [
+    items: [
         {
-            header: 'id',
-            dataIndex: 'id',
-            flex: 1
+            title: 'WebSocket Stock Grid',
+            xtype: 'stockgrid',
+            flex: 6,
+            region: 'center'
         },
         {
-            header: 'price',
-            dataIndex: 'price',
-            flex: 1/*,
-            editor: {xtype: 'textfield'}*/
-
-        },
-        {
-            header: 'symbol',
-            dataIndex: 'symbol'/*,
-            flex: 1, editor: {xtype: 'textfield'}*/
-
+            xtype: 'panel',
+            flex: 4,
+            region: 'south',
+            title: 'Server-Sent Events Stock Grid',
+            html: 'south panel'
         }
-    ],
-
-    tbar: [
-        {text: 'Open', action: 'open_socket'},
-        {text: 'Close', action: 'close_socket'}
     ]
 });

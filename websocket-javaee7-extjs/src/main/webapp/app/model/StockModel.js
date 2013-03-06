@@ -11,7 +11,12 @@ Ext.define('WebSocketDemo.model.StockModel', {
         },
         {
             name: 'price',
-            type: 'string',
+            type: 'float',
+            useNull: true
+        },
+        {
+            name: 'change',
+            type: 'float',
             useNull: true
         },
         {

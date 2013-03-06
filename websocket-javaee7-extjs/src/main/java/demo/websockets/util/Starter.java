@@ -1,4 +1,4 @@
-package demos.websockets.util;
+package demo.websockets.util;
 
 /**
  * TODO

@@ -1,7 +1,7 @@
-package demos.websockets.encode;
+package demo.websockets.encode;
 
 import com.google.gson.Gson;
-import demos.common.domain.StockMessage;
+import demo.common.domain.StockMessage;
 
 import javax.websocket.DecodeException;
 import javax.websocket.Decoder;

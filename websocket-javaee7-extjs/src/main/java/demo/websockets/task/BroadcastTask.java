@@ -1,8 +1,8 @@
-package demos.websockets.task;
+package demo.websockets.task;
 
 
-import demos.websockets.controller.StocksEndpoint;
-import demos.websockets.domain.RandomStocksGenerator;
+import demo.websockets.controller.StocksEndpoint;
+import demo.common.RandomStocksGenerator;
 
 import javax.websocket.EncodeException;
 import javax.websocket.Session;
