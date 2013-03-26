@@ -1,5 +1,7 @@
 package demo.common.domain;
 
+import com.google.gson.Gson;
+
 /**
  * TODO
  *
@@ -18,6 +20,10 @@ public class StockMessage {
                 ", price='" + price + '\'' +
                 ", id='" + id + '\'' +
                 '}';
+    }
+
+    public String toJson() {
+        return new Gson().toJson(this);
     }
 
     public Integer getId() {

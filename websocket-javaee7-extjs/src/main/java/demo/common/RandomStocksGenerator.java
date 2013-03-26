@@ -75,6 +75,11 @@ public class RandomStocksGenerator {
 
     }
 
+    public static StockMessage getDataForTicker(String ticker) {
+        Double price = generator.nextDouble() * 50.0;
+        return new StockMessage(lastId.incrementAndGet(), ticker, price.toString());
+    }
+
     public static StockMessage[] getInitlaData() {
         List<StockMessage> list = new ArrayList<>();
 

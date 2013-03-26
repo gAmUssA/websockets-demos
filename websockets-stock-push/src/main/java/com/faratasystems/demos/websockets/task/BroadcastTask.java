@@ -26,12 +26,10 @@ public class BroadcastTask extends TimerTask {
         if (!owner.getParticipantList().isEmpty()) {
             for (Session s : owner.getParticipantList()) {
                 try {
-                    if (s.isActive()) {
+                    if (s.isOpen()) {
                         s.getRemote().sendObject(RandomStocksGenerator.getRandomValues());
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (EncodeException e) {
+                } catch (IOException | EncodeException e) {
                     e.printStackTrace();
                 }
             }

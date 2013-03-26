@@ -14,6 +14,7 @@ public class RestApplication extends Application {
     @Override
     public Set<Class<?>> getClasses() {
         Set<Class<?>> resources = new java.util.HashSet<>();
+        resources.add(SseResource.class);
         resources.add(RestResource.class);
         return resources;
     }

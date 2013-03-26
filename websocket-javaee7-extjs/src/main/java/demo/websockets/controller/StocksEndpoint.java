@@ -3,13 +3,14 @@ package demo.websockets.controller;
 import com.google.gson.Gson;
 import demo.common.RandomStocksGenerator;
 import demo.common.domain.StockMessage;
-import demo.websockets.encode.StockMessageEncoderDecoder;
+import demo.websockets.decode.StockMessageDecoder;
+import demo.websockets.encode.StockMessageEncoder;
 import demo.websockets.task.BroadcastTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.websocket.*;
-import javax.websocket.server.WebSocketEndpoint;
+import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -22,12 +23,12 @@ import java.util.Timer;
  * @author Viktor Gamov (viktor.gamov@faratasystems.com)
  * @since 12/20/12
  */
-@WebSocketEndpoint(value = "/stock-generator",
+@ServerEndpoint(value = "/stock-generator",
         encoders = {
-                StockMessageEncoderDecoder.class
+                StockMessageEncoder.class
         },
         decoders = {
-                StockMessageEncoderDecoder.class
+                StockMessageDecoder.class
         })
 public class StocksEndpoint {
 
@@ -49,7 +50,7 @@ public class StocksEndpoint {
         return Collections.unmodifiableList(participantList);
     }
 
-    @WebSocketOpen
+    @OnOpen
     public void onOpen(Session session) {
         logger.info("Client connected");
         addClient(session);
@@ -65,7 +66,7 @@ public class StocksEndpoint {
         try {
             if (s.isOpen()) {
                 Gson gson = new Gson();
-                s.getRemote().sendObject(gson.toJson(RandomStocksGenerator.getInitlaData()));
+                s.getBasicRemote().sendObject(gson.toJson(RandomStocksGenerator.getInitlaData()));
                 //s.getRemote().sendObject(RandomStocksGenerator.getRandomValues());
             }
         } catch (IOException | EncodeException e) {
@@ -73,13 +74,13 @@ public class StocksEndpoint {
         }
     }
 
-    @WebSocketClose
+    @OnClose
     public void onClose(Session session) {
         removeClient(session);
         logger.info("Client disconnected");
     }
 
-    @WebSocketMessage
+    @OnMessage
     public void onMessage(StockMessage message, Session client) {
         logger.info(message.toString());
     }

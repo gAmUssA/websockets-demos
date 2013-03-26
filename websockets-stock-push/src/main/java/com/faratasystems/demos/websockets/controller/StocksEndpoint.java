@@ -6,7 +6,11 @@ import com.faratasystems.demos.websockets.task.BroadcastTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.websocket.*;
+import javax.websocket.Session;
+import javax.websocket.WebSocketClose;
+import javax.websocket.WebSocketMessage;
+import javax.websocket.WebSocketOpen;
+import javax.websocket.server.WebSocketEndpoint;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -80,6 +84,4 @@ public class StocksEndpoint {
         this.isRunning = false;
         logger.info("Stopped broadcast task");
     }
-
-
 }
