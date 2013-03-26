@@ -3,10 +3,7 @@ package demo.websockets.encode;
 import com.google.gson.Gson;
 import demo.common.domain.StockMessage;
 
-import javax.websocket.DecodeException;
-import javax.websocket.Decoder;
-import javax.websocket.EncodeException;
-import javax.websocket.Encoder;
+import javax.websocket.*;
 
 /**
  * TODO
@@ -14,7 +11,7 @@ import javax.websocket.Encoder;
  * @author Viktor Gamov (viktor.gamov@faratasystems.com)
  * @since 12/20/12
  */
-public class StockMessageEncoderDecoder implements Encoder.Text<StockMessage>, Decoder.Text<StockMessage> {
+public class StockMessageEncoder implements Encoder.Text<StockMessage>, Decoder.Text<StockMessage> {
     @Override
     public String encode(StockMessage object) throws EncodeException {
         return new Gson().toJson(object);
@@ -30,5 +27,13 @@ public class StockMessageEncoderDecoder implements Encoder.Text<StockMessage>, D
     public boolean willDecode(String s) {
         // TODO
         return true;
+    }
+
+    @Override
+    public void init(EndpointConfig config) {
+    }
+
+    @Override
+    public void destroy() {
     }
 }
