@@ -31,19 +31,5 @@ Ext.define('WebSocketDemo.view.StockGrid', {
             }
             /*editor: {xtype: 'textfield'}*/
         }
-    ],
-
-    tbar: [
-        {text: 'Open WebSocket connection', action: 'open_socket'},'-',
-        {text: 'Close WebSocket connection', action: 'close_socket'},'-',
-        {text: 'Http GET-request', action: 'doGet'},
-        {
-            xtype: 'textfield',
-            width: 100,
-            emptyText: 'Ticker...',
-            enableKeyEvents: true,
-            style: 'text-align: left'
-        },'-',
-        {text: 'Subscribe to Server-Sent Events', action: 'sse_subscribe'}
     ]
 });

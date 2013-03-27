@@ -21,13 +21,19 @@ Ext.define('WebSocketDemo.controller.Main', {
                 },
                 'mypanel button[action=close_socket]': {
                     click: this.onCloseClick
+                },
+                'mypanel button[action=doRestCall]': {
+                    click: this.onRestCall
+                },
+                'mypanel button[action=sse_subscribe]': {
+                    click: this.onSseSubscribe
                 }
             }
         );
     },
 
     onOpenConnection: function (btn) {
-        var url = "ws://localhost:8080/websocket_demo/stock-generator";
+        var url = "ws://localhost:8080/html5devconf_demo/stock-generator";
         var controller = this;
         var ws = Ext.create('Ext.ux.WebSocket', {
             url: url,
@@ -44,6 +50,30 @@ Ext.define('WebSocketDemo.controller.Main', {
         });
         Ext.ux.WebSocketManager.register(ws);
     },
+
+    onSseSubscribe: function (btn) {
+        var url = "http://localhost:8080/html5devconf_demo/rest/stock/stock-generator";
+        var controller = this;
+        var sse = Ext.create('Clear.ux.EventSource', {
+            url: url,
+            listeners: {
+                open: function (sse) {
+                    console.log("event source opened");
+                },
+                message: function (sse, event) {
+                    controller.onSseMessage(event);
+                },
+                error: function (sse) {
+                }
+            }
+
+        });
+    },
+
+    onSseMessage: function (event) {
+        console.log('Received unnamed event: ' + event.data);
+    },
+
     onMessage: function (data) {
         //console.log("data: " + data);
         // TODO fix override issue
@@ -77,11 +107,13 @@ Ext.define('WebSocketDemo.controller.Main', {
             easing: 'easeOut',
             duration: 500
         });
-
-
     },
+
     onCloseClick: function (data) {
         console.log("closing connection...");
         Ext.ux.WebSocketManager.closeAll();
+    },
+    onRestCall: function (btn) {
+        console.log("calling http");
     }
 });
