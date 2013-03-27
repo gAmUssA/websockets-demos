@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import java.util.Timer;
 
 /**
@@ -24,6 +25,8 @@ public class SseResource {
 
     private static Logger logger = LoggerFactory.getLogger(SseResource.class);
 
+    private boolean isRunning = false;
+    private Timer broadcastTimer;
 
     @GET
     @Path("stock-generator")
@@ -31,23 +34,34 @@ public class SseResource {
     public EventOutput itemEvents() {
         final EventOutput eventOutput = new EventOutput();
         BROADCASTER.add(eventOutput);
+        if (!isRunning) startBroadcastTask();
         return eventOutput;
     }
 
-    private boolean isRunning = false;
-    private Timer broadcastTimer;
+    @GET
+    @Path("stop-generator")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String stopBroadcast() {
+        if (isRunning) {
+            stopBroadcastTask();
+        }
+
+        return "STOPPED";
+    }
 
     protected void startBroadcastTask() {
         broadcastTimer = new Timer();
-        broadcastTimer.schedule(new SseBroadcastTask(BROADCASTER, 0), 0, 1000);
+        broadcastTimer.schedule(new SseBroadcastTask(BROADCASTER, 0), 0, 100);
         this.isRunning = true;
         logger.info("Started SSE broadcast task");
     }
 
-    public void stopBroadcastTask() {
-        broadcastTimer.cancel();
-        broadcastTimer = null;
-        this.isRunning = false;
+    protected void stopBroadcastTask() {
+        if (broadcastTimer != null) {
+            broadcastTimer.cancel();
+            broadcastTimer = null;
+            this.isRunning = false;
+        }
         logger.info("Stopped SSE broadcast task");
     }
 }

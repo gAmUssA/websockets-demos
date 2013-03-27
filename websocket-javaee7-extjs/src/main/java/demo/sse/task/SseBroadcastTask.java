@@ -23,6 +23,8 @@ public class SseBroadcastTask extends TimerTask {
     @Override
     public void run() {
         OutboundEvent event = new OutboundEvent.Builder().data(String.class, RandomStocksGenerator.getRandomValues().toJson()).build();
+
+        //event = new OutboundEvent.Builder().mediaType(MediaType.APPLICATION_JSON_TYPE).data(S)
         owner.broadcast(event);
     }
 }
