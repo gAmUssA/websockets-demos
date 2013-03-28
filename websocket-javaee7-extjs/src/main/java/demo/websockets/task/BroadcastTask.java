@@ -1,6 +1,7 @@
 package demo.websockets.task;
 
 
+import demo.common.domain.StockMessage;
 import demo.websockets.controller.StocksEndpoint;
 import demo.common.RandomStocksGenerator;
 
@@ -24,11 +25,12 @@ public class BroadcastTask extends TimerTask {
 
     @Override
     public void run() {
+        StockMessage randomValues = RandomStocksGenerator.getRandomValues();
         if (!owner.getParticipantList().isEmpty()) {
             for (Session s : owner.getParticipantList()) {
                 try {
                     if (s.isOpen()) {
-                        s.getBasicRemote().sendObject(RandomStocksGenerator.getRandomValues());
+                        s.getBasicRemote().sendObject(randomValues);
                     }
                 } catch (IOException | EncodeException e) {
                     e.printStackTrace();
