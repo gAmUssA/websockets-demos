@@ -11,6 +11,10 @@ Ext.define('WebSocketDemo.controller.Main', {
         {
             ref: 'stockGrid',
             selector: 'stockgrid'
+        },
+        {
+            ref: 'mySseGrid',
+            selector: 'myssegrid'
         }
     ],
     init: function () {
@@ -71,20 +75,30 @@ Ext.define('WebSocketDemo.controller.Main', {
     },
 
     onSseMessage: function (event) {
-        console.log('Received unnamed event: ' + event.data);
+        //console.log('Received unnamed event: ' + event.data);
+        var query = Ext.ComponentQuery.query('stockgrid')[1];
+        var sseStore = query.getStore();
+        var index = this.handleUpdate(event.data, sseStore);
+
+        /*if (index) {
+            var row = query.getView().getNode(index);
+            //this.getStockGrid().getView().select(index);
+
+            var select = Ext.get(row).select('td');
+            select.highlight("FCEBAD", {
+                attr: "backgroundColor",
+                easing: 'easeOut',
+                duration: 500
+            });
+        }*/
     },
 
-    onMessage: function (data) {
-        //console.log("data: " + data);
-        // TODO fix override issue
-        var myStore = this.getStockStore();
+    handleUpdate: function (data, myStore) {
         var a = Ext.JSON.decode(data);
-
         if (Object.prototype.toString.call(a) === '[object Array]') {
             myStore.loadRawData(a, false);
             return;
         }
-
         var record = myStore.createModel(a);
 
         var index = myStore.findBy(function (record, index) {
@@ -98,15 +112,24 @@ Ext.define('WebSocketDemo.controller.Main', {
 
         myStore.removeAt(index);
         myStore.add(record);
-        var row = this.getStockGrid().getView().getNode(index);
-        //this.getStockGrid().getView().select(index);
+        return index;
+    },
 
-        var select = Ext.get(row).select('td');
-        select.highlight("3892d3", {
-            attr: "backgroundColor",
-            easing: 'easeOut',
-            duration: 500
-        });
+    onMessage: function (data) {
+        //console.log("data: " + data);
+        var myStore = this.getStockStore();
+        var index = this.handleUpdate(data, myStore);
+        /*if (index) {
+            var row = this.getStockGrid().getView().getNode(index);
+            //this.getStockGrid().getView().select(index);
+
+            var select = Ext.get(row).select('td');
+            select.highlight("3892d3", {
+                attr: "backgroundColor",
+                easing: 'easeOut',
+                duration: 500
+            });
+        }*/
     },
 
     onCloseClick: function (data) {

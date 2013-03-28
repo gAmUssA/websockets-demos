@@ -8,29 +8,38 @@ Ext.define('WebSocketDemo.view.MyGridPanel', {
     width: 800,
     height: 600,
     layout: {type: 'border', padding: 6},
-    defaults: {
-        collapsible: true,
-        split: true
-    },
-
-    items: [
-        {
+    initComponent: function (config) {
+        this.websocketGrid = Ext.create('WebSocketDemo.view.StockGrid', {
             title: 'WebSocket Stock Grid',
-            xtype: 'stockgrid',
-            flex: 6,
+            name: 'myWebSocketGid',
+            flex: 5,
             region: 'center'
-        },
-        {
-            xtype: 'panel',
-            flex: 4,
+        });
+        var sseStore = Ext.create('WebSocketDemo.store.StockStore', {});
+
+        this.sseGrid = Ext.create('WebSocketDemo.view.StockGrid', {
+            store: sseStore,
+            name: 'mySseGrid',
+            flex: 5,
             region: 'south',
             title: 'Server-Sent Events Stock Grid',
             html: 'server-sent events (EventSource) demo grid',
             collapsed: true,
             collapsible: true
-        }
-    ],
+        });
 
+        this.items = [
+            this.websocketGrid,
+            this.sseGrid
+        ];
+
+        this.callParent(config);
+    },
+
+    defaults: {
+        collapsible: true,
+        split: true
+    },
     tbar: [
         {text: 'Open WebSocket connection', action: 'open_socket'},
         '-',
@@ -47,8 +56,5 @@ Ext.define('WebSocketDemo.view.MyGridPanel', {
         },
         '-',
         {text: 'Subscribe to Server-Sent Events', action: 'sse_subscribe'}
-    ],
-    initComponent: function(){
-        
-    }
+    ]
 });

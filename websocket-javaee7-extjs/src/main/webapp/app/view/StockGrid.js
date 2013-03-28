@@ -23,9 +23,9 @@ Ext.define('WebSocketDemo.view.StockGrid', {
             flex: 1,
             renderer: function change(val) {
                 if (val > 0) {
-                    return '<span style="color:green;">' + val + '</span>';
+                    return '<span style="color:green; background-color:#FCEBAD">' + val + '</span>';
                 } else if (val < 0) {
-                    return '<span style="color:red;">' + val + '</span>';
+                    return '<span style="color:red; background-color:#FCEBAD">' + val + '</span>';
                 }
                 return val;
             }

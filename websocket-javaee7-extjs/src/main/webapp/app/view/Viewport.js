@@ -4,16 +4,19 @@ Ext.define('WebSocketDemo.view.Viewport', {
         'WebSocketDemo.view.MyGridPanel',
         'WebSocketDemo.view.StockGrid'
     ],
+    border: false,
+    initComponent: function (config) {
 
-    layout: {
-        type: 'vbox',
-        align: 'stretch'
-    },
-
-    items: [
-        {
-            xtype: 'mypanel',
-            flex: 5
-        }
-    ]
+        this.layout = {
+            type: 'vbox',
+            align: 'stretch'
+        };
+        this.items = [
+            {
+                xtype: 'mypanel',
+                flex: 5
+            }
+        ];
+        this.callParent(arguments);
+    }
 });
