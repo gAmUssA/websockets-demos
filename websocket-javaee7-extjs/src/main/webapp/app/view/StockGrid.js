@@ -2,6 +2,7 @@ Ext.define('WebSocketDemo.view.StockGrid', {
     extend: 'Ext.grid.Panel',
     store: 'StockStore',
     alias: 'widget.stockgrid',
+    cls: 'my-grid-panel',
     viewConfig: {
         markDirty: false
     },

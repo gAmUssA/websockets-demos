@@ -8,13 +8,12 @@ Ext.define('WebSocketDemo.view.Viewport', {
     initComponent: function (config) {
 
         this.layout = {
-            type: 'vbox',
-            align: 'stretch'
+            type: 'fit'
+            //align: 'stretch'
         };
         this.items = [
             {
-                xtype: 'mypanel',
-                flex: 5
+                xtype: 'mypanel'
             }
         ];
         this.callParent(arguments);
