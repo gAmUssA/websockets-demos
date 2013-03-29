@@ -63,5 +63,8 @@ Ext.define('Clear.ux.EventSource', {
         catch (err) {
             Ext.Error.raise(err);
         }
+    },
+    close: function(){
+        this.eventsource.close();
     }
 });
