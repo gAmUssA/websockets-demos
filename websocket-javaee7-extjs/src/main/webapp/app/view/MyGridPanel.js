@@ -45,6 +45,9 @@ Ext.define('WebSocketDemo.view.MyGridPanel', {
         '-',
         {text: 'Close WebSocket connection', action: 'close_socket'},
         '-',
+        {text: 'Subscribe to Server-Sent Events', action: 'sse_subscribe'},
+        {text: 'Unubscribe to Server-Sent Events', action: 'sse_unsubscribe'},
+        '-',
         {text: 'Http GET-request', action: 'doRestCall'},
         {
             xtype: 'textfield',
@@ -53,8 +56,6 @@ Ext.define('WebSocketDemo.view.MyGridPanel', {
             emptyText: 'Ticker...',
             enableKeyEvents: true,
             style: 'text-align: left'
-        },
-        '-',
-        {text: 'Subscribe to Server-Sent Events', action: 'sse_subscribe'}
+        }
     ]
 });

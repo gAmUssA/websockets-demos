@@ -31,6 +31,9 @@ Ext.define('WebSocketDemo.controller.Main', {
                 },
                 'mypanel button[action=sse_subscribe]': {
                     click: this.onSseSubscribe
+                },
+                'mypanel button[action=sse_unsubscribe]': {
+                    click: this.onSseUnSubscribe
                 }
             }
         );
@@ -43,7 +46,7 @@ Ext.define('WebSocketDemo.controller.Main', {
             url: url,
             listeners: {
                 open: function (ws) {
-                    console.log("WebSocket just open!");
+                    console.log("WebSocket has been opened!");
                 },
                 message: function (ws, data) {
                     controller.onMessage(data);
@@ -62,7 +65,7 @@ Ext.define('WebSocketDemo.controller.Main', {
             url: url,
             listeners: {
                 open: function (sse) {
-                    console.log("event source opened");
+                    console.log("EventSource has been opened");
                 },
                 message: function (sse, event) {
                     controller.onSseMessage(event);
@@ -70,8 +73,8 @@ Ext.define('WebSocketDemo.controller.Main', {
                 error: function (sse) {
                 }
             }
-
         });
+        controller.sse = sse;
     },
 
     onSseMessage: function (event) {
@@ -133,10 +136,32 @@ Ext.define('WebSocketDemo.controller.Main', {
     },
 
     onCloseClick: function (data) {
-        console.log("closing connection...");
+        console.log("Closing WebSocket Connection...");
         Ext.ux.WebSocketManager.closeAll();
     },
+    onSseUnSubscribe: function(btn){
+        console.log("Closing EventSource connection...");
+        if(this.sse.close());
+        this.sse.close();
+    },
     onRestCall: function (btn) {
-        console.log("calling http");
+        var ticker = Ext.ComponentQuery.query('mypanel textfield[name=ticker]')[0].getValue();
+        var url = "http://localhost:8080/html5devconf_demo/rest/stock/";
+        if (ticker){
+            url = url+ticker;
+            console.log("Calling http for " + ticker);
+        }else{
+            console.log("Calling http for random quote");
+        }
+
+        Ext.Ajax.request({
+            url: url,
+            scope: this,
+            success: function (response){
+                var a = Ext.JSON.decode(response.responseText);
+                a.price = parseFloat(a.price).toFixed(4);
+                console.log(a);
+            }
+        });
     }
 });
