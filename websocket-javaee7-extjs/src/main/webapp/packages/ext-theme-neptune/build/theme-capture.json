@@ -1,0 +1,2647 @@
+{
+  "format": "2.0",
+  "widgets": [
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 54,
+        "x": 11,
+        "y": 16
+      },
+      "id": "menuitem-1010-itemEl",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": [
+        "bg:url(images/menu/menu-item-active-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 46
+      },
+      "gradient": "top",
+      "id": "button-1011",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "stretch:bottom",
+        "frame-bg:url(images/btn/btn-default-small-fbg.png)",
+        "bg:url(images/btn/btn-default-small-bg.png)",
+        "corners:url(images/btn/btn-default-small-corners.png)",
+        "sides:url(images/btn/btn-default-small-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 80
+      },
+      "gradient": "top",
+      "id": "button-1012",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-small-over-corners.png)",
+        "sides:url(images/btn/btn-default-small-over-sides.png)",
+        "frame-bg:url(images/btn/btn-default-small-over-fbg.png)",
+        "bg:url(images/btn/btn-default-small-over-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 114
+      },
+      "gradient": "top",
+      "id": "button-1013",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-small-focus-corners.png)",
+        "sides:url(images/btn/btn-default-small-focus-sides.png)",
+        "frame-bg:url(images/btn/btn-default-small-focus-fbg.png)",
+        "bg:url(images/btn/btn-default-small-focus-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 148
+      },
+      "gradient": "top",
+      "id": "button-1014",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-small-pressed-corners.png)",
+        "sides:url(images/btn/btn-default-small-pressed-sides.png)",
+        "frame-bg:url(images/btn/btn-default-small-pressed-fbg.png)",
+        "bg:url(images/btn/btn-default-small-pressed-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 182
+      },
+      "gradient": "top",
+      "id": "button-1015",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-small-disabled-corners.png)",
+        "sides:url(images/btn/btn-default-small-disabled-sides.png)",
+        "frame-bg:url(images/btn/btn-default-small-disabled-fbg.png)",
+        "bg:url(images/btn/btn-default-small-disabled-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 216
+      },
+      "gradient": "top",
+      "id": "button-1016",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "stretch:bottom",
+        "frame-bg:url(images/btn/btn-default-medium-fbg.png)",
+        "bg:url(images/btn/btn-default-medium-bg.png)",
+        "corners:url(images/btn/btn-default-medium-corners.png)",
+        "sides:url(images/btn/btn-default-medium-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 258
+      },
+      "gradient": "top",
+      "id": "button-1017",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-medium-over-corners.png)",
+        "sides:url(images/btn/btn-default-medium-over-sides.png)",
+        "frame-bg:url(images/btn/btn-default-medium-over-fbg.png)",
+        "bg:url(images/btn/btn-default-medium-over-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 300
+      },
+      "gradient": "top",
+      "id": "button-1018",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-medium-focus-corners.png)",
+        "sides:url(images/btn/btn-default-medium-focus-sides.png)",
+        "frame-bg:url(images/btn/btn-default-medium-focus-fbg.png)",
+        "bg:url(images/btn/btn-default-medium-focus-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 342
+      },
+      "gradient": "top",
+      "id": "button-1019",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-medium-pressed-corners.png)",
+        "sides:url(images/btn/btn-default-medium-pressed-sides.png)",
+        "frame-bg:url(images/btn/btn-default-medium-pressed-fbg.png)",
+        "bg:url(images/btn/btn-default-medium-pressed-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 384
+      },
+      "gradient": "top",
+      "id": "button-1020",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-medium-disabled-corners.png)",
+        "sides:url(images/btn/btn-default-medium-disabled-sides.png)",
+        "frame-bg:url(images/btn/btn-default-medium-disabled-fbg.png)",
+        "bg:url(images/btn/btn-default-medium-disabled-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 426
+      },
+      "gradient": "top",
+      "id": "button-1021",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "stretch:bottom",
+        "frame-bg:url(images/btn/btn-default-large-fbg.png)",
+        "bg:url(images/btn/btn-default-large-bg.png)",
+        "corners:url(images/btn/btn-default-large-corners.png)",
+        "sides:url(images/btn/btn-default-large-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 476
+      },
+      "gradient": "top",
+      "id": "button-1022",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-large-over-corners.png)",
+        "sides:url(images/btn/btn-default-large-over-sides.png)",
+        "frame-bg:url(images/btn/btn-default-large-over-fbg.png)",
+        "bg:url(images/btn/btn-default-large-over-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 526
+      },
+      "gradient": "top",
+      "id": "button-1023",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-large-focus-corners.png)",
+        "sides:url(images/btn/btn-default-large-focus-sides.png)",
+        "frame-bg:url(images/btn/btn-default-large-focus-fbg.png)",
+        "bg:url(images/btn/btn-default-large-focus-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 576
+      },
+      "gradient": "top",
+      "id": "button-1024",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-large-pressed-corners.png)",
+        "sides:url(images/btn/btn-default-large-pressed-sides.png)",
+        "frame-bg:url(images/btn/btn-default-large-pressed-fbg.png)",
+        "bg:url(images/btn/btn-default-large-pressed-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 626
+      },
+      "gradient": "top",
+      "id": "button-1025",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-large-disabled-corners.png)",
+        "sides:url(images/btn/btn-default-large-disabled-sides.png)",
+        "frame-bg:url(images/btn/btn-default-large-disabled-fbg.png)",
+        "bg:url(images/btn/btn-default-large-disabled-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 676
+      },
+      "gradient": "top",
+      "id": "button-1026",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "stretch:bottom",
+        "frame-bg:url(images/btn/btn-default-toolbar-small-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-small-bg.png)",
+        "corners:url(images/btn/btn-default-toolbar-small-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-small-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 710
+      },
+      "gradient": "top",
+      "id": "button-1027",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-toolbar-small-over-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-small-over-sides.png)",
+        "frame-bg:url(images/btn/btn-default-toolbar-small-over-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-small-over-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 744
+      },
+      "gradient": "top",
+      "id": "button-1028",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-toolbar-small-focus-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-small-focus-sides.png)",
+        "frame-bg:url(images/btn/btn-default-toolbar-small-focus-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-small-focus-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 778
+      },
+      "gradient": "top",
+      "id": "button-1029",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-toolbar-small-pressed-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-small-pressed-sides.png)",
+        "frame-bg:url(images/btn/btn-default-toolbar-small-pressed-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-small-pressed-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 812
+      },
+      "gradient": "top",
+      "id": "button-1030",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-toolbar-small-disabled-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-small-disabled-sides.png)",
+        "frame-bg:url(images/btn/btn-default-toolbar-small-disabled-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-small-disabled-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 846
+      },
+      "gradient": "top",
+      "id": "button-1031",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "stretch:bottom",
+        "frame-bg:url(images/btn/btn-default-toolbar-medium-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-medium-bg.png)",
+        "corners:url(images/btn/btn-default-toolbar-medium-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-medium-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 888
+      },
+      "gradient": "top",
+      "id": "button-1032",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-toolbar-medium-over-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-medium-over-sides.png)",
+        "frame-bg:url(images/btn/btn-default-toolbar-medium-over-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-medium-over-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 930
+      },
+      "gradient": "top",
+      "id": "button-1033",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-toolbar-medium-focus-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-medium-focus-sides.png)",
+        "frame-bg:url(images/btn/btn-default-toolbar-medium-focus-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-medium-focus-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 972
+      },
+      "gradient": "top",
+      "id": "button-1034",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-toolbar-medium-pressed-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-medium-pressed-sides.png)",
+        "frame-bg:url(images/btn/btn-default-toolbar-medium-pressed-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-medium-pressed-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 1014
+      },
+      "gradient": "top",
+      "id": "button-1035",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-toolbar-medium-disabled-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-medium-disabled-sides.png)",
+        "frame-bg:url(images/btn/btn-default-toolbar-medium-disabled-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-medium-disabled-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 1056
+      },
+      "gradient": "top",
+      "id": "button-1036",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "stretch:bottom",
+        "frame-bg:url(images/btn/btn-default-toolbar-large-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-large-bg.png)",
+        "corners:url(images/btn/btn-default-toolbar-large-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-large-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 1106
+      },
+      "gradient": "top",
+      "id": "button-1037",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-toolbar-large-over-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-large-over-sides.png)",
+        "frame-bg:url(images/btn/btn-default-toolbar-large-over-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-large-over-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 1156
+      },
+      "gradient": "top",
+      "id": "button-1038",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-toolbar-large-focus-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-large-focus-sides.png)",
+        "frame-bg:url(images/btn/btn-default-toolbar-large-focus-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-large-focus-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 1206
+      },
+      "gradient": "top",
+      "id": "button-1039",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-toolbar-large-pressed-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-large-pressed-sides.png)",
+        "frame-bg:url(images/btn/btn-default-toolbar-large-pressed-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-large-pressed-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 1256
+      },
+      "gradient": "top",
+      "id": "button-1040",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-default-toolbar-large-disabled-corners.png)",
+        "sides:url(images/btn/btn-default-toolbar-large-disabled-sides.png)",
+        "frame-bg:url(images/btn/btn-default-toolbar-large-disabled-fbg.png)",
+        "bg:url(images/btn/btn-default-toolbar-large-disabled-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 1306
+      },
+      "id": "toolbar-1041",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 23,
+        "w": 200,
+        "x": 10,
+        "y": 1352
+      },
+      "id": "panel-1043",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/panel/panel-default-framed-corners.png)",
+        "sides:url(images/panel/panel-default-framed-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 1385
+      },
+      "id": "panel-1044_header",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 1457
+      },
+      "id": "panel-1045_header",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": [
+        "stretch:top"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 10,
+        "y": 1503
+      },
+      "id": "panel-1046_header",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": [
+        "stretch:right"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 174,
+        "y": 1713
+      },
+      "id": "panel-1047_header",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 1923
+      },
+      "id": "panel-1048_header",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/panel-header/panel-header-default-framed-top-corners.png)",
+        "sides:url(images/panel-header/panel-header-default-framed-top-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 2005
+      },
+      "id": "panel-1049_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": [
+        "corners:url(images/panel-header/panel-header-default-framed-bottom-corners.png)",
+        "sides:url(images/panel-header/panel-header-default-framed-bottom-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 10,
+        "y": 2051
+      },
+      "id": "panel-1050_header",
+      "radius": {
+        "bl": 4,
+        "br": 0,
+        "tl": 4,
+        "tr": 0
+      },
+      "slices": [
+        "corners:url(images/panel-header/panel-header-default-framed-left-corners.png)",
+        "corners-rtl:url(images/panel-header/panel-header-default-framed-left-corners-rtl.png)",
+        "sides:url(images/panel-header/panel-header-default-framed-left-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 174,
+        "y": 2261
+      },
+      "id": "panel-1051_header",
+      "radius": {
+        "bl": 0,
+        "br": 4,
+        "tl": 0,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/panel-header/panel-header-default-framed-right-corners.png)",
+        "corners-rtl:url(images/panel-header/panel-header-default-framed-right-corners-rtl.png)",
+        "sides:url(images/panel-header/panel-header-default-framed-right-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 2471
+      },
+      "id": "panel-1052_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/panel-header/panel-header-default-framed-collapsed-top-corners.png)",
+        "sides:url(images/panel-header/panel-header-default-framed-collapsed-top-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 2517
+      },
+      "id": "panel-1053_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/panel-header/panel-header-default-framed-collapsed-bottom-corners.png)",
+        "sides:url(images/panel-header/panel-header-default-framed-collapsed-bottom-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 10,
+        "y": 2563
+      },
+      "id": "panel-1054_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/panel-header/panel-header-default-framed-collapsed-left-corners.png)",
+        "corners-rtl:url(images/panel-header/panel-header-default-framed-collapsed-left-corners-rtl.png)",
+        "sides:url(images/panel-header/panel-header-default-framed-collapsed-left-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 10,
+        "y": 2773
+      },
+      "id": "panel-1055_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/panel-header/panel-header-default-framed-collapsed-right-corners.png)",
+        "corners-rtl:url(images/panel-header/panel-header-default-framed-collapsed-right-corners-rtl.png)",
+        "sides:url(images/panel-header/panel-header-default-framed-collapsed-right-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 400,
+        "x": 10,
+        "y": 2983
+      },
+      "id": "header-1056",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 200,
+        "x": 10,
+        "y": 3006
+      },
+      "id": "window-1057",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/window/window-default-corners.png)",
+        "sides:url(images/window/window-default-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 3216
+      },
+      "id": "window-1062_header",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/window-header/window-header-default-top-corners.png)",
+        "sides:url(images/window-header/window-header-default-top-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 3298
+      },
+      "id": "window-1063_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": [
+        "corners:url(images/window-header/window-header-default-bottom-corners.png)",
+        "sides:url(images/window-header/window-header-default-bottom-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 10,
+        "y": 3344
+      },
+      "id": "window-1064_header",
+      "radius": {
+        "bl": 4,
+        "br": 0,
+        "tl": 4,
+        "tr": 0
+      },
+      "slices": [
+        "corners:url(images/window-header/window-header-default-left-corners.png)",
+        "corners-rtl:url(images/window-header/window-header-default-left-corners-rtl.png)",
+        "sides:url(images/window-header/window-header-default-left-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 174,
+        "y": 3554
+      },
+      "id": "window-1065_header",
+      "radius": {
+        "bl": 0,
+        "br": 4,
+        "tl": 0,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/window-header/window-header-default-right-corners.png)",
+        "corners-rtl:url(images/window-header/window-header-default-right-corners-rtl.png)",
+        "sides:url(images/window-header/window-header-default-right-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 3764
+      },
+      "id": "window-1066_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/window-header/window-header-default-collapsed-top-corners.png)",
+        "sides:url(images/window-header/window-header-default-collapsed-top-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 3810
+      },
+      "id": "window-1067_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/window-header/window-header-default-collapsed-bottom-corners.png)",
+        "sides:url(images/window-header/window-header-default-collapsed-bottom-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 10,
+        "y": 3856
+      },
+      "id": "window-1068_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/window-header/window-header-default-collapsed-left-corners.png)",
+        "corners-rtl:url(images/window-header/window-header-default-collapsed-left-corners-rtl.png)",
+        "sides:url(images/window-header/window-header-default-collapsed-left-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 10,
+        "y": 4066
+      },
+      "id": "window-1069_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": [
+        "corners:url(images/window-header/window-header-default-collapsed-right-corners.png)",
+        "corners-rtl:url(images/window-header/window-header-default-collapsed-right-corners-rtl.png)",
+        "sides:url(images/window-header/window-header-default-collapsed-right-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 200,
+        "w": 200,
+        "x": 10,
+        "y": 4276
+      },
+      "id": "tabpanel-1070",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 36,
+        "w": 300,
+        "x": 10,
+        "y": 4486
+      },
+      "id": "tabbar-1077",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 31,
+        "w": 399,
+        "x": 10,
+        "y": 4532
+      },
+      "id": "tab-1080",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/tab/tab-default-top-corners.png)",
+        "sides:url(images/tab/tab-default-top-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 31,
+        "w": 399,
+        "x": 10,
+        "y": 4573
+      },
+      "id": "tab-1081",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/tab/tab-default-top-active-corners.png)",
+        "sides:url(images/tab/tab-default-top-active-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 31,
+        "w": 399,
+        "x": 10,
+        "y": 4614
+      },
+      "id": "tab-1082",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/tab/tab-default-top-over-corners.png)",
+        "sides:url(images/tab/tab-default-top-over-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 31,
+        "w": 399,
+        "x": 10,
+        "y": 4655
+      },
+      "id": "tab-1083",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/tab/tab-default-top-disabled-corners.png)",
+        "sides:url(images/tab/tab-default-top-disabled-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 31,
+        "w": 399,
+        "x": 10,
+        "y": 4696
+      },
+      "id": "tab-1084",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": [
+        "corners:url(images/tab/tab-default-bottom-corners.png)",
+        "sides:url(images/tab/tab-default-bottom-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 31,
+        "w": 399,
+        "x": 10,
+        "y": 4737
+      },
+      "id": "tab-1085",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": [
+        "corners:url(images/tab/tab-default-bottom-active-corners.png)",
+        "sides:url(images/tab/tab-default-bottom-active-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 31,
+        "w": 399,
+        "x": 10,
+        "y": 4778
+      },
+      "id": "tab-1086",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": [
+        "corners:url(images/tab/tab-default-bottom-over-corners.png)",
+        "sides:url(images/tab/tab-default-bottom-over-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 31,
+        "w": 399,
+        "x": 10,
+        "y": 4819
+      },
+      "id": "tab-1087",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": [
+        "corners:url(images/tab/tab-default-bottom-disabled-corners.png)",
+        "sides:url(images/tab/tab-default-bottom-disabled-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 20,
+        "w": 100,
+        "x": 10,
+        "y": 4860
+      },
+      "id": "progressbar-1088-bar",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 102,
+        "w": 400,
+        "x": 10,
+        "y": 4890
+      },
+      "id": "buttongroup-1089",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn-group/btn-group-default-framed-notitle-corners.png)",
+        "sides:url(images/btn-group/btn-group-default-framed-notitle-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 132,
+        "w": 400,
+        "x": 10,
+        "y": 5002
+      },
+      "id": "buttongroup-1101",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn-group/btn-group-default-framed-corners.png)",
+        "sides:url(images/btn-group/btn-group-default-framed-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 100,
+        "x": 10,
+        "y": 5144
+      },
+      "id": "tooltip-1113",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/tip/tip-default-corners.png)",
+        "sides:url(images/tip/tip-default-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 100,
+        "x": 10,
+        "y": 5194
+      },
+      "id": "tooltip-1114",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/tip/tip-form-invalid-corners.png)",
+        "sides:url(images/tip/tip-form-invalid-sides.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 1,
+        "t": 0
+      },
+      "box": {
+        "h": 27,
+        "w": 400,
+        "x": 10,
+        "y": 5244
+      },
+      "id": "gridcolumn-1115",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": [
+        "bg:url(images/grid/column-header-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 1,
+        "t": 0
+      },
+      "box": {
+        "h": 27,
+        "w": 400,
+        "x": 10,
+        "y": 5281
+      },
+      "id": "gridcolumn-1116",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": [
+        "bg:url(images/grid/column-header-over-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 30,
+        "w": 210,
+        "x": 11,
+        "y": 5319
+      },
+      "id": "ext-gen1378",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 30,
+        "w": 210,
+        "x": 11,
+        "y": 5771
+      },
+      "id": "datepicker-1120-footerEl",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 5812
+      },
+      "id": "button-1123",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "stretch:bottom",
+        "frame-bg:url(images/btn/btn-plain-small-fbg.png)",
+        "bg:url(images/btn/btn-plain-small-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 5846
+      },
+      "gradient": "top",
+      "id": "button-1124",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-plain-small-over-corners.png)",
+        "sides:url(images/btn/btn-plain-small-over-sides.png)",
+        "frame-bg:url(images/btn/btn-plain-small-over-fbg.png)",
+        "bg:url(images/btn/btn-plain-small-over-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 5880
+      },
+      "gradient": "top",
+      "id": "button-1125",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-plain-small-focus-corners.png)",
+        "sides:url(images/btn/btn-plain-small-focus-sides.png)",
+        "frame-bg:url(images/btn/btn-plain-small-focus-fbg.png)",
+        "bg:url(images/btn/btn-plain-small-focus-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 5914
+      },
+      "gradient": "top",
+      "id": "button-1126",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-plain-small-pressed-corners.png)",
+        "sides:url(images/btn/btn-plain-small-pressed-sides.png)",
+        "frame-bg:url(images/btn/btn-plain-small-pressed-fbg.png)",
+        "bg:url(images/btn/btn-plain-small-pressed-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 24,
+        "w": 56,
+        "x": 10,
+        "y": 5948
+      },
+      "gradient": "top",
+      "id": "button-1127",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-plain-small-disabled-corners.png)",
+        "sides:url(images/btn/btn-plain-small-disabled-sides.png)",
+        "frame-bg:url(images/btn/btn-plain-small-disabled-fbg.png)",
+        "bg:url(images/btn/btn-plain-small-disabled-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 5982
+      },
+      "id": "button-1128",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "stretch:bottom",
+        "frame-bg:url(images/btn/btn-plain-medium-fbg.png)",
+        "bg:url(images/btn/btn-plain-medium-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 6024
+      },
+      "gradient": "top",
+      "id": "button-1129",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-plain-medium-over-corners.png)",
+        "sides:url(images/btn/btn-plain-medium-over-sides.png)",
+        "frame-bg:url(images/btn/btn-plain-medium-over-fbg.png)",
+        "bg:url(images/btn/btn-plain-medium-over-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 6066
+      },
+      "gradient": "top",
+      "id": "button-1130",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-plain-medium-focus-corners.png)",
+        "sides:url(images/btn/btn-plain-medium-focus-sides.png)",
+        "frame-bg:url(images/btn/btn-plain-medium-focus-fbg.png)",
+        "bg:url(images/btn/btn-plain-medium-focus-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 6108
+      },
+      "gradient": "top",
+      "id": "button-1131",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-plain-medium-pressed-corners.png)",
+        "sides:url(images/btn/btn-plain-medium-pressed-sides.png)",
+        "frame-bg:url(images/btn/btn-plain-medium-pressed-fbg.png)",
+        "bg:url(images/btn/btn-plain-medium-pressed-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 32,
+        "w": 71,
+        "x": 10,
+        "y": 6150
+      },
+      "gradient": "top",
+      "id": "button-1132",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-plain-medium-disabled-corners.png)",
+        "sides:url(images/btn/btn-plain-medium-disabled-sides.png)",
+        "frame-bg:url(images/btn/btn-plain-medium-disabled-fbg.png)",
+        "bg:url(images/btn/btn-plain-medium-disabled-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 6192
+      },
+      "id": "button-1133",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "stretch:bottom",
+        "frame-bg:url(images/btn/btn-plain-large-fbg.png)",
+        "bg:url(images/btn/btn-plain-large-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 6242
+      },
+      "gradient": "top",
+      "id": "button-1134",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-plain-large-over-corners.png)",
+        "sides:url(images/btn/btn-plain-large-over-sides.png)",
+        "frame-bg:url(images/btn/btn-plain-large-over-fbg.png)",
+        "bg:url(images/btn/btn-plain-large-over-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 6292
+      },
+      "gradient": "top",
+      "id": "button-1135",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-plain-large-focus-corners.png)",
+        "sides:url(images/btn/btn-plain-large-focus-sides.png)",
+        "frame-bg:url(images/btn/btn-plain-large-focus-fbg.png)",
+        "bg:url(images/btn/btn-plain-large-focus-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 6342
+      },
+      "gradient": "top",
+      "id": "button-1136",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-plain-large-pressed-corners.png)",
+        "sides:url(images/btn/btn-plain-large-pressed-sides.png)",
+        "frame-bg:url(images/btn/btn-plain-large-pressed-fbg.png)",
+        "bg:url(images/btn/btn-plain-large-pressed-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
+      },
+      "box": {
+        "h": 40,
+        "w": 80,
+        "x": 10,
+        "y": 6392
+      },
+      "gradient": "top",
+      "id": "button-1137",
+      "radius": {
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": [
+        "corners:url(images/btn/btn-plain-large-disabled-corners.png)",
+        "sides:url(images/btn/btn-plain-large-disabled-sides.png)",
+        "frame-bg:url(images/btn/btn-plain-large-disabled-fbg.png)",
+        "bg:url(images/btn/btn-plain-large-disabled-bg.png)"
+      ]
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6443
+      },
+      "id": "button-1138",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6467
+      },
+      "id": "button-1139",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6491
+      },
+      "id": "button-1140",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6515
+      },
+      "id": "button-1141",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6539
+      },
+      "id": "button-1142",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6563
+      },
+      "id": "button-1143",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6587
+      },
+      "id": "button-1144",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6611
+      },
+      "id": "button-1145",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6635
+      },
+      "id": "button-1146",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6659
+      },
+      "id": "button-1147",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6683
+      },
+      "id": "button-1148",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6707
+      },
+      "id": "button-1149",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6731
+      },
+      "id": "button-1150",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6755
+      },
+      "id": "button-1151",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6779
+      },
+      "id": "button-1152",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      }
+    }
+  ]
+}
