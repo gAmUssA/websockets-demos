@@ -40,10 +40,10 @@ Ext.define('WebSocketDemo.controller.Main', {
     },
 
     onOpenConnection: function (btn) {
-        var url = "ws://localhost:8080/html5devconf_demo/stock-generator";
+        var ws_url = "ws://" + document.location.host + document.location.pathname + "stock-generator";
         var controller = this;
         var ws = Ext.create('Ext.ux.WebSocket', {
-            url: url,
+            url: ws_url,
             listeners: {
                 open: function (ws) {
                     console.log("WebSocket has been opened!");
@@ -59,10 +59,10 @@ Ext.define('WebSocketDemo.controller.Main', {
     },
 
     onSseSubscribe: function (btn) {
-        var url = "http://localhost:8080/html5devconf_demo/rest/stock/stock-generator";
+        var sse_url = "http://" + document.location.host + document.location.pathname + "rest/stock/stock-generator";
         var controller = this;
-        var sse = Ext.create('Clear.ux.EventSource', {
-            url: url,
+        controller.sse = Ext.create('Clear.ux.EventSource', {
+            url: sse_url,
             listeners: {
                 open: function (sse) {
                     console.log("EventSource has been opened");
@@ -74,7 +74,6 @@ Ext.define('WebSocketDemo.controller.Main', {
                 }
             }
         });
-        controller.sse = sse;
     },
 
     onSseMessage: function (event) {
@@ -84,16 +83,16 @@ Ext.define('WebSocketDemo.controller.Main', {
         var index = this.handleUpdate(event.data, sseStore);
 
         /*if (index) {
-            var row = query.getView().getNode(index);
-            //this.getStockGrid().getView().select(index);
+         var row = query.getView().getNode(index);
+         //this.getStockGrid().getView().select(index);
 
-            var select = Ext.get(row).select('td');
-            select.highlight("FCEBAD", {
-                attr: "backgroundColor",
-                easing: 'easeOut',
-                duration: 500
-            });
-        }*/
+         var select = Ext.get(row).select('td');
+         select.highlight("FCEBAD", {
+         attr: "backgroundColor",
+         easing: 'easeOut',
+         duration: 500
+         });
+         }*/
     },
 
     handleUpdate: function (data, myStore) {
@@ -123,41 +122,42 @@ Ext.define('WebSocketDemo.controller.Main', {
         var myStore = this.getStockStore();
         var index = this.handleUpdate(data, myStore);
         /*if (index) {
-            var row = this.getStockGrid().getView().getNode(index);
-            //this.getStockGrid().getView().select(index);
+         var row = this.getStockGrid().getView().getNode(index);
+         //this.getStockGrid().getView().select(index);
 
-            var select = Ext.get(row).select('td');
-            select.highlight("3892d3", {
-                attr: "backgroundColor",
-                easing: 'easeOut',
-                duration: 500
-            });
-        }*/
+         var select = Ext.get(row).select('td');
+         select.highlight("3892d3", {
+         attr: "backgroundColor",
+         easing: 'easeOut',
+         duration: 500
+         });
+         }*/
     },
 
     onCloseClick: function (data) {
         console.log("Closing WebSocket Connection...");
         Ext.ux.WebSocketManager.closeAll();
     },
-    onSseUnSubscribe: function(btn){
+    onSseUnSubscribe: function (btn) {
         console.log("Closing EventSource connection...");
-        if(this.sse.close());
-        this.sse.close();
+        if (this.sse.close){
+            this.sse.close();
+        }
     },
     onRestCall: function (btn) {
         var ticker = Ext.ComponentQuery.query('mypanel textfield[name=ticker]')[0].getValue();
-        var url = "http://localhost:8080/html5devconf_demo/rest/stock/";
-        if (ticker){
-            url = url+ticker;
+        var rest_url = "http://" + document.location.host + document.location.pathname + "rest/stock/";
+        if (ticker) {
+            rest_url = rest_url + ticker;
             console.log("Calling http for " + ticker);
-        }else{
+        } else {
             console.log("Calling http for random quote");
         }
 
         Ext.Ajax.request({
-            url: url,
+            url: rest_url,
             scope: this,
-            success: function (response){
+            success: function (response) {
                 var a = Ext.JSON.decode(response.responseText);
                 a.price = parseFloat(a.price).toFixed(4);
                 console.log(a);
