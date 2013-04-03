@@ -1,4 +1,41 @@
 == WebSocket, Server-Sent Event and RESTful WebService demo with Java EE 7 and ExtJS
 
+Example application demonstrates usage of Java API for WebSockets (http://www.jcp.org/en/jsr/detail?id=356[JSR-356]). 
+Presented on http://html5devconf.com/sessions.html#v_gamov[HTML5DevConf Spring 2013]
+
+=== Used technologies ===
+
+- Glassfish 4 build 81 http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/[promoted builds]
+- http://www.sencha.com/products/extjs[Sencha ExtJS 4.2 RC]
+- http://www.gradle.org/[Gradle]
+- https://www.google.com/intl/en/chrome/browser/canary.html[Google Chrome Canary ]
+
+=== How to build
+
+[source, shell]
+----------------------------------------------------------------------
+./gradlew clean build
+----------------------------------------------------------------------
+
+=== How to run
+
+- build the application
+- download http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/glassfish-4.0-b81.zip[Glassfish 4 build 81]
+- unpack in any directory
+- go to +glassfish_dir/bin+ start server with command
++
+
+[source, shell]
+----------------------------------------------------------------------
+./asadmin start-domain domain1
+----------------------------------------------------------------------
+
+- grab war file from +build\lib+ directory and drop it to +glassfish_dir/glassfish/domains/domain1/autodeploy+ directory
+- once you'll see `html5devconf_demo.war_deployed` using browser go to URL http://localhost:8080/html5devconf_demo
+- monitor WebSocket traffic using Google Chrome Developer Tools
+
+image::https://raw.github.com/gAmUssA/websockets-demos/master/websocket-javaee7-extjs/websocket_demo_javaee7_extjs.png[]
+
+
 
 

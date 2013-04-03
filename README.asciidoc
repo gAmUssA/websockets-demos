@@ -19,7 +19,7 @@ Various examples of server- and client-side WebSocket APIs
 https://github.com/AsyncHttpClient/async-http-client[AsyncHTTPClient])
 demonstrated on different events
 (http://www.meetup.com/NJFlex/events/72840792/[PrincetonJUG],
-http://html5devconf.com/sessions.html#v_gamov[HTML5DevConf Spring 2013].
+http://html5devconf.com/sessions.html#v_gamov[HTML5DevConf Spring 2013]).
 
 Refer to my presentation
 https://speakerdeck.com/u/vikgamov/p/websockets-the-current-state-of-the-most-valuable-html5-api-for-java-developers[slides

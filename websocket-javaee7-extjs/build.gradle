@@ -13,6 +13,8 @@ def websocketVersion = '1.0-b13'
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
 
+archivesBaseName = 'html5devconf_demo'
+
 repositories {
     //mavenLocal()
 
