@@ -1,0 +1,28 @@
+== WebSocket Demos
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+<a href="http://www.w3.org/html/logo/">
+<img src="http://www.w3.org/html/logo/badge/html5-badge-h-connectivity-performance.png" width="165" height="64" alt="HTML5 Powered with Connectivity / Realtime, and Performance &amp; Integration" title="HTML5 Powered with Connectivity / Realtime, and Performance &amp; Integration">
+</a>
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+[quote, HTML spec editor at Google, Ian Hickson]
+____
+
+Reducing kilobytes of data to 2 bytes is more than "a little more byte efficient", and reducing latency from 150ms (TCP round trip to set up the connection plus a packet for the message) to 50ms (just the packet for the message) is far more than marginal. In fact, these two factors alone are enough to make WebSocket seriously interesting to Google.
+
+source: http://ietf.org/mail-archive/web/hybi/current/msg00784.html
+____
+
+Various examples of server- and client-side WebSocket APIs
+(http://jcp.org/en/jsr/detail?id=356[JSR-356],
+https://github.com/AsyncHttpClient/async-http-client[AsyncHTTPClient])
+demonstrated on different events
+(http://www.meetup.com/NJFlex/events/72840792/[PrincetonJUG],
+http://html5devconf.com/sessions.html#v_gamov[HTML5DevConf Spring 2013].
+
+Refer to my presentation
+https://speakerdeck.com/u/vikgamov/p/websockets-the-current-state-of-the-most-valuable-html5-api-for-java-developers[slides
+from PrincetonJUG] and
+http://farata.github.com/slidedecks/state_of_websocket/slides.html[HTML5DevConf
+Spring 2013]
