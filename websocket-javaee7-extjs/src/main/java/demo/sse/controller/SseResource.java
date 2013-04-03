@@ -51,7 +51,7 @@ public class SseResource {
 
     protected void startBroadcastTask() {
         broadcastTimer = new Timer();
-        broadcastTimer.schedule(new SseBroadcastTask(BROADCASTER, 0), 0, 100);
+        broadcastTimer.schedule(new SseBroadcastTask(BROADCASTER, 0), 0, 300);
         this.isRunning = true;
         logger.info("Started SSE broadcast task");
     }

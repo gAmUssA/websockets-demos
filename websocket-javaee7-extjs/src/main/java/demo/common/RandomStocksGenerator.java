@@ -80,7 +80,7 @@ public class RandomStocksGenerator {
         return new StockMessage(lastId.incrementAndGet(), ticker, price.toString());
     }
 
-    public static StockMessage[] getInitlaData() {
+    public static StockMessage[] getInitialData() {
         List<StockMessage> list = new ArrayList<>();
 
 

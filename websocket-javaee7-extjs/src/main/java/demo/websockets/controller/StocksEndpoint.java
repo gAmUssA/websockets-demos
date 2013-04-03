@@ -54,7 +54,7 @@ public class StocksEndpoint {
     public void onOpen(Session session) {
         logger.info("Client connected");
         addClient(session);
-        sendInitialData(session);
+        //sendInitialData(session);
         if (!isRunning && !getParticipantList().isEmpty()) {
             startBroadcastTask();
         } else if (getParticipantList().isEmpty() && isRunning) {
@@ -66,7 +66,8 @@ public class StocksEndpoint {
         try {
             if (s.isOpen()) {
                 Gson gson = new Gson();
-                s.getBasicRemote().sendObject(gson.toJson(RandomStocksGenerator.getInitlaData()));
+                StockMessage[] initialData = RandomStocksGenerator.getInitialData();
+                s.getBasicRemote().sendObject(gson.toJson(initialData));
                 //s.getRemote().sendObject(RandomStocksGenerator.getRandomValues());
             }
         } catch (IOException | EncodeException e) {
@@ -87,7 +88,7 @@ public class StocksEndpoint {
 
     public void startBroadcastTask() {
         broadcastTimer = new Timer();
-        broadcastTimer.schedule(new BroadcastTask(this, 0), 0, 100);
+        broadcastTimer.schedule(new BroadcastTask(this, 0), 0, 50);
         this.isRunning = true;
         logger.info("Started broadcast task");
     }
