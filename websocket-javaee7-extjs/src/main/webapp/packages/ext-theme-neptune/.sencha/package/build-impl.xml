@@ -87,9 +87,92 @@ this file in most cases.
         <property name="build.dir"
                   location="${package.build.dir}"/>
 
-        <property name="build.images.dir" 
+        <property name="build.resources.dir" 
                   location="${build.dir}/resources"/>
+        
+        <property name="package.resources.dir" 
+                  location="${package.dir}/resources"/>
+        
+        <condition property="package.resources.dir.exists">
+            <available file="${package.resources.dir}" type="dir" />
+        </condition>
+        
+        <property name="package.sass.dir" 
+                  location="${package.dir}/sass"/>
+        
+        <condition property="package.sass.dir.exists">
+            <available file="${package.sass.dir}" type="dir" />
+        </condition>
+        
+        <property name="build.all.js" 
+                  value="${build.dir}/${package.name}.js"/>
+        
+        <property name="build.all.debug.js" 
+                  value="${build.dir}/${package.name}-debug.js"/>
+        
+        <property name="build.all.dev.js" 
+                  value="${build.dir}/${package.name}-dev.js"/>
 
+        <property name="build.all.scss" 
+                  value="${build.dir}/${package.name}-all-debug.scss"/>
+        
+        <property name="build.all.rtl.scss" 
+                  value="${build.dir}/${package.name}-all-rtl-debug.scss"/>
+        
+        <property name="build.all.css.debug" 
+                  value="${build.dir}/resources/${package.name}-all-debug.css"/>
+        
+        <property name="build.all.rtl.css.debug" 
+                  value="${build.dir}/resources/${package.name}-all-rtl-debug.css"/>
+        
+        <property name="build.all.css" 
+                  value="${build.dir}/resources/${package.name}-all.css"/>
+        
+        <property name="build.all.rtl.css" 
+                  value="${build.dir}/resources/${package.name}-all-rtl.css"/>
+        
+        <property name="build.all.ruby"
+                  value="${build.dir}/config.rb"/>
+        
+        <x-normalize-path path="${build.dir}/resources" property="image.search.path"/>
+
+        <if>
+            <isset property="package.sass.dir.exists"/>
+            <then>
+                <property name="build.compile.sass.rtl">
+                    sass
+                        -etc=true
+                        -vars=true
+                        -rules=true
+                        -class-name-vars=true
+                        -variable=$image-search-path:'${image.search.path}'
+                        -variable=$theme-name: '${package.name}' !default
+                        -output=${build.all.rtl.scss}
+                    and
+                    sass
+                        -ruby=true
+                        -output=${build.all.ruby}
+                </property>
+                <property name="build.compile.sass">
+                    sass
+                        -etc=true
+                        -vars=true
+                        -rules=true
+                        -class-name-vars=true
+                        -variable=$image-search-path:'${image.search.path}'
+                        -variable=$theme-name: '${package.name}' !default
+                        -output=${build.all.scss}
+                    and
+                    sass
+                        -ruby=true
+                        -output=${build.all.ruby}
+                </property>
+            </then>
+        </if>
+        
+        <property name="build.compile.sass.rtl" value=""/>
+        <property name="build.compile.sass" value=""/>
+        
         <!--
         Options to pass to the "sencha fs slice" command.
         -->
@@ -98,7 +181,7 @@ this file in most cases.
         <property name="pkg.build.dir" location="${workspace.build.dir}/${package.name}"/>
         <property name="pkg.file.name" value="${package.name}.pkg"/>
         <property name="pkg.includes" value="**/*"/>
-        <property name="pkg.excludes" value=""/>
+        <property name="pkg.excludes" value="package.json"/>
 
         <!-- Some operations require sencha.jar in the Ant classpath -->
         <x-extend-classpath>
@@ -122,6 +205,25 @@ this file in most cases.
         
         <x-load-json-cfg/>
 
+        <if>
+            <not>
+                <isset property="package.framework"/>
+            </not>
+            <then>
+                <property name="skip.style" value="1"/>
+            </then>
+        </if>
+        
+        
+        <if>
+            <isset property="skip.style"/>
+            <then>
+                <property name="skip.sass" value="1"/>
+                <property name="skip.capture" value="1"/>
+                <property name="skip.slice" value="1"/>
+            </then>
+        </if>
+        
         <antcall target="-after-init"/>
     </target>
 
@@ -144,33 +246,26 @@ this file in most cases.
     -->
     <target name="-before-sass"/>
     <target name="-after-sass"/>
-    <target name="sass" depends="init" unless="skip.sass"
+    <target name="sass" depends="init" if="package.sass.dir.exists" unless="skip.sass"
             description="Builds the SASS files using Compass">
         <antcall target="-before-sass"/>
 
         <antcall target="-before-js"/>
 
-        <x-shell dir="${build.dir}">
-            compass compile --boring --force --sass-dir=${build.dir} --css-dir=${build.dir}/resources --config ${package.dir}/sass/config.rb
-        </x-shell>
+        <x-compass-compile
+            dir="${build.dir}"
+            trace="true"
+            boring="true"
+            force="true"
+            sassdir="${build.dir}"
+            cssdir="${build.dir}/resources"
+            config="${build.all.ruby}"/>
+        
+        <x-compress-css srcfile="${build.all.css.debug}"
+                        outfile="${build.all.css}"/>
 
-        <property name="package.out.css.debug" 
-                  value="${build.dir}/resources/${package.name}-all-debug.css"/>
-        
-        <property name="package.out.rtl.css.debug" 
-                  value="${build.dir}/resources/${package.name}-all-rtl-debug.css"/>
-        
-        <property name="package.out.css" 
-                  value="${build.dir}/resources/${package.name}-all.css"/>
-        
-        <property name="package.out.rtl.css" 
-                  value="${build.dir}/resources/${package.name}-all-rtl.css"/>
-        
-        <x-compress-css srcfile="${package.out.css.debug}"
-                        outfile="${package.out.css}"/>
-
-        <x-compress-css srcfile="${package.out.rtl.css.debug}"
-                        outfile="${package.out.rtl.css}"/>
+        <x-compress-css srcfile="${build.all.rtl.css.debug}"
+                        outfile="${build.all.rtl.css}"/>
 
         <antcall target="-after-sass"/>
     </target>
@@ -180,54 +275,29 @@ this file in most cases.
     -->
     <target name="-before-inherit-resources"/>
     <target name="-after-inherit-resources"/>
-    <target name="inherit-resources" depends="init"
+    <target name="inherit-resources" depends="init" if="package.base.names"
             description="Performs the resource folder inheritance from base theme(s)">
         <antcall target="-before-inherit-resources"/>
-
-        <if>
-            <isset property="package.base.names"/>
-            <then>
-                <for list="${package.base.names}" param="base">
-                    <sequential>
-                        <echo>Merging resources from base package @{base}</echo>
-                        <local name="base.path"/>
-                        <local name="base.resource.path"/>
-                        <property name="base.path" location="../@{base}"/>
-                        <property name="base.resource.path" location="${base.path}/resources"/>
+        
+        <for list="${package.base.names}" param="base">
+            <sequential>
+                <echo>Merging resources from base package @{base}</echo>
+                <local name="base.path"/>
+                <local name="base.resource.path"/>
+                <property name="base.path" location="../@{base}"/>
+                <property name="base.resource.path" location="${base.path}/resources"/>
+                <if>
+                    <available file="${base.resource.path}" type="dir"/>
+                    <then>
                         <copy todir="${build.dir}/resources/" overwrite="true">
                             <fileset dir="${base.resource.path}" includes="**/*"/>
                         </copy>
-                    </sequential>
-                </for>
-            </then>
-        </if>
+                    </then>
+                </if>
+            </sequential>
+        </for>
 
         <antcall target="-after-inherit-resources"/>
-    </target>
-    
-    <!--
-    Capture
-    -->
-    <target name="-before-capture"/>
-    <target name="-after-capture"/>
-    <target name="capture" depends="init" unless="skip.capture"
-            description="Captures the CSS3 theme image to produce non-CSS3 images and sprites">
-        <antcall target="-before-capture"/>
-
-        <copy todir="${build.dir}/example" overwrite="true">
-            <fileset dir="${package.dir}/sass/example" includes="**/*"/>
-        </copy>
-
-        <echo>Capture theme image to ${build.dir}/theme-capture.png</echo>
-        <x-sencha-command>
-            theme
-                capture
-                    -page=${build.dir}/example/theme.html
-                    -image=${build.dir}/theme-capture.png
-                    -manifest=${build.dir}/theme-capture.json
-        </x-sencha-command>
-
-        <antcall target="-after-capture"/>
     </target>
     
     <!--
@@ -235,18 +305,31 @@ this file in most cases.
     -->
     <target name="-before-slice"/>
     <target name="-after-slice"/>
-    <target name="slice" depends="init" unless="skip.slice"
+    <target name="slice" depends="init" if="package.resources.dir.exists" unless="skip.slice"
             description="Slices CSS3 theme to produce non-CSS3 images and sprites">
         <antcall target="-before-slice"/>
 
-        <echo>Slicing theme images to ${build.images.dir}</echo>
-        <x-sencha-command>
+        <copy todir="${build.dir}/example" overwrite="true">
+            <fileset dir="${package.dir}/sass/example" includes="**/*"/>
+        </copy>
+
+        <echo>Capture theme image to ${build.dir}/theme-capture.png</echo>
+        <x-sencha-command dir="${package.dir}">
+            theme
+                capture
+                    -page=${build.dir}/example/theme.html
+                    -image=${build.dir}/theme-capture.png
+                    -manifest=${build.dir}/theme-capture.json
+        </x-sencha-command>
+
+        <echo>Slicing theme images to ${build.resources.dir}</echo>
+        <x-sencha-command dir="${package.dir}">
             fs
                 slice
                     ${build.slice.options}
                     -image=${build.dir}/theme-capture.png
                     -manifest=${build.dir}/theme-capture.json
-                    -out=${build.images.dir}
+                    -out=${build.resources.dir}
         </x-sencha-command>
 
         <antcall target="-after-slice"/>
@@ -257,12 +340,12 @@ this file in most cases.
     -->
     <target name="-before-copy-resources"/>
     <target name="-after-copy-resources"/>
-    <target name="copy-resources" depends="init" unless="skip.slice"
+    <target name="copy-resources" depends="init" if="package.resources.dir.exists" unless="skip.slice"
             description="Copy theme resources to folder">
         <antcall target="-before-copy-resources"/>
 
         <copy todir="${build.dir}/resources" overwrite="true">
-            <fileset dir="${package.dir}/resources" includes="**/*"/>
+            <fileset dir="${package.resources.dir}" includes="**/*"/>
         </copy>
 
         <antcall target="-after-copy-resources"/>
@@ -276,40 +359,44 @@ this file in most cases.
     <target name="js" depends="init" unless="skip.js"
             description="Builds the JS files">
         <antcall target="-before-js"/>
-
-        <property name="package.out.js" 
-                  value="${build.dir}/${package.name}.js"/>
-
-        <property name="package.out.scss" 
-                  value="${build.dir}/${package.name}-all-debug.scss"/>
-        
-        <property name="package.out.rtl.scss" 
-                  value="${build.dir}/${package.name}-all-rtl-debug.scss"/>
         
         <!--run compile command to generate concatenated output files for js and scss-->
-        <x-normalize-path path="${build.dir}/resources" property="image.search.path"/>
-        <x-sencha-command>
+        <x-sencha-command dir="${package.dir}">
             compile
-                union
-                   -not
-                   -tag=packageSrc,packageOverrides
+                include
+                    -all
                 and
-                sass
-                    -variable=$image-search-path:'${image.search.path}'
-                    -sass-out=${package.out.rtl.scss}
+                ${build.compile.sass.rtl}
                 and
                 exclude
                     -namespace=Ext.rtl
                 and
-                sass
-                    -variable=$image-search-path:'${image.search.path}'
-                    -sass-out=${package.out.scss}
+                ${build.compile.sass}
                 and
                 union
-                    -tag=packageSrc,packageOverrides
+                    -tag=package-${package.name}
                 and
                 concat
-                    -out=${package.out.js}
+                    -out=${build.all.dev.js}
+                and
+            
+            -options=debug:false
+                concatenate
+                    -output-file=${build.all.debug.js}
+                and
+            
+            -options=debug:false
+                # TODO: exclude Ext.cmd.derive
+                # optimize
+                #    -define-rewrite
+                # and
+            
+                concatenate
+                    +yui
+                    -output-file=${build.all.js}
+                and
+            
+                
         </x-sencha-command>
 
         <antcall target="-after-js"/>
@@ -322,14 +409,55 @@ this file in most cases.
     <target name="-after-pkg"/>
     <target name="pkg" depends="init" unless="skip.pkg"
             description="Builds the PKG file">
+        <local name="package.json.staging"/>
+
         <antcall target="-before-pkg"/>
 
+        
+        <property name="package.json.file"
+                  location="${package.dir}/package.json"/>
+        
+        <property name="package.deploy.json.name"
+                  value="package.deploy.json"/>
+        
+        <property name="package.json.staging" 
+                  value="${package.dir}/${package.deploy.json.name}"/>
+        
         <zip destfile="${pkg.build.dir}/${pkg.file.name}">
             <fileset
                 dir="${package.dir}"
                 includes="${pkg.includes}"
                 excludes="${pkg.excludes}"/>
         </zip>
+
+        <x-script-def name="x-update-package-json">
+            <attribute name="from"/>
+            <attribute name="to"/>
+            <script src="${cmd.config.dir}/ant/JSON.js"/>
+            <script src="${cmd.config.dir}/ant/ant-util.js"/>
+            <![CDATA[
+                var pkgFile = attributes.get("from"),
+                    pkgTmpFile = attributes.get("to");
+                    config = readJson(pkgFile);
+                    
+                delete config.local;
+                writeJson(pkgTmpFile, config);
+            ]]>
+        </x-script-def>
+
+        <x-update-package-json
+            from="${package.json.file}"
+            to="${package.json.staging}"/>
+
+        <zip destfile="${pkg.build.dir}/${pkg.file.name}"
+             update="true">
+            <mappedresources>
+                <fileset dir="${package.dir}" includes="${package.deploy.json.name}"/>
+                <globmapper from="*" to="package.json"/>
+            </mappedresources>
+        </zip>
+
+        <delete file="${package.json.staging}"/>
 
         <antcall target="-after-pkg"/>
     </target>
@@ -339,7 +467,7 @@ this file in most cases.
     -->
     <target name="-before-build"/>
     <target name="-build"
-            depends="js,inherit-resources,copy-resources,sass,capture,slice,pkg"/>
+            depends="js,inherit-resources,copy-resources,sass,slice,pkg"/>
     <target name="-after-build"/>
     <target name="build"
             depends="init,-before-build,-build,-after-build"

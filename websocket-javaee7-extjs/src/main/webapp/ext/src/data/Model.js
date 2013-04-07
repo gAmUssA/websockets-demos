@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @author Ed Spencer
@@ -815,6 +818,7 @@ Ext.define('Ext.data.Model', {
      * @cfg {String} persistenceProperty
      * The name of the property on this Persistable object that its data is saved to. Defaults to 'data'
      * (i.e: all persistable data resides in `this.data`.)
+     * @deprecated This config is deprecated. In future this will no longer be configurable and will be data.
      */
     persistenceProperty: 'data',
 
@@ -864,6 +868,9 @@ Ext.define('Ext.data.Model', {
      * The string type of the default Model Proxy. Defaults to 'ajax'.
      */
     defaultProxyType: 'ajax',
+
+    // Used as a dummy source array when constructor is called with no args
+    emptyData: [],
 
     // Fields config and property
     /**
@@ -925,17 +932,12 @@ Ext.define('Ext.data.Model', {
         // 
         // The "convertedData" parameter is a converted object hash with all properties corresponding to defined Fields
         // and all values of the defined type. It is used directly as this record's data property.
-        // When the cponvertedData parameter is used, raw data is passed in using the "raw" parameter and
+        // When the convertedData parameter is used, raw data is passed in using the "raw" parameter and
         // is not processed
-        data = data || {};
-
-        // If no ID passed, use the id property from the passed data
-        if (id === undefined) {
-            id = data[this.idProperty];
-        }
 
         var me = this,
-            hasId = (id || id === 0),
+            passedId = (id || id === 0),
+            hasId,
             fields,
             length,
             field,
@@ -943,15 +945,9 @@ Ext.define('Ext.data.Model', {
             value,
             newId,
             persistenceProperty,
+            idProperty = me.idProperty,
+            idField = me.idField,
             i;
-
-        /**
-         * @property {Number/String} internalId
-         * An internal unique ID for each Model instance, used to identify Models that don't have an ID yet
-         * @private
-         */
-        me.internalId = hasId ? id : Ext.data.Model.id(me);
-        // The Ext.data.Model.id call sets the phantom property. So it will be set now if !hasId
 
         /**
          * @property {Object} raw The raw data used to create this model if created via a reader.
@@ -963,19 +959,33 @@ Ext.define('Ext.data.Model', {
          */
         me.modified = {};
 
-        // Deal with spelling error in previous releases
-        if (me.persistanceProperty) {
-            //<debug>
-            Ext.log.warn('Ext.data.Model: persistanceProperty has been deprecated. Use persistenceProperty instead.');
-            //</debug>
-            me.persistenceProperty = me.persistanceProperty;
+        //<debug>
+        // exclude types since it's new
+        if (me.persistenceProperty !== 'data') {
+            Ext.log.warn(this.$className, 'The persistenceProperty will be deprecated, all data will be stored in the underlying data property.');
         }
-
+        //</debug>
         persistenceProperty = me[me.persistenceProperty] = convertedData || {};
+        
+        // Until persistenceProperty is deprecated, keep a reference in me.data
+        me.data = me[me.persistenceProperty];
 
         me.mixins.observable.constructor.call(me);
 
         if (!convertedData) {
+
+            if (data) {
+                // If no ID passed, use the id property from the converted data
+                if (!passedId && idProperty) {
+                    id = data[idProperty];
+                    hasId = (id || id === 0);
+                }
+            }
+            // No data passed. Use the static empty array.
+            else {
+                data = me.emptyData;
+            } 
+
             //add default field values if present
             fields = me.fields.items;
             length = fields.length;
@@ -1029,22 +1039,31 @@ Ext.define('Ext.data.Model', {
          */
         me.stores = [];
 
-        // If we explicitly pass an id, it should always take precedence
-        if (hasId) {
-            persistenceProperty[me.idProperty] = id;
+        // Caller passed an id, put the converted value into our data object.
+        // The *unconverted* value is used as the internalId.
+        if (passedId) {
+            hasId = true;
+            persistenceProperty[idProperty] = idField && idField.convert ? idField.convert(id) : id;
         }
-        // If there's no id, we are a phantom.
-        else {
+
+        // If there's no id, we are a phantom so we have to generate an id.
+        else if (!hasId) {
             // Generate a key using the supplied idgen function
             newId = me.idgen.generate();
             if (newId != null) {
                 me.preventInternalUpdate = true;
                 me.setId(newId);
                 delete me.preventInternalUpdate;
-                // setID clears the phantom property
-                me.phantom = true;
             }
         }
+
+        /**
+         * @property {Number/String} internalId
+         * An internal unique ID for each Model instance, used to identify Models that don't have an ID yet
+         * @private
+         */
+        me.internalId = hasId ? id : Ext.data.Model.id(me);
+        // The Ext.data.Model.id call sets the phantom property. So it will be set now if !hasId
 
         if (typeof me.init == 'function') {
             me.init();
@@ -1081,7 +1100,7 @@ Ext.define('Ext.data.Model', {
             modified = me.modified,
             single = (typeof fieldName == 'string'),
             currentValue, field, idChanged, key, modifiedFieldNames, name, oldId,
-            oldInternalId, newId, value, values, hasOldId, hasId;
+            newId, value, values;
 
         if (single) {
             values = me._singleProp;
@@ -1163,34 +1182,41 @@ Ext.define('Ext.data.Model', {
      * the source record is not a phantom, then this record acquires the id of the source record.
      *
      * @param {Ext.data.Model} sourceRecord The record to copy data from.
+     * @return {String[]} The names of the fields which changed value.
      */
     copyFrom: function(sourceRecord) {
+        var me = this,
+            fields = me.fields.items,
+            fieldCount = fields.length,
+            modifiedFieldNames = [],
+            field, i = 0,
+            myData,
+            sourceData,
+            idProperty = me.idProperty,
+            name,
+            value;
+
         if (sourceRecord) {
-
-            var me = this,
-                fields = me.fields.items,
-                fieldCount = fields.length,
-                field, i = 0,
-                myData = me[me.persistenceProperty],
-                sourceData = sourceRecord[sourceRecord.persistenceProperty],
-                idProperty = me.idProperty,
-                name,
-                value;
-
+            myData = me[me.persistenceProperty];
+            sourceData = sourceRecord[sourceRecord.persistenceProperty];
             for (; i < fieldCount; i++) {
                 field = fields[i];
                 name = field.name;
-                
+
                 // Do not use setters.
                 // Copy returned values in directly from the data object.
                 // Converters have already been called because new Records
                 // have been created to copy from.
                 // This is a direct record-to-record value copy operation.
+                // don't copy the id, we'll do it at the end
                 if (name != idProperty) {
-                    // don't copy the id, we'll do it at the end
                     value = sourceData[name];
-                    if (value !== undefined) {
+
+                    // If source property is specified, and value is different
+                    // copy field value in and build updatedFields
+                    if (value !== undefined && !me.isEqual(myData[name], value)) {
                         myData[name] = value;
+                        modifiedFieldNames.push(name);
                     }
                 }
             }
@@ -1205,6 +1231,7 @@ Ext.define('Ext.data.Model', {
                 me.commit(true);
             }
         }
+        return modifiedFieldNames;
     },
 
     /**
@@ -1271,10 +1298,10 @@ Ext.define('Ext.data.Model', {
     },
 
     /**
-     * Ends an edit. If any data was modified, the containing store is notified (ie, the store's `update` event will
-     * fire).
-     * @param {Boolean} silent True to not notify the store of the change
-     * @param {String[]} modifiedFieldNames Array of field names changed during edit.
+     * Ends an edit. If any data was modified, the containing store is notified
+     * (ie, the store's `update` event will fire).
+     * @param {Boolean} [silent] True to not notify the store of the change
+     * @param {String[]} [modifiedFieldNames] Array of field names changed during edit.
      */
     endEdit : function(silent, modifiedFieldNames){
         var me = this,
@@ -1422,17 +1449,20 @@ Ext.define('Ext.data.Model', {
      * Developers should subscribe to the {@link Ext.data.Store#event-update} event to have their code notified of commit
      * operations.
      *
-     * @param {Boolean} silent (optional) True to skip notification of the owning store of the change.
+     * @param {Boolean} [silent=false] Pass `true` to skip notification of the owning store of the change.
+     * @param {String[]} [modifiedFieldNames] Array of field names changed during sync with server if known.
+     * Omit or pass `null` if unknown. An empty array means that it is known that no fields were modified
+     * by the server's response.
      * Defaults to false.
      */
-    commit : function(silent) {
+    commit : function(silent, modifiedFieldNames) {
         var me = this;
 
         me.phantom = me.dirty = me.editing = false;
         me.modified = {};
 
         if (silent !== true) {
-            me.afterCommit();
+            me.afterCommit(modifiedFieldNames);
         }
     },
 
@@ -1449,9 +1479,6 @@ Ext.define('Ext.data.Model', {
      */
     copy : function(newId) {
         var me = this;
-
-        // Use raw data as the data param.
-        // Pass a copy of our converted data in to be used as the new record's convertedData
         return new me.self(me.raw, newId, null, Ext.apply({}, me[me.persistenceProperty]));
     },
 
@@ -1527,7 +1554,7 @@ Ext.define('Ext.data.Model', {
 
     /**
      * Saves the model instance using the configured proxy.
-     * @param {Object} options Options to pass to the proxy. Config object for {@link Ext.data.Operation}.
+     * @param {Object} [options] Options to pass to the proxy. Config object for {@link Ext.data.Operation}.
      * @return {Ext.data.Model} The Model instance
      */
     save: function(options) {
@@ -1730,8 +1757,8 @@ Ext.define('Ext.data.Model', {
     /**
      * @private
      * If this Model instance has been {@link #join joined} to a {@link Ext.data.Store store}, the store's
-     * afterEdit method is called
-     * @param {String[]} modifiedFieldNames Array of field names changed during edit.
+     * afterEdit method is called.
+     * @param {String[]} [modifiedFieldNames] Array of field names changed during edit.
      */
     afterEdit : function(modifiedFieldNames) {
         this.callStore('afterEdit', modifiedFieldNames);
@@ -1740,7 +1767,7 @@ Ext.define('Ext.data.Model', {
     /**
      * @private
      * If this Model instance has been {@link #join joined} to a {@link Ext.data.Store store}, the store's
-     * afterReject method is called
+     * afterReject method is called.
      */
     afterReject : function() {
         this.callStore('afterReject');
@@ -1749,10 +1776,11 @@ Ext.define('Ext.data.Model', {
     /**
      * @private
      * If this Model instance has been {@link #join joined} to a {@link Ext.data.Store store}, the store's
-     * afterCommit method is called
+     * afterCommit method is called,
+     * @param {String[]} [modifiedFieldNames] Array of field names changed by syncing this field with the server.
      */
-    afterCommit: function() {
-        this.callStore('afterCommit');
+    afterCommit: function(modifiedFieldNames) {
+        this.callStore('afterCommit', modifiedFieldNames);
     },
 
     /**
@@ -1768,18 +1796,13 @@ Ext.define('Ext.data.Model', {
             stores = this.stores,
             i = 0,
             len = stores.length,
-            store, treeStore;
+            store;
 
         args[0] = this;
         for (; i < len; ++i) {
             store = stores[i];
-            if (store && typeof store[fn] == "function") {
+            if (store && Ext.isFunction(store[fn])) {
                 store[fn].apply(store, args);
-            }
-            // if the record is bound to a NodeStore call the TreeStore's method as well
-            treeStore = store.treeStore;
-            if (treeStore && typeof treeStore[fn] == "function") {
-                treeStore[fn].apply(treeStore, args);
             }
         }
     },

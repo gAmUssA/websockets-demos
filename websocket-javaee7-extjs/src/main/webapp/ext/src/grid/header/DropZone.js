@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @private
@@ -39,17 +42,18 @@ Ext.define('Ext.grid.header.DropZone', {
 
     getTopIndicator: function() {
         if (!this.topIndicator) {
-            this.topIndicator = Ext.DomHelper.append(Ext.getBody(), {
+            this.self.prototype.topIndicator = Ext.DomHelper.append(Ext.getBody(), {
                 cls: "col-move-top",
                 html: "&#160;"
             }, true);
+            this.self.prototype.indicatorXOffset = Math.floor((this.topIndicator.dom.offsetWidth + 1) / 2);
         }
         return this.topIndicator;
     },
 
     getBottomIndicator: function() {
         if (!this.bottomIndicator) {
-            this.bottomIndicator = Ext.DomHelper.append(Ext.getBody(), {
+            this.self.prototype.bottomIndicator = Ext.DomHelper.append(Ext.getBody(), {
                 cls: "col-move-bottom",
                 html: "&#160;"
             }, true);
@@ -75,17 +79,29 @@ Ext.define('Ext.grid.header.DropZone', {
     },
 
     positionIndicator: function(data, node, e){
-        var dragHeader   = data.header,
-            dropLocation = this.getLocation(e, node),
+        var me = this,
+            dragHeader   = data.header,
+            dropLocation = me.getLocation(e, node),
             targetHeader = dropLocation.header,
             pos          = dropLocation.pos,
-            fromHeader   = dragHeader.up('headercontainer:not(gridcolumn)'),
-            toHeader     = targetHeader.up('headercontainer:not(gridcolumn)'),
-            nextHd       = dragHeader.nextSibling('gridcolumn:not([hidden])'),
-            prevHd       = dragHeader.previousSibling('gridcolumn:not([hidden])'),
+            fromHeader,
+            toHeader,
+            nextHd,
+            prevHd,
             topIndicator, bottomIndicator, topAnchor, bottomAnchor,
             topXY, bottomXY, headerCtEl, minX, maxX,
             allDropZones, ln, i, dropZone;
+
+        // Avoid expensive CQ lookups and DOM calculations if dropPosition has not changed
+        if (targetHeader === me.lastTargetHeader && pos === me.lastDropPos) {
+            return;
+        }
+        fromHeader   = dragHeader.up('headercontainer:not(gridcolumn)');
+        toHeader     = targetHeader.up('headercontainer:not(gridcolumn)');
+        nextHd       = dragHeader.nextSibling('gridcolumn:not([hidden])');
+        prevHd       = dragHeader.previousSibling('gridcolumn:not([hidden])');
+        me.lastTargetHeader = targetHeader;
+        me.lastDropPos = pos;
 
         // Cannot drag to before non-draggable start column
         if (!targetHeader.draggable && pos === 'before' && targetHeader.getIndex() === 0) {
@@ -116,53 +132,49 @@ Ext.define('Ext.grid.header.DropZone', {
             // As we move in between different DropZones that are in the same
             // group (such as the case when in a locked grid), invalidateDrop
             // on the other dropZones.
-            allDropZones = Ext.dd.DragDropManager.getRelated(this);
+            allDropZones = Ext.dd.DragDropManager.getRelated(me);
             ln = allDropZones.length;
             i  = 0;
 
             for (; i < ln; i++) {
                 dropZone = allDropZones[i];
-                if (dropZone !== this && dropZone.invalidateDrop) {
+                if (dropZone !== me && dropZone.invalidateDrop) {
                     dropZone.invalidateDrop();
                 }
             }
 
-
-            this.valid = true;
-            topIndicator = this.getTopIndicator();
-            bottomIndicator = this.getBottomIndicator();
+            me.valid = true;
+            topIndicator = me.getTopIndicator();
+            bottomIndicator = me.getBottomIndicator();
             if (pos === 'before') {
-                topAnchor = 'tl';
-                bottomAnchor = 'bl';
+                topAnchor = 'bc-tl';
+                bottomAnchor = 'tc-bl';
             } else {
-                topAnchor = 'tr';
-                bottomAnchor = 'br';
+                topAnchor = 'bc-tr';
+                bottomAnchor = 'tc-br';
             }
-            topXY = targetHeader.el.getAnchorXY(topAnchor);
-            bottomXY = targetHeader.el.getAnchorXY(bottomAnchor);
+            
+            // Calculate arrow positions. Offset them to align exactly with column border line
+            topXY = topIndicator.getAlignToXY(targetHeader.el, topAnchor);
+            bottomXY = bottomIndicator.getAlignToXY(targetHeader.el, bottomAnchor);
 
             // constrain the indicators to the viewable section
-            headerCtEl = this.headerCt.el;
-            minX = headerCtEl.getX();
+            headerCtEl = me.headerCt.el;
+            minX = headerCtEl.getX() - me.indicatorXOffset;
             maxX = headerCtEl.getX() + headerCtEl.getWidth();
 
             topXY[0] = Ext.Number.constrain(topXY[0], minX, maxX);
             bottomXY[0] = Ext.Number.constrain(bottomXY[0], minX, maxX);
-
-            // adjust by offsets, this is to center the arrows so that they point
-            // at the split point
-            topXY[0] -= 4;
-            topXY[1] -= 9;
-            bottomXY[0] -= 4;
 
             // position and show indicators
             topIndicator.setXY(topXY);
             bottomIndicator.setXY(bottomXY);
             topIndicator.show();
             bottomIndicator.show();
+
         // invalidate drop operation and hide indicators
         } else {
-            this.invalidateDrop();
+            me.invalidateDrop();
         }
     },
 
@@ -193,8 +205,12 @@ Ext.define('Ext.grid.header.DropZone', {
     },
 
     hideIndicators: function() {
-        this.getTopIndicator().hide();
-        this.getBottomIndicator().hide();
+        var me = this;
+        
+        me.getTopIndicator().hide();
+        me.getBottomIndicator().hide();
+        me.lastTargetHeader = me.lastDropPos = null;
+
     },
 
     onNodeOut: function() {

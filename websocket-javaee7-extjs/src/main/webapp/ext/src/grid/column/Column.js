@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * This class specifies the definition for a column inside a {@link Ext.grid.Panel}. It encompasses
@@ -302,6 +305,7 @@ Ext.define('Ext.grid.column.Column', {
      * @cfg {String} tdCls
      * A CSS class names to apply to the table cells for this column.
      */
+    tdCls: '',
 
     /**
      * @cfg {Object/String} editor
@@ -537,12 +541,6 @@ Ext.define('Ext.grid.column.Column', {
         }
     },
 
-    // Find the topmost HeaderContainer: An ancestor which is NOT a Header.
-    // Group Headers are themselves HeaderContainers
-    getOwnerHeaderCt: function() {
-        return this.up(':not([isHeader])');
-    },
-
     /**
      * Returns the index of this column only if this column is a base level Column. If it
      * is a group column, it returns `false`.
@@ -625,7 +623,11 @@ Ext.define('Ext.grid.column.Column', {
         var me = this,
             textHeight = me.textEl.dom.offsetHeight,
             titleEl = me.titleEl,
-            titleHeight = titleEl.dom.offsetHeight;
+            titleHeight = titleEl.dom.offsetHeight,
+            pt, pb;
+
+        // Our inner available height is *within* our borders
+        availableHeight -= headerContext.borderInfo.height;
 
         // If we are a group header, size the container below the titleEl
         if (headerContext.innerCtContext) {
@@ -634,19 +636,23 @@ Ext.define('Ext.grid.column.Column', {
         // Not a group header
         else {
             if (titleHeight < availableHeight) {
-                titleEl.setHeight(titleHeight = availableHeight);
 
-                // Vertically center the header text in potentially vertically stretched header
+                // Vertically center the header text and ensure titleEl occupies availableHeight
                 if (textHeight) {
+                    titleHeight = availableHeight;
+                    availableHeight -= textHeight;
+                    pt = Math.floor(availableHeight / 2);
+                    pb = availableHeight - pt;
                     titleEl.setStyle({
-                        paddingTop: Math.floor((availableHeight - textHeight - headerContext.getBorderInfo().height) / 2) + 'px'
+                        paddingTop: pt + 'px',
+                        paddingBottom: pb + 'px'
                     });
                 }
             }
         }
         // Only IE6 and IEQuirks needs this.
         // This is why we maintain titleHeight when setting it.
-        if ((Ext.ieIE6 || Ext.isIEQuirks) && me.triggerEl) {
+        if ((Ext.isIE6 || Ext.isIEQuirks) && me.triggerEl) {
             me.triggerEl.setHeight(titleHeight);
         }
     },

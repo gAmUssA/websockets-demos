@@ -42,30 +42,51 @@
 
     <target name="build" depends="init-all"
             description="Build the SDK from source">
-        <for list="ext.js,ext-all.js,ext-all-rtl.js,builds/ext-core.js,builds/ext-foundation.js,builds/ext-all-rtl-sandbox.js,builds/ext-all-sandbox.js"
-             param="file">
+        <!--
+        Lay down the file header so we can append the rest from the compiler.
+        -->
+        <for list="ext-core,ext-foundation,ext-all-sandbox,ext-all-rtl-sandbox" param="file">
             <sequential>
-                <copy file="${build.dir}/file-header.js"
-                      tofile="${build.dir}/@{file}" overwrite="true"/>
+                <for list=".js,-dev.js,-debug-w-comments.js" param="sfx">
+                    <sequential>
+                        <copy file="${build.dir}/file-header.js"
+                              tofile="${build.dir}/builds/@{file}@{sfx}" overwrite="true"/>
+                    </sequential>
+                </for>
+            </sequential>
+        </for>
+        <for list="ext,ext-all,ext-all-rtl" param="file">
+            <sequential>
+                <for list=".js,-dev.js,-debug-w-comments.js" param="sfx">
+                    <sequential>
+                        <copy file="${build.dir}/file-header.js"
+                              tofile="${build.dir}/@{file}@{sfx}" overwrite="true"/>
+                    </sequential>
+                </for>
             </sequential>
         </for>
 
         <!--
-        Produce base concatenation for standard distribution files
+        Compile from sources and appending to stubs containing just the license header.
         -->
-        <x-sencha-command>
-            -sdk=${basedir}
+        <x-sencha-command dir="${basedir}">
             compile
                 -ignore=diag
+
+                # Remove the license header from the source files:
+                -prefix
+                    ${basedir}/file-header.js
 
                 # Build *-dev.js files - these have all "debug" conditional code active
                 # for use in development mode.
 
                 -options=debug:true
                     concatenate
+                        +append
                         -output-file=${build.dir}/ext-all-rtl-dev.js
                     and
                     concatenate
+                        +append
                         -sandbox=Ext4:x4-
                         -output-file=${build.dir}/builds/ext-all-rtl-sandbox-dev.js
                     and
@@ -77,9 +98,11 @@
 
 
                     concatenate
+                        +append
                         -output-file=${build.dir}/ext-all-dev.js
                     and
                     concatenate
+                        +append
                         -sandbox=Ext4:x4-
                         -output-file=${build.dir}/builds/ext-all-sandbox-dev.js
                     and
@@ -89,9 +112,11 @@
                         -tag=core
                     and
                     concatenate
+                        +append
                         -output-file=${build.dir}/ext-dev.js
                     and
                     concatenate
+                        +append
                         -output-file=${build.dir}/builds/ext-core-dev.js
                     and
 
@@ -100,6 +125,7 @@
                         -tag=foundation
                     and
                     concatenate
+                        +append
                         -output-file=${build.dir}/builds/ext-foundation-dev.js
                     and
 
@@ -114,9 +140,11 @@
                     and
 
                     concatenate
+                        +append
                         -output-file=${build.dir}/ext-all-rtl-debug-w-comments.js
                     and
                     concatenate
+                        +append
                         -sandbox=Ext4:x4-
                         -output-file=${build.dir}/builds/ext-all-rtl-sandbox-debug-w-comments.js
                     and
@@ -128,9 +156,11 @@
 
 
                     concatenate
+                        +append
                         -output-file=${build.dir}/ext-all-debug-w-comments.js
                     and
                     concatenate
+                        +append
                         -sandbox=Ext4:x4-
                         -output-file=${build.dir}/builds/ext-all-sandbox-debug-w-comments.js
                     and
@@ -140,9 +170,11 @@
                         -tag=core
                     and
                     concatenate
+                        +append
                         -output-file=${build.dir}/ext-debug-w-comments.js
                     and
                     concatenate
+                        +append
                         -output-file=${build.dir}/builds/ext-core-debug-w-comments.js
                     and
 
@@ -151,6 +183,7 @@
                         -tag=foundation
                     and
                     concatenate
+                        +append
                         -output-file=${build.dir}/builds/ext-foundation-debug-w-comments.js
                     and
 
@@ -270,8 +303,6 @@
 
     <target name="examples" depends="init-all">
         <x-sencha-command>
-            #+debug
-            #+trace
             compile
                 --ignore=diag,rtl/
                 --classpath=${basedir}/examples/shared,${basedir}/examples/ux
@@ -287,49 +318,49 @@
                     page
                         --scripts=../common.js
                         --input-file=${basedir}/examples/desktop/desktop.html
-                        --output=${build.sdk.dir}/examples/desktop/compiled-desktop.html
+                        --output=${build.dir}/examples/desktop/compiled-desktop.html
                         --name=desktop
                     and
                     page
                         --scripts=../common.js
                         --input-file=${basedir}/examples/grouptabs/grouptabs.html
-                        --output=${build.sdk.dir}/examples/grouptabs/compiled-grouptabs.html
+                        --output=${build.dir}/examples/grouptabs/compiled-grouptabs.html
                         --name=grouptabs
                     and
                     page
                         --scripts=../common.js
                         --input-file=${basedir}/examples/kitchensink/index.html
-                        --output=${build.sdk.dir}/examples/kitchensink/compiled-index.html
+                        --output=${build.dir}/examples/kitchensink/compiled-index.html
                         --name=kitchensink
                     and
                     page
                         --scripts=../../common.js
                         --input-file=${basedir}/examples/app/simple/simple.html
-                        --output=${build.sdk.dir}/examples/app/simple/compiled-simple.html
+                        --output=${build.dir}/examples/app/simple/compiled-simple.html
                         --name=simpleapp
                     and
                     page
                         --scripts=../common.js
                         --input-file=${basedir}/examples/simple-tasks/index.html
-                        --output=${build.sdk.dir}/examples/simple-tasks/compiled-index.html
+                        --output=${build.dir}/examples/simple-tasks/compiled-index.html
                         --name=simpletasks
                     and
                     page
                         --scripts=../../common.js
                         --input-file=${basedir}/examples/app/nested-loading/nested-loading.html
-                        --output=${build.sdk.dir}/examples/app/nested-loading/compiled-nested-loading.html
+                        --output=${build.dir}/examples/app/nested-loading/compiled-nested-loading.html
                         --name=nested-loading
                     and
                     page
                         --scripts=../../common.js
                         --input-file=${basedir}/examples/app/feed-viewer/feed-viewer.html
-                        --output=${build.sdk.dir}/examples/app/feed-viewer/compiled-feed-viewer.html
+                        --output=${build.dir}/examples/app/feed-viewer/compiled-feed-viewer.html
                         --name=feed-viewer
                     and
                     page
                         --scripts=../common.js
                         --input-file=${basedir}/examples/portal/portal.html
-                        --output=${build.sdk.dir}/examples/portal/compiled-portal.html
+                        --output=${build.dir}/examples/portal/compiled-portal.html
                         --name=portal
                     and
                     intersect
@@ -341,7 +372,7 @@
                     and
                     concatenate
                         --strip-comments=true
-                        --output-file=${build.sdk.dir}/examples/common.js
+                        --output-file=${build.dir}/examples/common.js
                     and
                     restore
                         portal
@@ -350,7 +381,7 @@
                         -set=common
                     and
                     concatenate
-                        --output-file=${build.sdk.dir}/examples/portal/all-classes.js
+                        --output-file=${build.dir}/examples/portal/all-classes.js
                     and
                     restore
                         feed-viewer
@@ -359,7 +390,7 @@
                         -set=common
                     and
                     concatenate
-                        --output-file=${build.sdk.dir}/examples/app/feed-viewer/all-classes.js
+                        --output-file=${build.dir}/examples/app/feed-viewer/all-classes.js
                     and
                     restore
                         nested-loading
@@ -368,7 +399,7 @@
                         -set=common
                     and
                     concatenate
-                        --output-file=${build.sdk.dir}/examples/app/nested-loading/all-classes.js
+                        --output-file=${build.dir}/examples/app/nested-loading/all-classes.js
                     and
                     restore
                         simpletasks
@@ -377,7 +408,7 @@
                         -set=common
                     and
                     concatenate
-                        --output-file=${build.sdk.dir}/examples/simple-tasks/all-classes.js
+                        --output-file=${build.dir}/examples/simple-tasks/all-classes.js
                     and
                     restore
                         simpleapp
@@ -386,7 +417,7 @@
                         -set=common
                     and
                     concatenate
-                        --output-file=${build.sdk.dir}/examples/app/simple/all-classes.js
+                        --output-file=${build.dir}/examples/app/simple/all-classes.js
                     and
                     restore
                         kitchensink
@@ -395,7 +426,7 @@
                         -set=common
                     and
                     concatenate
-                        --output-file=${build.sdk.dir}/examples/kitchensink/all-classes.js
+                        --output-file=${build.dir}/examples/kitchensink/all-classes.js
                     and
                     restore
                         grouptabs
@@ -404,7 +435,7 @@
                         -set=common
                     and
                     concatenate
-                        --output-file=${build.sdk.dir}/examples/grouptabs/all-classes.js
+                        --output-file=${build.dir}/examples/grouptabs/all-classes.js
                     and
                     restore
                         desktop
@@ -413,7 +444,7 @@
                         -set=common
                     and
                     concatenate
-                        --output-file=${build.sdk.dir}/examples/desktop/all-classes.js
+                        --output-file=${build.dir}/examples/desktop/all-classes.js
         </x-sencha-command>
     </target>
 </project>

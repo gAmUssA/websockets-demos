@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 //@tag foundation,core
 //@require Number.js
@@ -433,7 +436,10 @@ Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
          *
          * @param {Array} array
          * @param {Function} fn Callback function for each item
-         * @param {Object} scope Callback function scope
+         * @param {Mixed} fn.item Current item.
+         * @param {Number} fn.index Index of the item.
+         * @param {Array} fn.array The whole array that's being iterated.
+         * @param {Object} [scope] Callback function scope
          * @return {Array} results
          */
         map: supportsMap ? function(array, fn, scope) {
@@ -467,6 +473,9 @@ Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
          *
          * @param {Array} array
          * @param {Function} fn Callback function for each item
+         * @param {Mixed} fn.item Current item.
+         * @param {Number} fn.index Index of the item.
+         * @param {Array} fn.array The whole array that's being iterated.
          * @param {Object} scope Callback function scope
          * @return {Boolean} True if no false value is returned by the callback function.
          */
@@ -501,6 +510,9 @@ Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
          *
          * @param {Array} array
          * @param {Function} fn Callback function for each item
+         * @param {Mixed} fn.item Current item.
+         * @param {Number} fn.index Index of the item.
+         * @param {Array} fn.array The whole array that's being iterated.
          * @param {Object} scope Callback function scope
          * @return {Boolean} True if the callback function returns a truthy value.
          */
@@ -612,6 +624,9 @@ Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
          *
          * @param {Array} array
          * @param {Function} fn Callback function for each item
+         * @param {Mixed} fn.item Current item.
+         * @param {Number} fn.index Index of the item.
+         * @param {Array} fn.array The whole array that's being iterated.
          * @param {Object} scope Callback function scope
          * @return {Array} results
          */
@@ -642,17 +657,17 @@ Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
         },
 
         /**
-        * Returns the first item in the array which elicits a true return value from the
-        * passed selection function.
-        * @param {Array} array The array to search
-        * @param {Function} fn The selection function to execute for each item.
-        * @param {Mixed} fn.item The array item.
-        * @param {String} fn.index The index of the array item.
-        * @param {Object} scope (optional) The scope (<code>this</code> reference) in which the
-        * function is executed. Defaults to the array
-        * @return {Object} The first item in the array which returned true from the selection
-        * function, or null if none was found.
-        */
+         * Returns the first item in the array which elicits a true return value from the
+         * passed selection function.
+         * @param {Array} array The array to search
+         * @param {Function} fn The selection function to execute for each item.
+         * @param {Mixed} fn.item The array item.
+         * @param {String} fn.index The index of the array item.
+         * @param {Object} scope (optional) The scope (<code>this</code> reference) in which the
+         * function is executed. Defaults to the array
+         * @return {Object} The first item in the array which returned true from the selection
+         * function, or null if none was found.
+         */
         findBy : function(array, fn, scope) {
             var i = 0,
                 len = array.length;
@@ -894,6 +909,8 @@ Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
          *
          * @param {Array} array The array to sort.
          * @param {Function} sortFn (optional) The comparison function.
+         * @param {Mixed} sortFn.a An item to compare.
+         * @param {Mixed} sortFn.b Another item to compare.
          * @return {Array} The sorted array.
          */
         sort: supportsSort ? function(array, sortFn) {
@@ -964,6 +981,8 @@ Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
          * @param {Array/NodeList} array The Array from which to select the minimum value.
          * @param {Function} comparisonFn (optional) a function to perform the comparision which determines minimization.
          * If omitted the "<" operator will be used. Note: gt = 1; eq = 0; lt = -1
+         * @param {Mixed} comparisonFn.min Current minimum value.
+         * @param {Mixed} comparisonFn.item The value to compare with the current minimum.
          * @return {Object} minValue The minimum value
          */
         min: function(array, comparisonFn) {
@@ -994,6 +1013,8 @@ Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
          * @param {Array/NodeList} array The Array from which to select the maximum value.
          * @param {Function} comparisonFn (optional) a function to perform the comparision which determines maximization.
          * If omitted the ">" operator will be used. Note: gt = 1; eq = 0; lt = -1
+         * @param {Mixed} comparisonFn.max Current maximum value.
+         * @param {Mixed} comparisonFn.item The value to compare with the current maximum.
          * @return {Object} maxValue The maximum value
          */
         max: function(array, comparisonFn) {
@@ -1074,6 +1095,12 @@ Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
          *          ], function (obj) { return obj.name.toUpperCase(); });
          *
          *      // map = { A: 1, B: 2, C: 3 };
+         * 
+         * @param {Array} array The Array to create the map from.
+         * @param {String/Function} [getKey] Name of the object property to use
+         * as a key or a function to extract the key.
+         * @param {Object} [scope] Value of this inside callback.
+         * @return {Object} The resulting map.
          */
         toMap: function(array, getKey, scope) {
             var map = {},
@@ -1123,6 +1150,12 @@ Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
          *          ], function (obj) { return obj.name.toUpperCase(); });
          *
          *      // map = { A: {name: 'a'}, B: {name: 'b'}, C: {name: 'c'} };
+         *
+         * @param {Array} array The Array to create the map from.
+         * @param {String/Function} [getKey] Name of the object property to use
+         * as a key or a function to extract the key.
+         * @param {Object} [scope] Value of this inside callback.
+         * @return {Object} The resulting map.
          */
         toValueMap: function(array, getKey, scope) {
             var map = {},

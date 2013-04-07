@@ -26,10 +26,6 @@
     }
 }
 
-.#{$prefix}message-box .#{$prefix}msg-box-wait {
-    background-image: theme-background-image('shared/blue-loading');
-}
-
 .#{$prefix}message-box-info {
     background-image: theme-background-image('shared/icon-info');
 }

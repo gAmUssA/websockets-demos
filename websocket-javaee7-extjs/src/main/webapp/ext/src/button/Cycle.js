@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * A specialized SplitButton that contains a menu of {@link Ext.menu.CheckItem} elements. The button automatically
@@ -84,6 +87,14 @@ Ext.define('Ext.button.Cycle', {
      * regardless of which item is selected in the dropdown list. This overrides the default behavior of changing the
      * button's icon to match the selected item's icon on change.
      */
+
+    /**
+     * @cfg {Number/String} forceGlyph
+     * The charCode to be used as the static icon for this button.  This icon will always be
+     * displayed regardless of which item is selected in the dropdown list. This override
+     * the default behavior of changing the button's icon to match the selected item's icon
+     * on change. This property expects a format consistent with that of {@link #glyph}
+     */
     /**
      * @property {Ext.menu.Menu} menu
      * The {@link Ext.menu.Menu Menu} object used to display the {@link Ext.menu.CheckItem CheckItems} representing the
@@ -120,9 +131,11 @@ Ext.define('Ext.button.Cycle', {
             if (!me.rendered) {
                 me.text = me.getButtonText(item);
                 me.iconCls = item.iconCls;
+                me.glyph = item.glyph;
             } else {
                 me.setText(me.getButtonText(item));
                 me.setIconCls(item.iconCls);
+                me.setGlyph(item.glyph);
             }
             me.activeItem = item;
             if (!item.checked) {
@@ -130,6 +143,9 @@ Ext.define('Ext.button.Cycle', {
             }
             if (me.forceIcon) {
                 me.setIconCls(me.forceIcon);
+            }
+            if (me.forceGlyph) {
+                me.setGlyph(me.forceGlyph);
             }
             if (!suppressEvent) {
                 me.fireEvent('change', me, item);

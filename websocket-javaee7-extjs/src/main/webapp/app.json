@@ -1,7 +1,4 @@
 {
     "name": "WebSocketDemo",
-    "requires": [{
-        "name": "ext-theme-neptune",
-        "version": "4.2.0.489"
-    }]
+    "requires": []
 }

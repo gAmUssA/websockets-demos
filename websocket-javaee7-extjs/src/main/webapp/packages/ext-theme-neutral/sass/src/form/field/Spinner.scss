@@ -1,6 +1,7 @@
 .#{$prefix}form-spinner-up,
 .#{$prefix}form-spinner-down {
     background-image: theme-background-image('form/spinner');
+    background-color: $form-field-background-color;
     width: $form-trigger-width !important;
     height: $spinner-btn-height !important;
 

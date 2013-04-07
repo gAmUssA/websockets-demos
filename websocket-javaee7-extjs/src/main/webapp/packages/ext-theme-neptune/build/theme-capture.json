@@ -9,10 +9,10 @@
         "t": 0
       },
       "box": {
-        "h": 13,
-        "w": 54,
+        "h": 24,
+        "w": 70,
         "x": 11,
-        "y": 16
+        "y": 11
       },
       "id": "menuitem-1010-itemEl",
       "radius": {
@@ -21,9 +21,9 @@
         "tl": 0,
         "tr": 0
       },
-      "slices": [
-        "bg:url(images/menu/menu-item-active-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/menu/menu-item-active-bg.gif"
+      }
     },
     {
       "border": {
@@ -46,13 +46,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "stretch:bottom",
-        "frame-bg:url(images/btn/btn-default-small-fbg.png)",
-        "bg:url(images/btn/btn-default-small-bg.png)",
-        "corners:url(images/btn/btn-default-small-corners.png)",
-        "sides:url(images/btn/btn-default-small-sides.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-small-bg.gif",
+        "corners": "images/btn/btn-default-small-corners.gif",
+        "frame_bg": "images/btn/btn-default-small-fbg.gif",
+        "sides": "images/btn/btn-default-small-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -75,12 +75,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-small-over-corners.png)",
-        "sides:url(images/btn/btn-default-small-over-sides.png)",
-        "frame-bg:url(images/btn/btn-default-small-over-fbg.png)",
-        "bg:url(images/btn/btn-default-small-over-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-small-over-bg.gif",
+        "corners": "images/btn/btn-default-small-over-corners.gif",
+        "frame_bg": "images/btn/btn-default-small-over-fbg.gif",
+        "sides": "images/btn/btn-default-small-over-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -103,12 +104,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-small-focus-corners.png)",
-        "sides:url(images/btn/btn-default-small-focus-sides.png)",
-        "frame-bg:url(images/btn/btn-default-small-focus-fbg.png)",
-        "bg:url(images/btn/btn-default-small-focus-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-small-focus-bg.gif",
+        "corners": "images/btn/btn-default-small-focus-corners.gif",
+        "frame_bg": "images/btn/btn-default-small-focus-fbg.gif",
+        "sides": "images/btn/btn-default-small-focus-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -131,12 +133,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-small-pressed-corners.png)",
-        "sides:url(images/btn/btn-default-small-pressed-sides.png)",
-        "frame-bg:url(images/btn/btn-default-small-pressed-fbg.png)",
-        "bg:url(images/btn/btn-default-small-pressed-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-small-pressed-bg.gif",
+        "corners": "images/btn/btn-default-small-pressed-corners.gif",
+        "frame_bg": "images/btn/btn-default-small-pressed-fbg.gif",
+        "sides": "images/btn/btn-default-small-pressed-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -159,12 +162,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-small-disabled-corners.png)",
-        "sides:url(images/btn/btn-default-small-disabled-sides.png)",
-        "frame-bg:url(images/btn/btn-default-small-disabled-fbg.png)",
-        "bg:url(images/btn/btn-default-small-disabled-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-small-disabled-bg.gif",
+        "corners": "images/btn/btn-default-small-disabled-corners.gif",
+        "frame_bg": "images/btn/btn-default-small-disabled-fbg.gif",
+        "sides": "images/btn/btn-default-small-disabled-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -187,13 +191,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "stretch:bottom",
-        "frame-bg:url(images/btn/btn-default-medium-fbg.png)",
-        "bg:url(images/btn/btn-default-medium-bg.png)",
-        "corners:url(images/btn/btn-default-medium-corners.png)",
-        "sides:url(images/btn/btn-default-medium-sides.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-medium-bg.gif",
+        "corners": "images/btn/btn-default-medium-corners.gif",
+        "frame_bg": "images/btn/btn-default-medium-fbg.gif",
+        "sides": "images/btn/btn-default-medium-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -216,12 +220,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-medium-over-corners.png)",
-        "sides:url(images/btn/btn-default-medium-over-sides.png)",
-        "frame-bg:url(images/btn/btn-default-medium-over-fbg.png)",
-        "bg:url(images/btn/btn-default-medium-over-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-medium-over-bg.gif",
+        "corners": "images/btn/btn-default-medium-over-corners.gif",
+        "frame_bg": "images/btn/btn-default-medium-over-fbg.gif",
+        "sides": "images/btn/btn-default-medium-over-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -244,12 +249,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-medium-focus-corners.png)",
-        "sides:url(images/btn/btn-default-medium-focus-sides.png)",
-        "frame-bg:url(images/btn/btn-default-medium-focus-fbg.png)",
-        "bg:url(images/btn/btn-default-medium-focus-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-medium-focus-bg.gif",
+        "corners": "images/btn/btn-default-medium-focus-corners.gif",
+        "frame_bg": "images/btn/btn-default-medium-focus-fbg.gif",
+        "sides": "images/btn/btn-default-medium-focus-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -272,12 +278,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-medium-pressed-corners.png)",
-        "sides:url(images/btn/btn-default-medium-pressed-sides.png)",
-        "frame-bg:url(images/btn/btn-default-medium-pressed-fbg.png)",
-        "bg:url(images/btn/btn-default-medium-pressed-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-medium-pressed-bg.gif",
+        "corners": "images/btn/btn-default-medium-pressed-corners.gif",
+        "frame_bg": "images/btn/btn-default-medium-pressed-fbg.gif",
+        "sides": "images/btn/btn-default-medium-pressed-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -300,12 +307,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-medium-disabled-corners.png)",
-        "sides:url(images/btn/btn-default-medium-disabled-sides.png)",
-        "frame-bg:url(images/btn/btn-default-medium-disabled-fbg.png)",
-        "bg:url(images/btn/btn-default-medium-disabled-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-medium-disabled-bg.gif",
+        "corners": "images/btn/btn-default-medium-disabled-corners.gif",
+        "frame_bg": "images/btn/btn-default-medium-disabled-fbg.gif",
+        "sides": "images/btn/btn-default-medium-disabled-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -328,13 +336,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "stretch:bottom",
-        "frame-bg:url(images/btn/btn-default-large-fbg.png)",
-        "bg:url(images/btn/btn-default-large-bg.png)",
-        "corners:url(images/btn/btn-default-large-corners.png)",
-        "sides:url(images/btn/btn-default-large-sides.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-large-bg.gif",
+        "corners": "images/btn/btn-default-large-corners.gif",
+        "frame_bg": "images/btn/btn-default-large-fbg.gif",
+        "sides": "images/btn/btn-default-large-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -357,12 +365,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-large-over-corners.png)",
-        "sides:url(images/btn/btn-default-large-over-sides.png)",
-        "frame-bg:url(images/btn/btn-default-large-over-fbg.png)",
-        "bg:url(images/btn/btn-default-large-over-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-large-over-bg.gif",
+        "corners": "images/btn/btn-default-large-over-corners.gif",
+        "frame_bg": "images/btn/btn-default-large-over-fbg.gif",
+        "sides": "images/btn/btn-default-large-over-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -385,12 +394,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-large-focus-corners.png)",
-        "sides:url(images/btn/btn-default-large-focus-sides.png)",
-        "frame-bg:url(images/btn/btn-default-large-focus-fbg.png)",
-        "bg:url(images/btn/btn-default-large-focus-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-large-focus-bg.gif",
+        "corners": "images/btn/btn-default-large-focus-corners.gif",
+        "frame_bg": "images/btn/btn-default-large-focus-fbg.gif",
+        "sides": "images/btn/btn-default-large-focus-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -413,12 +423,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-large-pressed-corners.png)",
-        "sides:url(images/btn/btn-default-large-pressed-sides.png)",
-        "frame-bg:url(images/btn/btn-default-large-pressed-fbg.png)",
-        "bg:url(images/btn/btn-default-large-pressed-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-large-pressed-bg.gif",
+        "corners": "images/btn/btn-default-large-pressed-corners.gif",
+        "frame_bg": "images/btn/btn-default-large-pressed-fbg.gif",
+        "sides": "images/btn/btn-default-large-pressed-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -441,12 +452,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-large-disabled-corners.png)",
-        "sides:url(images/btn/btn-default-large-disabled-sides.png)",
-        "frame-bg:url(images/btn/btn-default-large-disabled-fbg.png)",
-        "bg:url(images/btn/btn-default-large-disabled-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-large-disabled-bg.gif",
+        "corners": "images/btn/btn-default-large-disabled-corners.gif",
+        "frame_bg": "images/btn/btn-default-large-disabled-fbg.gif",
+        "sides": "images/btn/btn-default-large-disabled-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -469,13 +481,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "stretch:bottom",
-        "frame-bg:url(images/btn/btn-default-toolbar-small-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-small-bg.png)",
-        "corners:url(images/btn/btn-default-toolbar-small-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-small-sides.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-small-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-small-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-small-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-small-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -498,12 +510,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-toolbar-small-over-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-small-over-sides.png)",
-        "frame-bg:url(images/btn/btn-default-toolbar-small-over-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-small-over-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-small-over-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-small-over-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-small-over-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-small-over-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -526,12 +539,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-toolbar-small-focus-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-small-focus-sides.png)",
-        "frame-bg:url(images/btn/btn-default-toolbar-small-focus-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-small-focus-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-small-focus-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-small-focus-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-small-focus-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-small-focus-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -554,12 +568,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-toolbar-small-pressed-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-small-pressed-sides.png)",
-        "frame-bg:url(images/btn/btn-default-toolbar-small-pressed-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-small-pressed-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-small-pressed-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-small-pressed-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-small-pressed-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-small-pressed-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -582,12 +597,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-toolbar-small-disabled-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-small-disabled-sides.png)",
-        "frame-bg:url(images/btn/btn-default-toolbar-small-disabled-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-small-disabled-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-small-disabled-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-small-disabled-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-small-disabled-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-small-disabled-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -610,13 +626,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "stretch:bottom",
-        "frame-bg:url(images/btn/btn-default-toolbar-medium-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-medium-bg.png)",
-        "corners:url(images/btn/btn-default-toolbar-medium-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-medium-sides.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-medium-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-medium-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-medium-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-medium-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -639,12 +655,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-toolbar-medium-over-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-medium-over-sides.png)",
-        "frame-bg:url(images/btn/btn-default-toolbar-medium-over-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-medium-over-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-medium-over-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-medium-over-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-medium-over-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-medium-over-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -667,12 +684,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-toolbar-medium-focus-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-medium-focus-sides.png)",
-        "frame-bg:url(images/btn/btn-default-toolbar-medium-focus-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-medium-focus-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-medium-focus-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-medium-focus-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-medium-focus-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-medium-focus-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -695,12 +713,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-toolbar-medium-pressed-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-medium-pressed-sides.png)",
-        "frame-bg:url(images/btn/btn-default-toolbar-medium-pressed-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-medium-pressed-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-medium-pressed-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-medium-pressed-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-medium-pressed-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-medium-pressed-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -723,12 +742,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-toolbar-medium-disabled-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-medium-disabled-sides.png)",
-        "frame-bg:url(images/btn/btn-default-toolbar-medium-disabled-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-medium-disabled-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-medium-disabled-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-medium-disabled-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-medium-disabled-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-medium-disabled-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -751,13 +771,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "stretch:bottom",
-        "frame-bg:url(images/btn/btn-default-toolbar-large-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-large-bg.png)",
-        "corners:url(images/btn/btn-default-toolbar-large-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-large-sides.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-large-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-large-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-large-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-large-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -780,12 +800,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-toolbar-large-over-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-large-over-sides.png)",
-        "frame-bg:url(images/btn/btn-default-toolbar-large-over-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-large-over-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-large-over-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-large-over-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-large-over-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-large-over-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -808,12 +829,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-toolbar-large-focus-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-large-focus-sides.png)",
-        "frame-bg:url(images/btn/btn-default-toolbar-large-focus-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-large-focus-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-large-focus-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-large-focus-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-large-focus-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-large-focus-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -836,12 +858,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-toolbar-large-pressed-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-large-pressed-sides.png)",
-        "frame-bg:url(images/btn/btn-default-toolbar-large-pressed-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-large-pressed-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-large-pressed-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-large-pressed-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-large-pressed-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-large-pressed-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -864,12 +887,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-default-toolbar-large-disabled-corners.png)",
-        "sides:url(images/btn/btn-default-toolbar-large-disabled-sides.png)",
-        "frame-bg:url(images/btn/btn-default-toolbar-large-disabled-fbg.png)",
-        "bg:url(images/btn/btn-default-toolbar-large-disabled-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-default-toolbar-large-disabled-bg.gif",
+        "corners": "images/btn/btn-default-toolbar-large-disabled-corners.gif",
+        "frame_bg": "images/btn/btn-default-toolbar-large-disabled-fbg.gif",
+        "sides": "images/btn/btn-default-toolbar-large-disabled-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -890,7 +914,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -912,10 +937,10 @@
         "tl": 4,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/panel/panel-default-framed-corners.png)",
-        "sides:url(images/panel/panel-default-framed-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/panel/panel-default-framed-corners.gif",
+        "sides": "images/panel/panel-default-framed-sides.gif"
+      }
     },
     {
       "border": {
@@ -936,7 +961,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -958,9 +984,8 @@
         "tl": 0,
         "tr": 0
       },
-      "slices": [
-        "stretch:top"
-      ]
+      "slices": {},
+      "stretch": "top"
     },
     {
       "border": {
@@ -982,9 +1007,8 @@
         "tl": 0,
         "tr": 0
       },
-      "slices": [
-        "stretch:right"
-      ]
+      "slices": {},
+      "stretch": "right"
     },
     {
       "border": {
@@ -1005,7 +1029,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -1027,10 +1052,10 @@
         "tl": 4,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/panel-header/panel-header-default-framed-top-corners.png)",
-        "sides:url(images/panel-header/panel-header-default-framed-top-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/panel-header/panel-header-default-framed-top-corners.gif",
+        "sides": "images/panel-header/panel-header-default-framed-top-sides.gif"
+      }
     },
     {
       "border": {
@@ -1052,10 +1077,10 @@
         "tl": 0,
         "tr": 0
       },
-      "slices": [
-        "corners:url(images/panel-header/panel-header-default-framed-bottom-corners.png)",
-        "sides:url(images/panel-header/panel-header-default-framed-bottom-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/panel-header/panel-header-default-framed-bottom-corners.gif",
+        "sides": "images/panel-header/panel-header-default-framed-bottom-sides.gif"
+      }
     },
     {
       "border": {
@@ -1077,11 +1102,11 @@
         "tl": 4,
         "tr": 0
       },
-      "slices": [
-        "corners:url(images/panel-header/panel-header-default-framed-left-corners.png)",
-        "corners-rtl:url(images/panel-header/panel-header-default-framed-left-corners-rtl.png)",
-        "sides:url(images/panel-header/panel-header-default-framed-left-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/panel-header/panel-header-default-framed-left-corners.gif",
+        "corners_rtl": "images/panel-header/panel-header-default-framed-left-corners-rtl.gif",
+        "sides": "images/panel-header/panel-header-default-framed-left-sides.gif"
+      }
     },
     {
       "border": {
@@ -1103,11 +1128,11 @@
         "tl": 0,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/panel-header/panel-header-default-framed-right-corners.png)",
-        "corners-rtl:url(images/panel-header/panel-header-default-framed-right-corners-rtl.png)",
-        "sides:url(images/panel-header/panel-header-default-framed-right-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/panel-header/panel-header-default-framed-right-corners.gif",
+        "corners_rtl": "images/panel-header/panel-header-default-framed-right-corners-rtl.gif",
+        "sides": "images/panel-header/panel-header-default-framed-right-sides.gif"
+      }
     },
     {
       "border": {
@@ -1129,10 +1154,10 @@
         "tl": 4,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/panel-header/panel-header-default-framed-collapsed-top-corners.png)",
-        "sides:url(images/panel-header/panel-header-default-framed-collapsed-top-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/panel-header/panel-header-default-framed-collapsed-top-corners.gif",
+        "sides": "images/panel-header/panel-header-default-framed-collapsed-top-sides.gif"
+      }
     },
     {
       "border": {
@@ -1154,10 +1179,10 @@
         "tl": 4,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/panel-header/panel-header-default-framed-collapsed-bottom-corners.png)",
-        "sides:url(images/panel-header/panel-header-default-framed-collapsed-bottom-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/panel-header/panel-header-default-framed-collapsed-bottom-corners.gif",
+        "sides": "images/panel-header/panel-header-default-framed-collapsed-bottom-sides.gif"
+      }
     },
     {
       "border": {
@@ -1179,11 +1204,11 @@
         "tl": 4,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/panel-header/panel-header-default-framed-collapsed-left-corners.png)",
-        "corners-rtl:url(images/panel-header/panel-header-default-framed-collapsed-left-corners-rtl.png)",
-        "sides:url(images/panel-header/panel-header-default-framed-collapsed-left-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/panel-header/panel-header-default-framed-collapsed-left-corners.gif",
+        "corners_rtl": "images/panel-header/panel-header-default-framed-collapsed-left-corners-rtl.gif",
+        "sides": "images/panel-header/panel-header-default-framed-collapsed-left-sides.gif"
+      }
     },
     {
       "border": {
@@ -1205,11 +1230,11 @@
         "tl": 4,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/panel-header/panel-header-default-framed-collapsed-right-corners.png)",
-        "corners-rtl:url(images/panel-header/panel-header-default-framed-collapsed-right-corners-rtl.png)",
-        "sides:url(images/panel-header/panel-header-default-framed-collapsed-right-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/panel-header/panel-header-default-framed-collapsed-right-corners.gif",
+        "corners_rtl": "images/panel-header/panel-header-default-framed-collapsed-right-corners-rtl.gif",
+        "sides": "images/panel-header/panel-header-default-framed-collapsed-right-sides.gif"
+      }
     },
     {
       "border": {
@@ -1230,7 +1255,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -1252,10 +1278,10 @@
         "tl": 4,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/window/window-default-corners.png)",
-        "sides:url(images/window/window-default-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/window/window-default-corners.gif",
+        "sides": "images/window/window-default-sides.gif"
+      }
     },
     {
       "border": {
@@ -1277,10 +1303,10 @@
         "tl": 4,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/window-header/window-header-default-top-corners.png)",
-        "sides:url(images/window-header/window-header-default-top-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/window-header/window-header-default-top-corners.gif",
+        "sides": "images/window-header/window-header-default-top-sides.gif"
+      }
     },
     {
       "border": {
@@ -1302,10 +1328,10 @@
         "tl": 0,
         "tr": 0
       },
-      "slices": [
-        "corners:url(images/window-header/window-header-default-bottom-corners.png)",
-        "sides:url(images/window-header/window-header-default-bottom-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/window-header/window-header-default-bottom-corners.gif",
+        "sides": "images/window-header/window-header-default-bottom-sides.gif"
+      }
     },
     {
       "border": {
@@ -1327,11 +1353,11 @@
         "tl": 4,
         "tr": 0
       },
-      "slices": [
-        "corners:url(images/window-header/window-header-default-left-corners.png)",
-        "corners-rtl:url(images/window-header/window-header-default-left-corners-rtl.png)",
-        "sides:url(images/window-header/window-header-default-left-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/window-header/window-header-default-left-corners.gif",
+        "corners_rtl": "images/window-header/window-header-default-left-corners-rtl.gif",
+        "sides": "images/window-header/window-header-default-left-sides.gif"
+      }
     },
     {
       "border": {
@@ -1353,11 +1379,11 @@
         "tl": 0,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/window-header/window-header-default-right-corners.png)",
-        "corners-rtl:url(images/window-header/window-header-default-right-corners-rtl.png)",
-        "sides:url(images/window-header/window-header-default-right-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/window-header/window-header-default-right-corners.gif",
+        "corners_rtl": "images/window-header/window-header-default-right-corners-rtl.gif",
+        "sides": "images/window-header/window-header-default-right-sides.gif"
+      }
     },
     {
       "border": {
@@ -1379,10 +1405,10 @@
         "tl": 4,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/window-header/window-header-default-collapsed-top-corners.png)",
-        "sides:url(images/window-header/window-header-default-collapsed-top-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/window-header/window-header-default-collapsed-top-corners.gif",
+        "sides": "images/window-header/window-header-default-collapsed-top-sides.gif"
+      }
     },
     {
       "border": {
@@ -1404,10 +1430,10 @@
         "tl": 4,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/window-header/window-header-default-collapsed-bottom-corners.png)",
-        "sides:url(images/window-header/window-header-default-collapsed-bottom-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/window-header/window-header-default-collapsed-bottom-corners.gif",
+        "sides": "images/window-header/window-header-default-collapsed-bottom-sides.gif"
+      }
     },
     {
       "border": {
@@ -1429,11 +1455,11 @@
         "tl": 4,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/window-header/window-header-default-collapsed-left-corners.png)",
-        "corners-rtl:url(images/window-header/window-header-default-collapsed-left-corners-rtl.png)",
-        "sides:url(images/window-header/window-header-default-collapsed-left-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/window-header/window-header-default-collapsed-left-corners.gif",
+        "corners_rtl": "images/window-header/window-header-default-collapsed-left-corners-rtl.gif",
+        "sides": "images/window-header/window-header-default-collapsed-left-sides.gif"
+      }
     },
     {
       "border": {
@@ -1455,11 +1481,11 @@
         "tl": 4,
         "tr": 4
       },
-      "slices": [
-        "corners:url(images/window-header/window-header-default-collapsed-right-corners.png)",
-        "corners-rtl:url(images/window-header/window-header-default-collapsed-right-corners-rtl.png)",
-        "sides:url(images/window-header/window-header-default-collapsed-right-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/window-header/window-header-default-collapsed-right-corners.gif",
+        "corners_rtl": "images/window-header/window-header-default-collapsed-right-corners-rtl.gif",
+        "sides": "images/window-header/window-header-default-collapsed-right-sides.gif"
+      }
     },
     {
       "border": {
@@ -1480,7 +1506,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -1501,7 +1528,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -1523,10 +1551,10 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/tab/tab-default-top-corners.png)",
-        "sides:url(images/tab/tab-default-top-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/tab/tab-default-top-corners.gif",
+        "sides": "images/tab/tab-default-top-sides.gif"
+      }
     },
     {
       "border": {
@@ -1548,10 +1576,10 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/tab/tab-default-top-active-corners.png)",
-        "sides:url(images/tab/tab-default-top-active-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/tab/tab-default-top-active-corners.gif",
+        "sides": "images/tab/tab-default-top-active-sides.gif"
+      }
     },
     {
       "border": {
@@ -1573,10 +1601,10 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/tab/tab-default-top-over-corners.png)",
-        "sides:url(images/tab/tab-default-top-over-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/tab/tab-default-top-over-corners.gif",
+        "sides": "images/tab/tab-default-top-over-sides.gif"
+      }
     },
     {
       "border": {
@@ -1598,10 +1626,10 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/tab/tab-default-top-disabled-corners.png)",
-        "sides:url(images/tab/tab-default-top-disabled-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/tab/tab-default-top-disabled-corners.gif",
+        "sides": "images/tab/tab-default-top-disabled-sides.gif"
+      }
     },
     {
       "border": {
@@ -1623,10 +1651,10 @@
         "tl": 0,
         "tr": 0
       },
-      "slices": [
-        "corners:url(images/tab/tab-default-bottom-corners.png)",
-        "sides:url(images/tab/tab-default-bottom-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/tab/tab-default-bottom-corners.gif",
+        "sides": "images/tab/tab-default-bottom-sides.gif"
+      }
     },
     {
       "border": {
@@ -1648,10 +1676,10 @@
         "tl": 0,
         "tr": 0
       },
-      "slices": [
-        "corners:url(images/tab/tab-default-bottom-active-corners.png)",
-        "sides:url(images/tab/tab-default-bottom-active-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/tab/tab-default-bottom-active-corners.gif",
+        "sides": "images/tab/tab-default-bottom-active-sides.gif"
+      }
     },
     {
       "border": {
@@ -1673,10 +1701,10 @@
         "tl": 0,
         "tr": 0
       },
-      "slices": [
-        "corners:url(images/tab/tab-default-bottom-over-corners.png)",
-        "sides:url(images/tab/tab-default-bottom-over-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/tab/tab-default-bottom-over-corners.gif",
+        "sides": "images/tab/tab-default-bottom-over-sides.gif"
+      }
     },
     {
       "border": {
@@ -1698,10 +1726,10 @@
         "tl": 0,
         "tr": 0
       },
-      "slices": [
-        "corners:url(images/tab/tab-default-bottom-disabled-corners.png)",
-        "sides:url(images/tab/tab-default-bottom-disabled-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/tab/tab-default-bottom-disabled-corners.gif",
+        "sides": "images/tab/tab-default-bottom-disabled-sides.gif"
+      }
     },
     {
       "border": {
@@ -1722,17 +1750,18 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
-        "b": 5,
-        "l": 5,
-        "r": 5,
-        "t": 5
+        "b": 3,
+        "l": 3,
+        "r": 3,
+        "t": 3
       },
       "box": {
-        "h": 102,
+        "h": 98,
         "w": 400,
         "x": 10,
         "y": 4890
@@ -1744,23 +1773,23 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn-group/btn-group-default-framed-notitle-corners.png)",
-        "sides:url(images/btn-group/btn-group-default-framed-notitle-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/btn-group/btn-group-default-framed-notitle-corners.gif",
+        "sides": "images/btn-group/btn-group-default-framed-notitle-sides.gif"
+      }
     },
     {
       "border": {
-        "b": 5,
-        "l": 5,
-        "r": 5,
-        "t": 5
+        "b": 3,
+        "l": 3,
+        "r": 3,
+        "t": 3
       },
       "box": {
-        "h": 132,
+        "h": 119,
         "w": 400,
         "x": 10,
-        "y": 5002
+        "y": 4998
       },
       "id": "buttongroup-1101",
       "radius": {
@@ -1769,10 +1798,10 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn-group/btn-group-default-framed-corners.png)",
-        "sides:url(images/btn-group/btn-group-default-framed-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/btn-group/btn-group-default-framed-corners.gif",
+        "sides": "images/btn-group/btn-group-default-framed-sides.gif"
+      }
     },
     {
       "border": {
@@ -1785,7 +1814,7 @@
         "h": 40,
         "w": 100,
         "x": 10,
-        "y": 5144
+        "y": 5127
       },
       "id": "tooltip-1113",
       "radius": {
@@ -1794,10 +1823,10 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/tip/tip-default-corners.png)",
-        "sides:url(images/tip/tip-default-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/tip/tip-default-corners.gif",
+        "sides": "images/tip/tip-default-sides.gif"
+      }
     },
     {
       "border": {
@@ -1810,7 +1839,7 @@
         "h": 40,
         "w": 100,
         "x": 10,
-        "y": 5194
+        "y": 5177
       },
       "id": "tooltip-1114",
       "radius": {
@@ -1819,10 +1848,10 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/tip/tip-form-invalid-corners.png)",
-        "sides:url(images/tip/tip-form-invalid-sides.png)"
-      ]
+      "slices": {
+        "corners": "images/tip/tip-form-invalid-corners.gif",
+        "sides": "images/tip/tip-form-invalid-sides.gif"
+      }
     },
     {
       "border": {
@@ -1835,7 +1864,7 @@
         "h": 27,
         "w": 400,
         "x": 10,
-        "y": 5244
+        "y": 5227
       },
       "id": "gridcolumn-1115",
       "radius": {
@@ -1844,9 +1873,9 @@
         "tl": 0,
         "tr": 0
       },
-      "slices": [
-        "bg:url(images/grid/column-header-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/grid/column-header-bg.gif"
+      }
     },
     {
       "border": {
@@ -1859,7 +1888,7 @@
         "h": 27,
         "w": 400,
         "x": 10,
-        "y": 5281
+        "y": 5264
       },
       "id": "gridcolumn-1116",
       "radius": {
@@ -1868,9 +1897,9 @@
         "tl": 0,
         "tr": 0
       },
-      "slices": [
-        "bg:url(images/grid/column-header-over-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/grid/column-header-over-bg.gif"
+      }
     },
     {
       "border": {
@@ -1883,7 +1912,7 @@
         "h": 30,
         "w": 210,
         "x": 11,
-        "y": 5319
+        "y": 5302
       },
       "id": "ext-gen1378",
       "radius": {
@@ -1891,7 +1920,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -1904,7 +1934,7 @@
         "h": 30,
         "w": 210,
         "x": 11,
-        "y": 5771
+        "y": 5754
       },
       "id": "datepicker-1120-footerEl",
       "radius": {
@@ -1912,6 +1942,32 @@
         "br": 0,
         "tl": 0,
         "tr": 0
+      },
+      "slices": {}
+    },
+    {
+      "border": {
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 0
+      },
+      "box": {
+        "h": 33,
+        "w": 164,
+        "x": 10,
+        "y": 5795
+      },
+      "id": "roweditorbuttons-1123",
+      "radius": {
+        "bl": 5,
+        "br": 5,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": {
+        "corners": "images/grid-row-editor-buttons/null-corners.gif",
+        "sides": "images/grid-row-editor-buttons/null-sides.gif"
       }
     },
     {
@@ -1925,91 +1981,8 @@
         "h": 24,
         "w": 56,
         "x": 10,
-        "y": 5812
+        "y": 5838
       },
-      "id": "button-1123",
-      "radius": {
-        "bl": 3,
-        "br": 3,
-        "tl": 3,
-        "tr": 3
-      },
-      "slices": [
-        "stretch:bottom",
-        "frame-bg:url(images/btn/btn-plain-small-fbg.png)",
-        "bg:url(images/btn/btn-plain-small-bg.png)"
-      ]
-    },
-    {
-      "border": {
-        "b": 1,
-        "l": 1,
-        "r": 1,
-        "t": 1
-      },
-      "box": {
-        "h": 24,
-        "w": 56,
-        "x": 10,
-        "y": 5846
-      },
-      "gradient": "top",
-      "id": "button-1124",
-      "radius": {
-        "bl": 3,
-        "br": 3,
-        "tl": 3,
-        "tr": 3
-      },
-      "slices": [
-        "corners:url(images/btn/btn-plain-small-over-corners.png)",
-        "sides:url(images/btn/btn-plain-small-over-sides.png)",
-        "frame-bg:url(images/btn/btn-plain-small-over-fbg.png)",
-        "bg:url(images/btn/btn-plain-small-over-bg.png)"
-      ]
-    },
-    {
-      "border": {
-        "b": 1,
-        "l": 1,
-        "r": 1,
-        "t": 1
-      },
-      "box": {
-        "h": 24,
-        "w": 56,
-        "x": 10,
-        "y": 5880
-      },
-      "gradient": "top",
-      "id": "button-1125",
-      "radius": {
-        "bl": 3,
-        "br": 3,
-        "tl": 3,
-        "tr": 3
-      },
-      "slices": [
-        "corners:url(images/btn/btn-plain-small-focus-corners.png)",
-        "sides:url(images/btn/btn-plain-small-focus-sides.png)",
-        "frame-bg:url(images/btn/btn-plain-small-focus-fbg.png)",
-        "bg:url(images/btn/btn-plain-small-focus-bg.png)"
-      ]
-    },
-    {
-      "border": {
-        "b": 1,
-        "l": 1,
-        "r": 1,
-        "t": 1
-      },
-      "box": {
-        "h": 24,
-        "w": 56,
-        "x": 10,
-        "y": 5914
-      },
-      "gradient": "top",
       "id": "button-1126",
       "radius": {
         "bl": 3,
@@ -2017,12 +1990,11 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-plain-small-pressed-corners.png)",
-        "sides:url(images/btn/btn-plain-small-pressed-sides.png)",
-        "frame-bg:url(images/btn/btn-plain-small-pressed-fbg.png)",
-        "bg:url(images/btn/btn-plain-small-pressed-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-small-bg.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-small-fbg.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -2035,7 +2007,7 @@
         "h": 24,
         "w": 56,
         "x": 10,
-        "y": 5948
+        "y": 5872
       },
       "gradient": "top",
       "id": "button-1127",
@@ -2045,12 +2017,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-plain-small-disabled-corners.png)",
-        "sides:url(images/btn/btn-plain-small-disabled-sides.png)",
-        "frame-bg:url(images/btn/btn-plain-small-disabled-fbg.png)",
-        "bg:url(images/btn/btn-plain-small-disabled-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-small-over-bg.gif",
+        "corners": "images/btn/btn-plain-toolbar-small-over-corners.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-small-over-fbg.gif",
+        "sides": "images/btn/btn-plain-toolbar-small-over-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -2060,11 +2033,12 @@
         "t": 1
       },
       "box": {
-        "h": 32,
-        "w": 71,
+        "h": 24,
+        "w": 56,
         "x": 10,
-        "y": 5982
+        "y": 5906
       },
+      "gradient": "top",
       "id": "button-1128",
       "radius": {
         "bl": 3,
@@ -2072,11 +2046,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "stretch:bottom",
-        "frame-bg:url(images/btn/btn-plain-medium-fbg.png)",
-        "bg:url(images/btn/btn-plain-medium-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-small-focus-bg.gif",
+        "corners": "images/btn/btn-plain-toolbar-small-focus-corners.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-small-focus-fbg.gif",
+        "sides": "images/btn/btn-plain-toolbar-small-focus-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -2086,10 +2062,10 @@
         "t": 1
       },
       "box": {
-        "h": 32,
-        "w": 71,
+        "h": 24,
+        "w": 56,
         "x": 10,
-        "y": 6024
+        "y": 5940
       },
       "gradient": "top",
       "id": "button-1129",
@@ -2099,12 +2075,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-plain-medium-over-corners.png)",
-        "sides:url(images/btn/btn-plain-medium-over-sides.png)",
-        "frame-bg:url(images/btn/btn-plain-medium-over-fbg.png)",
-        "bg:url(images/btn/btn-plain-medium-over-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-small-pressed-bg.gif",
+        "corners": "images/btn/btn-plain-toolbar-small-pressed-corners.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-small-pressed-fbg.gif",
+        "sides": "images/btn/btn-plain-toolbar-small-pressed-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -2114,12 +2091,11 @@
         "t": 1
       },
       "box": {
-        "h": 32,
-        "w": 71,
+        "h": 24,
+        "w": 56,
         "x": 10,
-        "y": 6066
+        "y": 5974
       },
-      "gradient": "top",
       "id": "button-1130",
       "radius": {
         "bl": 3,
@@ -2127,12 +2103,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-plain-medium-focus-corners.png)",
-        "sides:url(images/btn/btn-plain-medium-focus-sides.png)",
-        "frame-bg:url(images/btn/btn-plain-medium-focus-fbg.png)",
-        "bg:url(images/btn/btn-plain-medium-focus-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-small-disabled-bg.gif",
+        "corners": "images/btn/btn-plain-toolbar-small-disabled-corners.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-small-disabled-fbg.gif",
+        "sides": "images/btn/btn-plain-toolbar-small-disabled-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -2145,9 +2122,8 @@
         "h": 32,
         "w": 71,
         "x": 10,
-        "y": 6108
+        "y": 6008
       },
-      "gradient": "top",
       "id": "button-1131",
       "radius": {
         "bl": 3,
@@ -2155,12 +2131,11 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-plain-medium-pressed-corners.png)",
-        "sides:url(images/btn/btn-plain-medium-pressed-sides.png)",
-        "frame-bg:url(images/btn/btn-plain-medium-pressed-fbg.png)",
-        "bg:url(images/btn/btn-plain-medium-pressed-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-medium-bg.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-medium-fbg.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -2173,7 +2148,7 @@
         "h": 32,
         "w": 71,
         "x": 10,
-        "y": 6150
+        "y": 6050
       },
       "gradient": "top",
       "id": "button-1132",
@@ -2183,12 +2158,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-plain-medium-disabled-corners.png)",
-        "sides:url(images/btn/btn-plain-medium-disabled-sides.png)",
-        "frame-bg:url(images/btn/btn-plain-medium-disabled-fbg.png)",
-        "bg:url(images/btn/btn-plain-medium-disabled-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-medium-over-bg.gif",
+        "corners": "images/btn/btn-plain-toolbar-medium-over-corners.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-medium-over-fbg.gif",
+        "sides": "images/btn/btn-plain-toolbar-medium-over-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -2198,11 +2174,12 @@
         "t": 1
       },
       "box": {
-        "h": 40,
-        "w": 80,
+        "h": 32,
+        "w": 71,
         "x": 10,
-        "y": 6192
+        "y": 6092
       },
+      "gradient": "top",
       "id": "button-1133",
       "radius": {
         "bl": 3,
@@ -2210,11 +2187,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "stretch:bottom",
-        "frame-bg:url(images/btn/btn-plain-large-fbg.png)",
-        "bg:url(images/btn/btn-plain-large-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-medium-focus-bg.gif",
+        "corners": "images/btn/btn-plain-toolbar-medium-focus-corners.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-medium-focus-fbg.gif",
+        "sides": "images/btn/btn-plain-toolbar-medium-focus-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -2224,10 +2203,10 @@
         "t": 1
       },
       "box": {
-        "h": 40,
-        "w": 80,
+        "h": 32,
+        "w": 71,
         "x": 10,
-        "y": 6242
+        "y": 6134
       },
       "gradient": "top",
       "id": "button-1134",
@@ -2237,12 +2216,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-plain-large-over-corners.png)",
-        "sides:url(images/btn/btn-plain-large-over-sides.png)",
-        "frame-bg:url(images/btn/btn-plain-large-over-fbg.png)",
-        "bg:url(images/btn/btn-plain-large-over-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-medium-pressed-bg.gif",
+        "corners": "images/btn/btn-plain-toolbar-medium-pressed-corners.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-medium-pressed-fbg.gif",
+        "sides": "images/btn/btn-plain-toolbar-medium-pressed-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -2252,12 +2232,11 @@
         "t": 1
       },
       "box": {
-        "h": 40,
-        "w": 80,
+        "h": 32,
+        "w": 71,
         "x": 10,
-        "y": 6292
+        "y": 6176
       },
-      "gradient": "top",
       "id": "button-1135",
       "radius": {
         "bl": 3,
@@ -2265,12 +2244,13 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-plain-large-focus-corners.png)",
-        "sides:url(images/btn/btn-plain-large-focus-sides.png)",
-        "frame-bg:url(images/btn/btn-plain-large-focus-fbg.png)",
-        "bg:url(images/btn/btn-plain-large-focus-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-medium-disabled-bg.gif",
+        "corners": "images/btn/btn-plain-toolbar-medium-disabled-corners.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-medium-disabled-fbg.gif",
+        "sides": "images/btn/btn-plain-toolbar-medium-disabled-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -2283,9 +2263,8 @@
         "h": 40,
         "w": 80,
         "x": 10,
-        "y": 6342
+        "y": 6218
       },
-      "gradient": "top",
       "id": "button-1136",
       "radius": {
         "bl": 3,
@@ -2293,12 +2272,11 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-plain-large-pressed-corners.png)",
-        "sides:url(images/btn/btn-plain-large-pressed-sides.png)",
-        "frame-bg:url(images/btn/btn-plain-large-pressed-fbg.png)",
-        "bg:url(images/btn/btn-plain-large-pressed-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-large-bg.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-large-fbg.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -2311,7 +2289,7 @@
         "h": 40,
         "w": 80,
         "x": 10,
-        "y": 6392
+        "y": 6268
       },
       "gradient": "top",
       "id": "button-1137",
@@ -2321,75 +2299,99 @@
         "tl": 3,
         "tr": 3
       },
-      "slices": [
-        "corners:url(images/btn/btn-plain-large-disabled-corners.png)",
-        "sides:url(images/btn/btn-plain-large-disabled-sides.png)",
-        "frame-bg:url(images/btn/btn-plain-large-disabled-fbg.png)",
-        "bg:url(images/btn/btn-plain-large-disabled-bg.png)"
-      ]
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-large-over-bg.gif",
+        "corners": "images/btn/btn-plain-toolbar-large-over-corners.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-large-over-fbg.gif",
+        "sides": "images/btn/btn-plain-toolbar-large-over-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
-        "b": 0,
-        "l": 0,
-        "r": 0,
-        "t": 0
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
       },
       "box": {
-        "h": 13,
-        "w": 38,
+        "h": 40,
+        "w": 80,
         "x": 10,
-        "y": 6443
+        "y": 6318
       },
+      "gradient": "top",
       "id": "button-1138",
       "radius": {
-        "bl": 0,
-        "br": 0,
-        "tl": 0,
-        "tr": 0
-      }
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-large-focus-bg.gif",
+        "corners": "images/btn/btn-plain-toolbar-large-focus-corners.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-large-focus-fbg.gif",
+        "sides": "images/btn/btn-plain-toolbar-large-focus-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
-        "b": 0,
-        "l": 0,
-        "r": 0,
-        "t": 0
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
       },
       "box": {
-        "h": 13,
-        "w": 38,
+        "h": 40,
+        "w": 80,
         "x": 10,
-        "y": 6467
+        "y": 6368
       },
+      "gradient": "top",
       "id": "button-1139",
       "radius": {
-        "bl": 0,
-        "br": 0,
-        "tl": 0,
-        "tr": 0
-      }
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-large-pressed-bg.gif",
+        "corners": "images/btn/btn-plain-toolbar-large-pressed-corners.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-large-pressed-fbg.gif",
+        "sides": "images/btn/btn-plain-toolbar-large-pressed-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
-        "b": 0,
-        "l": 0,
-        "r": 0,
-        "t": 0
+        "b": 1,
+        "l": 1,
+        "r": 1,
+        "t": 1
       },
       "box": {
-        "h": 13,
-        "w": 38,
+        "h": 40,
+        "w": 80,
         "x": 10,
-        "y": 6491
+        "y": 6418
       },
       "id": "button-1140",
       "radius": {
-        "bl": 0,
-        "br": 0,
-        "tl": 0,
-        "tr": 0
-      }
+        "bl": 3,
+        "br": 3,
+        "tl": 3,
+        "tr": 3
+      },
+      "slices": {
+        "bg": "images/btn/btn-plain-toolbar-large-disabled-bg.gif",
+        "corners": "images/btn/btn-plain-toolbar-large-disabled-corners.gif",
+        "frame_bg": "images/btn/btn-plain-toolbar-large-disabled-fbg.gif",
+        "sides": "images/btn/btn-plain-toolbar-large-disabled-sides.gif"
+      },
+      "stretch": "bottom"
     },
     {
       "border": {
@@ -2402,7 +2404,7 @@
         "h": 13,
         "w": 38,
         "x": 10,
-        "y": 6515
+        "y": 6469
       },
       "id": "button-1141",
       "radius": {
@@ -2410,7 +2412,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -2423,7 +2426,7 @@
         "h": 13,
         "w": 38,
         "x": 10,
-        "y": 6539
+        "y": 6493
       },
       "id": "button-1142",
       "radius": {
@@ -2431,7 +2434,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -2444,7 +2448,7 @@
         "h": 13,
         "w": 38,
         "x": 10,
-        "y": 6563
+        "y": 6517
       },
       "id": "button-1143",
       "radius": {
@@ -2452,7 +2456,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -2465,7 +2470,7 @@
         "h": 13,
         "w": 38,
         "x": 10,
-        "y": 6587
+        "y": 6541
       },
       "id": "button-1144",
       "radius": {
@@ -2473,7 +2478,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -2486,7 +2492,7 @@
         "h": 13,
         "w": 38,
         "x": 10,
-        "y": 6611
+        "y": 6565
       },
       "id": "button-1145",
       "radius": {
@@ -2494,7 +2500,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -2507,7 +2514,7 @@
         "h": 13,
         "w": 38,
         "x": 10,
-        "y": 6635
+        "y": 6589
       },
       "id": "button-1146",
       "radius": {
@@ -2515,7 +2522,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -2528,7 +2536,7 @@
         "h": 13,
         "w": 38,
         "x": 10,
-        "y": 6659
+        "y": 6613
       },
       "id": "button-1147",
       "radius": {
@@ -2536,7 +2544,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -2549,7 +2558,7 @@
         "h": 13,
         "w": 38,
         "x": 10,
-        "y": 6683
+        "y": 6637
       },
       "id": "button-1148",
       "radius": {
@@ -2557,7 +2566,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -2570,7 +2580,7 @@
         "h": 13,
         "w": 38,
         "x": 10,
-        "y": 6707
+        "y": 6661
       },
       "id": "button-1149",
       "radius": {
@@ -2578,7 +2588,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -2591,7 +2602,7 @@
         "h": 13,
         "w": 38,
         "x": 10,
-        "y": 6731
+        "y": 6685
       },
       "id": "button-1150",
       "radius": {
@@ -2599,7 +2610,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -2612,7 +2624,7 @@
         "h": 13,
         "w": 38,
         "x": 10,
-        "y": 6755
+        "y": 6709
       },
       "id": "button-1151",
       "radius": {
@@ -2620,7 +2632,8 @@
         "br": 0,
         "tl": 0,
         "tr": 0
-      }
+      },
+      "slices": {}
     },
     {
       "border": {
@@ -2633,7 +2646,7 @@
         "h": 13,
         "w": 38,
         "x": 10,
-        "y": 6779
+        "y": 6733
       },
       "id": "button-1152",
       "radius": {
@@ -2641,7 +2654,415 @@
         "br": 0,
         "tl": 0,
         "tr": 0
+      },
+      "slices": {}
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6757
+      },
+      "id": "button-1153",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": {}
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6781
+      },
+      "id": "button-1154",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": {}
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 38,
+        "x": 10,
+        "y": 6805
+      },
+      "id": "button-1155",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": {}
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 23,
+        "w": 200,
+        "x": 10,
+        "y": 6828
+      },
+      "id": "panel-1156",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": {
+        "corners": "images/panel/panel-light-framed-corners.gif",
+        "sides": "images/panel/panel-light-framed-sides.gif"
       }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 6861
+      },
+      "id": "panel-1157_header",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": {}
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 6933
+      },
+      "id": "panel-1158_header",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": {},
+      "stretch": "top"
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 10,
+        "y": 6979
+      },
+      "id": "panel-1159_header",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": {},
+      "stretch": "right"
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 174,
+        "y": 7189
+      },
+      "id": "panel-1160_header",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": {}
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 7399
+      },
+      "id": "panel-1161_header",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": {
+        "corners": "images/panel-header/panel-header-light-framed-top-corners.gif",
+        "sides": "images/panel-header/panel-header-light-framed-top-sides.gif"
+      }
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 7481
+      },
+      "id": "panel-1162_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": {
+        "corners": "images/panel-header/panel-header-light-framed-bottom-corners.gif",
+        "sides": "images/panel-header/panel-header-light-framed-bottom-sides.gif"
+      }
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 10,
+        "y": 7527
+      },
+      "id": "panel-1163_header",
+      "radius": {
+        "bl": 4,
+        "br": 0,
+        "tl": 4,
+        "tr": 0
+      },
+      "slices": {
+        "corners": "images/panel-header/panel-header-light-framed-left-corners.gif",
+        "corners_rtl": "images/panel-header/panel-header-light-framed-left-corners-rtl.gif",
+        "sides": "images/panel-header/panel-header-light-framed-left-sides.gif"
+      }
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 174,
+        "y": 7737
+      },
+      "id": "panel-1164_header",
+      "radius": {
+        "bl": 0,
+        "br": 4,
+        "tl": 0,
+        "tr": 4
+      },
+      "slices": {
+        "corners": "images/panel-header/panel-header-light-framed-right-corners.gif",
+        "corners_rtl": "images/panel-header/panel-header-light-framed-right-corners-rtl.gif",
+        "sides": "images/panel-header/panel-header-light-framed-right-sides.gif"
+      }
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 7947
+      },
+      "id": "panel-1165_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": {
+        "corners": "images/panel-header/panel-header-light-framed-collapsed-top-corners.gif",
+        "sides": "images/panel-header/panel-header-light-framed-collapsed-top-sides.gif"
+      }
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 36,
+        "w": 200,
+        "x": 10,
+        "y": 7993
+      },
+      "id": "panel-1166_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": {
+        "corners": "images/panel-header/panel-header-light-framed-collapsed-bottom-corners.gif",
+        "sides": "images/panel-header/panel-header-light-framed-collapsed-bottom-sides.gif"
+      }
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 10,
+        "y": 8039
+      },
+      "id": "panel-1167_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": {
+        "corners": "images/panel-header/panel-header-light-framed-collapsed-left-corners.gif",
+        "corners_rtl": "images/panel-header/panel-header-light-framed-collapsed-left-corners-rtl.gif",
+        "sides": "images/panel-header/panel-header-light-framed-collapsed-left-sides.gif"
+      }
+    },
+    {
+      "border": {
+        "b": 5,
+        "l": 5,
+        "r": 5,
+        "t": 5
+      },
+      "box": {
+        "h": 200,
+        "w": 36,
+        "x": 10,
+        "y": 8249
+      },
+      "id": "panel-1168_header",
+      "radius": {
+        "bl": 4,
+        "br": 4,
+        "tl": 4,
+        "tr": 4
+      },
+      "slices": {
+        "corners": "images/panel-header/panel-header-light-framed-collapsed-right-corners.gif",
+        "corners_rtl": "images/panel-header/panel-header-light-framed-collapsed-right-corners-rtl.gif",
+        "sides": "images/panel-header/panel-header-light-framed-collapsed-right-sides.gif"
+      }
+    },
+    {
+      "border": {
+        "b": 0,
+        "l": 0,
+        "r": 0,
+        "t": 0
+      },
+      "box": {
+        "h": 13,
+        "w": 400,
+        "x": 10,
+        "y": 8459
+      },
+      "id": "header-1169",
+      "radius": {
+        "bl": 0,
+        "br": 0,
+        "tl": 0,
+        "tr": 0
+      },
+      "slices": {}
     }
   ]
 }

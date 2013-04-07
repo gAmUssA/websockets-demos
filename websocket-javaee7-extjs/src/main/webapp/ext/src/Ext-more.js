@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 //@tag extras,core
 //@require misc/JSON.js
@@ -169,7 +172,7 @@ Ext.apply(Ext, {
 
     /**
      * Returns the current document body as an {@link Ext.Element}.
-     * @return Ext.Element The document body
+     * @return {Ext.Element} The document body
      */
     getBody: (function() {
         var body;
@@ -180,7 +183,7 @@ Ext.apply(Ext, {
 
     /**
      * Returns the current document head as an {@link Ext.Element}.
-     * @return Ext.Element The document head
+     * @return {Ext.Element} The document head
      * @method
      */
     getHead: (function() {
@@ -192,7 +195,7 @@ Ext.apply(Ext, {
 
     /**
      * Returns the current HTML document object as an {@link Ext.Element}.
-     * @return Ext.Element The document
+     * @return {Ext.Element} The document
      */
     getDoc: (function() {
         var doc;
@@ -537,7 +540,7 @@ Opera 11.11 - Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11
     nullLog.info = nullLog.warn = nullLog.error = Ext.emptyFn;
 
     // also update Version.js
-    Ext.setVersion('extjs', '4.2.0.489');
+    Ext.setVersion('extjs', '4.2.0.663');
     Ext.apply(Ext, {
         /**
          * @property {String} SSL_SECURE_URL
@@ -1041,8 +1044,8 @@ Opera 11.11 - Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11
          * operating system settings, such as the theme or font size.
          * @param {Boolean} [force] true to force a recalculation of the value.
          * @return {Object} An object containing scrollbar sizes.
-         * @return.width {Number} The width of the vertical scrollbar.
-         * @return.height {Number} The height of the horizontal scrollbar.
+         * @return {Number} return.width The width of the vertical scrollbar.
+         * @return {Number} return.height The height of the horizontal scrollbar.
          */
         getScrollbarSize: function (force) {
             if (!Ext.isReady) {
@@ -1333,6 +1336,14 @@ Opera 11.11 - Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11
         },
 
         /**
+         * Sets the default font-family to use for components that support a `glyph` config.
+         * @param {String} fontFamily The name of the font-family
+         */
+        setGlyphFontFamily: function(fontFamily) {
+            Ext._glyphFontFamily = fontFamily;
+        },
+
+        /**
          * @property {Boolean} useShims
          * By default, Ext intelligently decides whether floating elements should be shimmed.
          * If you are using flash, you may want to set this to true.
@@ -1347,10 +1358,10 @@ Opera 11.11 - Opera/9.80 (Windows NT 6.1; U; en) Presto/2.8.131 Version/11.11
  *
  * See `Ext.app.Application` for details.
  *
- * @param {Object/String} Application config object or name of a class derived from Ext.app.Application.
+ * @param {Object/String} config Application config object or name of a class derived from Ext.app.Application.
  */
 Ext.application = function(config) {
-    var App;
+    var App, paths, ns;
     
     if (typeof config === "string") {
         Ext.require(config, function(){
@@ -1358,6 +1369,20 @@ Ext.application = function(config) {
         });
     }
     else {
+        // We have to process `paths` before creating Application class,
+        // or `requires` won't work.
+        Ext.Loader.setPath(config.name, config.appFolder || 'app');
+        
+        if (paths = config.paths) {
+            for (ns in paths) {
+                if (paths.hasOwnProperty(ns)) {
+                    Ext.Loader.setPath(ns, paths[ns]);
+                }
+            }
+        }
+        
+        config['paths processed'] = true;
+        
         // Let Ext.define do the hard work but don't assign a class name.
         //
         Ext.define(config.name + ".$application", Ext.apply({

@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /*
  * This file defines the core framework "shortcuts". These are the modes and states of the
@@ -110,7 +113,7 @@ Ext.theme.addShortcuts({
             xtype: 'widget.progressbar',
             folder: 'progress',
             filename: 'progress-{ui}',
-            delegate: '.x-progress-bar',
+            delegate: '.' + Ext.baseCSSPrefix + 'progress-bar',
             config: {
                 width: 100,
                 value: 1,
@@ -139,7 +142,7 @@ Ext.theme.addShortcuts({
             xtype: 'widget.tabpanel',
             filename: 'tab-bar-{ui}',
             folder: 'tab-bar',
-            delegate: '.x-tab-bar',
+            delegate: '.' + Ext.baseCSSPrefix + 'tab-bar',
             offsets: {
                 bottom: 3,
                 left: 1
@@ -243,7 +246,7 @@ Ext.theme.addShortcuts({
         },
         // window w/header
         {
-            delegate: '.x-window-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'window-header',
             config: {
                 title: 'Top Window',
                 closable: false,
@@ -253,7 +256,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-window-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'window-header',
             config: {
                 title: 'Bottom Window',
                 closable: false,
@@ -263,7 +266,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-window-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'window-header',
             config: {
                 title: 'Left Window',
                 closable: false,
@@ -273,7 +276,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-window-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'window-header',
             config: {
                 title: 'Right Window',
                 closable: false,
@@ -284,7 +287,7 @@ Ext.theme.addShortcuts({
         },
         // collapsed window w/header
         {
-            delegate: '.x-window-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'window-header',
             config: {
                 title: 'Top Collapsed',
                 collapsed: true,
@@ -295,7 +298,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-window-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'window-header',
             config: {
                 title: 'Bottom Collapsed',
                 collapsed: true,
@@ -306,7 +309,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-window-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'window-header',
             config: {
                 title: 'Left Collapsed',
                 collapsed: true,
@@ -318,7 +321,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-window-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'window-header',
             config: {
                 title: 'Right Collapsed',
                 collapsed: true,
@@ -341,7 +344,7 @@ Ext.theme.addShortcuts({
         },
         // panel w/header
         {
-            delegate: '.x-panel-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'panel-header',
             config: {
                 title: 'Top',
                 width: 200,
@@ -350,7 +353,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-panel-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'panel-header',
             config: {
                 title: 'Bottom',
                 width: 200,
@@ -359,7 +362,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-panel-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'panel-header',
             config: {
                 title: 'Left',
                 height: 200,
@@ -368,7 +371,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-panel-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'panel-header',
             config: {
                 title: 'Right',
                 height: 200,
@@ -378,7 +381,7 @@ Ext.theme.addShortcuts({
         },
         // framed panel w/header
         {
-            delegate: '.x-panel-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'panel-header',
             config: {
                 title: 'Top Framed',
                 width: 200,
@@ -388,7 +391,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-panel-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'panel-header',
             config: {
                 title: 'Bottom Framed',
                 width: 200,
@@ -398,7 +401,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-panel-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'panel-header',
             config: {
                 title: 'Left Framed',
                 height: 200,
@@ -408,7 +411,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-panel-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'panel-header',
             config: {
                 title: 'Right Framed',
                 height: 200,
@@ -419,7 +422,7 @@ Ext.theme.addShortcuts({
         },
         // collapsed framed panel w/header
         {
-            delegate: '.x-panel-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'panel-header',
             config: {
                 title: 'Top Framed/Collapsed',
                 collapsed: true,
@@ -429,7 +432,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-panel-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'panel-header',
             config: {
                 title: 'Bottom Framed/Collapsed',
                 collapsed: true,
@@ -439,7 +442,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-panel-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'panel-header',
             config: {
                 title: 'Left Framed/Collapsed',
                 collapsed: true,
@@ -450,7 +453,7 @@ Ext.theme.addShortcuts({
             }
         },
         {
-            delegate: '.x-panel-header',
+            delegate: '.' + Ext.baseCSSPrefix + 'panel-header',
             config: {
                 title: 'Right Framed/Collapsed',
                 collapsed: true,
@@ -496,7 +499,7 @@ Ext.theme.addShortcuts({
             config: {
                 scale: 'small',
                 text: 'Button',
-                cls: 'x-btn-{ui}-small-focus'
+                cls: Ext.baseCSSPrefix + 'btn-{ui}-small-focus'
             }
         },
         {
@@ -504,7 +507,7 @@ Ext.theme.addShortcuts({
             config: {
                 scale: 'small',
                 text: 'Button',
-                cls: 'x-btn-{ui}-small-pressed'
+                cls: Ext.baseCSSPrefix + 'btn-{ui}-small-pressed'
             }
         },
         {
@@ -537,7 +540,7 @@ Ext.theme.addShortcuts({
             config: {
                 scale: 'medium',
                 text: 'Button',
-                cls: 'x-btn-{ui}-medium-focus'
+                cls: Ext.baseCSSPrefix + 'btn-{ui}-medium-focus'
             }
         },
         {
@@ -545,7 +548,7 @@ Ext.theme.addShortcuts({
             config: {
                 scale: 'medium',
                 text: 'Button',
-                cls: 'x-btn-{ui}-medium-pressed'
+                cls: Ext.baseCSSPrefix + 'btn-{ui}-medium-pressed'
             }
         },
         {
@@ -578,7 +581,7 @@ Ext.theme.addShortcuts({
             config: {
                 scale: 'large',
                 text: 'Button',
-                cls: 'x-btn-{ui}-large-focus'
+                cls: Ext.baseCSSPrefix + 'btn-{ui}-large-focus'
             }
         },
         {
@@ -586,7 +589,7 @@ Ext.theme.addShortcuts({
             config: {
                 scale: 'large',
                 text: 'Button',
-                cls: 'x-btn-{ui}-large-pressed'
+                cls: Ext.baseCSSPrefix + 'btn-{ui}-large-pressed'
             }
         },
         {
@@ -622,7 +625,7 @@ Ext.theme.addShortcuts({
                 scale: 'small',
                 ui: '{ui}-toolbar',
                 text: 'Button',
-                cls: 'x-btn-{ui}-toolbar-small-focus'
+                cls: Ext.baseCSSPrefix + 'btn-{ui}-toolbar-small-focus'
             }
         },
         {
@@ -631,7 +634,7 @@ Ext.theme.addShortcuts({
                 scale: 'small',
                 ui: '{ui}-toolbar',
                 text: 'Button',
-                cls: 'x-btn-{ui}-toolbar-small-pressed'
+                cls: Ext.baseCSSPrefix + 'btn-{ui}-toolbar-small-pressed'
             }
         },
         {
@@ -668,7 +671,7 @@ Ext.theme.addShortcuts({
                 scale: 'medium',
                 ui: '{ui}-toolbar',
                 text: 'Button',
-                cls: 'x-btn-{ui}-toolbar-medium-focus'
+                cls: Ext.baseCSSPrefix + 'btn-{ui}-toolbar-medium-focus'
             }
         },
         {
@@ -677,7 +680,7 @@ Ext.theme.addShortcuts({
                 scale: 'medium',
                 ui: '{ui}-toolbar',
                 text: 'Button',
-                cls: 'x-btn-{ui}-toolbar-medium-pressed'
+                cls: Ext.baseCSSPrefix + 'btn-{ui}-toolbar-medium-pressed'
             }
         },
         {
@@ -714,7 +717,7 @@ Ext.theme.addShortcuts({
                 scale: 'large',
                 ui: '{ui}-toolbar',
                 text: 'Button',
-                cls: 'x-btn-{ui}-toolbar-large-focus'
+                cls: Ext.baseCSSPrefix + 'btn-{ui}-toolbar-large-focus'
             }
         },
         {
@@ -723,7 +726,7 @@ Ext.theme.addShortcuts({
                 scale: 'large',
                 ui: '{ui}-toolbar',
                 text: 'Button',
-                cls: 'x-btn-{ui}-toolbar-large-pressed'
+                cls: Ext.baseCSSPrefix + 'btn-{ui}-toolbar-large-pressed'
             }
         },
         {
@@ -733,6 +736,23 @@ Ext.theme.addShortcuts({
                 ui: '{ui}-toolbar',
                 text: 'Button',
                 disabled: true
+            }
+        }
+    ],
+
+    'widget.roweditorbuttons': [
+        {
+            config: {
+                ui: 'default',
+                rowEditor: {
+                    buttonUI: 'default-toolbar',
+                    saveBtnText: 'Update',
+                    cancelBtnText: 'Cancel',
+                    editingPlugin: {
+                        completeEdit: Ext.emptyFn,
+                        cancelEdit: Ext.emptyFn
+                    }
+                }
             }
         }
     ]

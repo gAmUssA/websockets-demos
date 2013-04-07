@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * Base Class for HBoxLayout and VBoxLayout Classes. Generally it should not need to be used directly.
@@ -112,6 +115,8 @@ Ext.define('Ext.layout.container.Box', {
      * at this layout's Container (ie, to find a sibling, use `"^>#siblingItemId`).
      */
     stretchMaxPartner: undefined,
+
+    alignRoundingMethod: 'round',
 
     type: 'box',
     scrollOffset: 0,
@@ -406,14 +411,13 @@ Ext.define('Ext.layout.container.Box', {
 
         me.cacheFlexes(ownerContext);
 
-        // In Webkit and IE we set the width of the target el equal to the width of the innerCt
-        // when the layout cycle is finished, so we need to set it back to 20000px here
+        // We set the width of the target el equal to the width of the innerCt
+        // when the layout cycle is finished, so we need to clear the width here
         // to prevent the children from being crushed.
         // IE needs it because of its scrollIntoView bug: https://sencha.jira.com/browse/EXTJSIV-6520
         // Webkit needs it because of its mouse drag bug: https://sencha.jira.com/browse/EXTJSIV-5962
-        if (Ext.isWebKit || Ext.isIE) {
-            me.targetEl.setWidth(20000);
-        }
+        // FF needs it because of a vertical tab bug: https://sencha.jira.com/browse/EXTJSIV-8614
+        me.targetEl.setWidth(20000);
     },
 
     /**
@@ -876,7 +880,7 @@ Ext.define('Ext.layout.container.Box', {
                 if (isCenter) {
                     diff = height - childContext.props[heightName];
                     if (diff > 0) {
-                        childTop = top + Math.round(diff / 2);
+                        childTop = top + Math[me.alignRoundingMethod](diff / 2);
                     }
                 } else if (isBottom) {
                     childTop = mmax(0, height - childTop - childContext.props[heightName]);
@@ -1060,9 +1064,8 @@ Ext.define('Ext.layout.container.Box', {
         // that the targetEl's width is the same as the innerCt.
         // IE needs it because of its scrollIntoView bug: https://sencha.jira.com/browse/EXTJSIV-6520
         // Webkit needs it because of its mouse drag bug: https://sencha.jira.com/browse/EXTJSIV-5962
-        if (Ext.isWebKit || Ext.isIE) {
-            this.targetEl.setWidth(ownerContext.innerCtContext.props.width);
-        }
+        // FF needs it because of a vertical tab bug: https://sencha.jira.com/browse/EXTJSIV-8614
+        this.targetEl.setWidth(ownerContext.innerCtContext.props.width);
     },
 
     publishInnerCtSize: function(ownerContext, reservedSpace) {

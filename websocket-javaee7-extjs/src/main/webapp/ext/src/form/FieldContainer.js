@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * FieldContainer is a derivation of {@link Ext.container.Container Container} that implements the
@@ -162,7 +165,7 @@ Ext.define('Ext.form.FieldContainer', {
 
     maskOnDisable: false,
 
-    fieldSubTpl: '<div id="{id}-containerEl">{%this.renderContainer(out,values)%}</div>',
+    fieldSubTpl: '<div id="{id}-containerEl" class="{containerElCls}">{%this.renderContainer(out,values)%}</div>',
 
     initComponent: function() {
         var me = this;
@@ -171,15 +174,8 @@ Ext.define('Ext.form.FieldContainer', {
         me.initLabelable();
         me.initFieldAncestor();
         
-        if (me.labelAlign == 'top') {
-            // We need to add an extra offset to the DOM checks because
-            // the label is rendered inside the target element.
-            // See Ext.layout.container.Container::getPositionOffset
-            // for more details
-            me.itemNodeOffset = 1;
-        }
-
         me.callParent();
+        me.initMonitor();
     },
     
     getOverflowEl: function(){
@@ -224,7 +220,11 @@ Ext.define('Ext.form.FieldContainer', {
     },
 
     initRenderData: function() {
-        return Ext.applyIf(this.callParent(), this.getLabelableRenderData());
+        var me = this,
+            data = me.callParent();
+
+        data.containerElCls = me.containerElCls;
+        return Ext.applyIf(data, me.getLabelableRenderData());
     },
 
     /**
@@ -335,12 +335,12 @@ Ext.define('Ext.form.FieldContainer', {
     },
 
     getTargetEl: function() {
-        return this.bodyEl || this.callParent();
+        return this.containerEl;
     },
 
     applyTargetCls: function(targetCls) {
-        var fieldBodyCls = this.fieldBodyCls;
+        var containerElCls = this.containerElCls;
 
-        this.fieldBodyCls = fieldBodyCls ? fieldBodyCls + ' ' + targetCls : targetCls;
+        this.containerElCls = containerElCls ? containerElCls + ' ' + targetCls : targetCls;
     }
 });

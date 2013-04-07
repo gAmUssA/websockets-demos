@@ -34,11 +34,4 @@
             <target name="-after-build"/>
     -->
 
-    <target name="-after-build" depends="copy-overrides-to-repo">
-    </target>
-
-    <target name="copy-overrides-to-repo" if="sencha.is.sdk.repo" depends="init">
-        <copy todir="${basedir}/../../extjs/" file="${build.dir}/ext-theme-neptune.js"></copy>
-    </target>
-
 </project>

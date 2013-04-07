@@ -119,6 +119,8 @@ $button-default-color-over: $button-default-color !default;
 $button-default-color-focus: $button-default-color-over !default;
 $button-default-color-pressed: $button-default-color !default;
 $button-default-color-disabled: $button-default-color !default;
+$button-default-glyph-color: $button-default-color !default;
+$button-default-glyph-opacity: .5 !default;
 
 $button-toolbar-border-color: $base-color !default;
 $button-toolbar-border-color-over: $button-toolbar-border-color !default;
@@ -143,6 +145,8 @@ $button-toolbar-color-over: $button-toolbar-color !default;
 $button-toolbar-color-focus: $button-toolbar-color-over !default;
 $button-toolbar-color-pressed: $button-toolbar-color !default;
 $button-toolbar-color-disabled: $button-toolbar-color !default;
+$button-toolbar-glyph-color: $button-toolbar-color !default;
+$button-toolbar-glyph-opacity: .5 !default;
 
 /**
  * @var {boolean} $button-include-ui-menu-arrows
@@ -179,3 +183,15 @@ $button-opacity-disabled: .5 !default;
  * opacity to apply to the button's inner elements (icon and text) when the buton is disabled
  */
 $button-inner-opacity-disabled: 1 !default;
+
+/**
+ * @var {number} $button-toolbar-opacity-disabled
+ * opacity to apply to the toolbar button's main element when the buton is disabled
+ */
+$button-toolbar-opacity-disabled: .5 !default;
+
+/**
+ * @var {number} $button-toolbar-inner-opacity-disabled
+ * opacity to apply to the toolbar button's inner elements (icon and text) when the buton is disabled
+ */
+$button-toolbar-inner-opacity-disabled: 1 !default;

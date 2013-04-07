@@ -1,6 +1,8 @@
 .#{$prefix}grid-body {
     background: $panel-body-background-color;
-    border-width: 1px;
+    border-width: $grid-body-border-width;
+    border-style: $grid-body-border-style;
+    border-color: $grid-body-border-color;
 }
 
 .#{$prefix}grid-empty {
@@ -20,14 +22,13 @@
 }
 
 .#{$prefix}grid-row {
-    vertical-align: top;
     .#{$prefix}grid-cell {
         @if $grid-row-cell-color {
             color: $grid-row-cell-color;
         }
         font: $grid-row-cell-font;
-        background-color: $grid-row-cell-background;
-        border-color: $grid-row-cell-background;
+        background-color: $grid-row-cell-background-color;
+        border-color: $grid-row-cell-background-color;
         border-style: $grid-row-cell-border-style;
         border-width: $grid-cell-border-width 0;
     }
@@ -40,7 +41,7 @@
 }
 
 .#{$prefix}grid-row-alt .#{$prefix}grid-td {
-    background-color: $grid-row-cell-alt-background;
+    background-color: $grid-row-cell-alt-background-color;
 }
 
 .#{$prefix}grid-row-over .#{$prefix}grid-td {
@@ -75,7 +76,13 @@
 
 .#{$prefix}grid-cell {
     overflow: hidden;
-    border-color: $grid-row-cell-background;
+    border-color: $grid-row-cell-background-color;
+    vertical-align: middle;
+}
+
+// Special cases like row expander columns, row numberer columns, checkbox columns, and action columns are top aligned
+.#{$prefix}grid-cell-special, .#{$prefix}grid-cell-checkcolumn, .#{$prefix}action-col-cell {
+    vertical-align: top;
 }
 
 .#{$prefix}grid-cell-inner {
@@ -141,15 +148,19 @@
                 background-position: top right;
             }
 
-            .#{$prefix}grid-row .#{$prefix}grid-cell-special,
-            .#{$prefix}grid-row-over .#{$prefix}grid-cell-special {
-                background-image: theme-background-image('grid/cell-special-bg');
+            @if $grid-cell-special-background-image != null {
+                .#{$prefix}grid-row .#{$prefix}grid-cell-special,
+                .#{$prefix}grid-row-over .#{$prefix}grid-cell-special {
+                    background-image: theme-background-image($grid-cell-special-background-image);
 
+                }
             }
 
-            .#{$prefix}grid-row-focused .#{$prefix}grid-cell-special,
-            .#{$prefix}grid-row-selected .#{$prefix}grid-cell-special {
-                background-image: theme-background-image('grid/cell-special-selected-bg');
+            @if $grid-cell-special-selected-background-image != null {
+                .#{$prefix}grid-row-focused .#{$prefix}grid-cell-special,
+                .#{$prefix}grid-row-selected .#{$prefix}grid-cell-special {
+                    background-image: theme-background-image($grid-cell-special-selected-background-image);
+                }
             }
         }
     }

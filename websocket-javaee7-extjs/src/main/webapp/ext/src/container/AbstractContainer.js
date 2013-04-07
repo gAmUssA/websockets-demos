@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * An abstract base class which provides shared methods for Containers across the Sencha product line.
@@ -754,9 +757,12 @@ Ext.define('Ext.container.AbstractContainer', {
             return false;
         }
         items.insert(toIdx, item);
+        this.onMove(item, fromIdx, toIdx);
         this.updateLayout();
         return item;
     },
+    
+    onMove: Ext.emptyFn,
 
     /**
      * This method is invoked before adding a new child Component. It
@@ -770,17 +776,9 @@ Ext.define('Ext.container.AbstractContainer', {
      * @protected
      */
     onBeforeAdd : function(item) {
-        var me = this,
-            border = item.border;
-
         // Remove from current container if it's not us.
-        if (item.ownerCt && item.ownerCt !== me) {
+        if (item.ownerCt && item.ownerCt !== this) {
             item.ownerCt.remove(item, false);
-        }
-
-        if (me.border === false || me.border === 0) {
-            // If the parent has no border, only use an explicitly defined border
-            item.border = Ext.isDefined(border) && border !== false && border !== 0;
         }
     },
 
@@ -864,9 +862,14 @@ Ext.define('Ext.container.AbstractContainer', {
                 layout.afterRemove(component);       
             }
             if (me.detachOnRemove && component.rendered) {
-                Ext.getDetachedBody().appendChild(component.getEl());
+                me.detachComponent(component);
             }
         }
+    },
+    
+    // Detach a component from the DOM
+    detachComponent: function(component){
+        Ext.getDetachedBody().appendChild(component.getEl());
     },
 
     /**
@@ -1097,7 +1100,8 @@ Ext.define('Ext.container.AbstractContainer', {
         var result = false;
         if (deep) {
             this.cascade(function(c) {
-                if (c.contains(comp)) {
+                // Only test if the item is a container
+                if (c.contains && c.contains(comp)) {
                     result = true;
                     return false;
                 }
@@ -1203,17 +1207,6 @@ Ext.define('Ext.container.AbstractContainer', {
      */
     getChildItemsToDisable: function(){
         return this.query('[isFormField],button');
-    },
-
-    /**
-     * Occurs before componentLayout is run. Returning false from this method
-     * will prevent the containerLayout from being executed.
-     *
-     * @template
-     * @protected
-     */
-    beforeLayout: function() {
-        return true;
     },
 
     // @private

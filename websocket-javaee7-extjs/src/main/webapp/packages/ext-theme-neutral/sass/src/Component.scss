@@ -6,3 +6,10 @@
         background: $body-background-color;
     }
 }
+
+// When a component is having its size animated, or is collapsed, content must be clipped
+// This state must override others, so is !important
+.#{$prefix}animating-size,
+.#{$prefix}collapsed {
+    overflow: hidden!important;
+}

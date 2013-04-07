@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 // feature idea to enable Ajax loading and then the content
 // cache would actually make sense. Should we dictate that they use
@@ -94,37 +97,34 @@ Ext.define('Ext.grid.plugin.RowExpander', {
 
         me.callParent(arguments);
 
-        if (grid.enableLocking) {
-            me.recordsExpanded = {};
-            // <debug>
-            if (!me.rowBodyTpl) {
-                Ext.Error.raise("The 'rowBodyTpl' config is required and is not defined.");
-            }
-            // </debug>
+        me.recordsExpanded = {};
+        // <debug>
+        if (!me.rowBodyTpl) {
+            Ext.Error.raise("The 'rowBodyTpl' config is required and is not defined.");
+        }
+        // </debug>
 
-            me.rowBodyTpl = Ext.XTemplate.getTpl(me, 'rowBodyTpl');
-            rowBodyTpl = this.rowBodyTpl;
-            features = [{
-                ftype: 'rowbody',
-                lockableScope: 'normal',
-                columnId: me.getHeaderId(),
-                recordsExpanded: me.recordsExpanded,
-                rowBodyHiddenCls: me.rowBodyHiddenCls,
-                rowCollapsedCls: me.rowCollapsedCls,
-                setupRowData: me.getRowBodyFeatureData,
-                getRowBodyContents: function(record) {
-                    return rowBodyTpl.applyTemplate(record.getData());
-                }
-            },{
-                ftype: 'rowwrap',
-                lockableScope: 'normal'
-            }];
-
-            if (grid.features) {
-                grid.features = Ext.Array.push(features, grid.features);
-            } else {
-                grid.features = features;
+        me.rowBodyTpl = Ext.XTemplate.getTpl(me, 'rowBodyTpl');
+        rowBodyTpl = this.rowBodyTpl;
+        features = [{
+            ftype: 'rowbody',
+            lockableScope: 'normal',
+            recordsExpanded: me.recordsExpanded,
+            rowBodyHiddenCls: me.rowBodyHiddenCls,
+            rowCollapsedCls: me.rowCollapsedCls,
+            setupRowData: me.getRowBodyFeatureData,
+            getRowBodyContents: function(record) {
+                return rowBodyTpl.applyTemplate(record.getData());
             }
+        },{
+            ftype: 'rowwrap',
+            lockableScope: 'normal'
+        }];
+ 
+        if (grid.features) {
+            grid.features = Ext.Array.push(features, grid.features);
+        } else {
+            grid.features = features;
         }
         // NOTE: features have to be added before init (before Table.initComponent)
     },
@@ -190,13 +190,6 @@ Ext.define('Ext.grid.plugin.RowExpander', {
             expanderGrid.width += expanderHeader.width;
         }
         expanderGrid.headerCt.insert(0, expanderHeader);
-    },
-
-    getHeaderId: function() {
-        if (!this.headerId) {
-            this.headerId = Ext.id();
-        }
-        return this.headerId;
     },
 
     getRowBodyFeatureData: function(record, idx, rowValues) {
@@ -315,7 +308,6 @@ Ext.define('Ext.grid.plugin.RowExpander', {
         var me = this;
 
         return {
-            id: me.getHeaderId(),
             width: 24,
             lockable: false,
             sortable: false,
@@ -323,11 +315,8 @@ Ext.define('Ext.grid.plugin.RowExpander', {
             draggable: false,
             hideable: false,
             menuDisabled: true,
-            cls: Ext.baseCSSPrefix + 'grid-header-special',
+            tdCls: Ext.baseCSSPrefix + 'grid-cell-special',
             renderer: function(value, metadata) {
-                metadata.tdCls = Ext.baseCSSPrefix + 'grid-cell-special';
-                metadata.tdAttr = 'valign="top"';
-
                 // Only has to span 2 rows if it is not in a lockable grid.
                 if (!me.grid.ownerLockable) {
                     metadata.tdAttr += ' rowspan="2"';

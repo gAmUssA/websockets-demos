@@ -4,6 +4,10 @@
     position: relative;
 }
 
+.#{$prefix}panel {
+    outline: none;
+}
+
 @if $include-ie {
     // Workaround for disappearing right edge in IE6
     .#{$prefix}ie {

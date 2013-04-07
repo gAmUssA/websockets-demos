@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * Used as a view by {@link Ext.tree.Panel TreePanel}.
@@ -577,26 +580,34 @@ Ext.define('Ext.tree.View', {
     },
 
     // Triggered by the NodeStore's onNodeCollapse event.
-    onBeforeCollapse: function(parent, records, index) {
+    onBeforeCollapse: function(parent, records, index, callback, scope) {
         var me = this,
             animWrap;
 
-        if (me.rendered && me.all.getCount() && me.animate) {
-            // Only process if the collapsing node is in the UI.
-            // A node may be collapsed as part of a recursive ancestor collapse, and if it
-            // has already been removed from the UI by virtue of an ancestor being collapsed, we should not do anything.
-            if (Ext.Array.contains(parent.stores, me.store)) {
-                animWrap = me.getAnimWrap(parent);
-                if (!animWrap) {
-                    animWrap = me.animWraps[parent.internalId] = me.createAnimWrap(parent, index);
+        if (me.rendered && me.all.getCount()) {
+            if (me.animate) {
+                // Only process if the collapsing node is in the UI.
+                // A node may be collapsed as part of a recursive ancestor collapse, and if it
+                // has already been removed from the UI by virtue of an ancestor being collapsed, we should not do anything.
+                if (Ext.Array.contains(parent.stores, me.store)) {
+                    animWrap = me.getAnimWrap(parent);
+                    if (!animWrap) {
+                        animWrap = me.animWraps[parent.internalId] = me.createAnimWrap(parent, index);
+                    }
+                    else if (animWrap.expanding) {
+                        // If we collapse this node while it is still expanding then we
+                        // have to remove the nodes from the animWrap.
+                        animWrap.targetEl.select(this.itemSelector).remove();
+                    }
+                    animWrap.expanding = false;
+                    animWrap.collapsing = true;
+                    animWrap.callback = callback;
+                    animWrap.scope = scope;
                 }
-                else if (animWrap.expanding) {
-                    // If we collapse this node while it is still expanding then we
-                    // have to remove the nodes from the animWrap.
-                    animWrap.targetEl.select(this.itemSelector).remove();
-                }
-                animWrap.expanding = false;
-                animWrap.collapsing = true;
+            } else {
+                // Cache any passed callback for use in the onCollapse post collapse handler non-animated codepath
+                me.onCollapseCallback = callback;
+                me.onCollapseScope = scope;
             }
         }
     },
@@ -622,6 +633,10 @@ Ext.define('Ext.tree.View', {
             parent.isExpandingOrCollapsing = false;
             me.fireEvent('afteritemcollapse', parent, index, node);
             me.refreshSize();
+
+            // Call any collapse callback cached in the onBeforeCollapse handler
+            Ext.callback(me.onCollapseCallback, me.onCollapseScope);
+            me.onCollapseCallback = me.onCollapseScope = null;
             return;
         }
 
@@ -647,6 +662,10 @@ Ext.define('Ext.tree.View', {
             callback: function() {
                 parent.isExpandingOrCollapsing = false;
                 me.fireEvent('afteritemcollapse', parent, index, node);
+
+                // Call any collapse callback cached in the onBeforeCollapse handler
+                Ext.callback(animWrap.callback, animWrap.scope);
+                animWrap.callback = animWrap.scope = null;
             }
         });
         animWrap.isAnimating = true;
@@ -673,14 +692,22 @@ Ext.define('Ext.tree.View', {
      */
     expand: function(record, deep, callback, scope) {
         var me = this,
-            doAnimate = !!me.animate;
+            doAnimate = !!me.animate,
+            result;
 
         // Block toggling if we are already animating an expand or collapse operation.
         if (!doAnimate || !record.isExpandingOrCollapsing) {
             if (!record.isLeaf()) {
                 record.isExpandingOrCollapsing = doAnimate;
             }
-            return record.expand(deep, callback, scope);
+
+            // Need to suspend layouts because the expand process makes multiple changes to the UI
+            // in addition to inserting new nodes. Folder and elbow images have to change, so we
+            // need to coalesce all resulting layouts.
+            Ext.suspendLayouts();
+            result = record.expand(deep, callback, scope);
+            Ext.resumeLayouts(true);
+            return result;
         }
     },
 

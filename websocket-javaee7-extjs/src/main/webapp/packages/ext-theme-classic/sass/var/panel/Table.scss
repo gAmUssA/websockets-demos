@@ -10,3 +10,6 @@ $grid-cell-special-background-color: #f6f6f6 !default;
 $grid-cell-special-background-gradient: 'grid-cell-special' !default;
 $grid-cell-special-border-color: $grid-cell-with-col-lines-border-color !default;
 $grid-cell-special-selected-border-color: adjust-color($base-color, $hue: -0.175deg, $saturation: 25.296%, $lightness: -2.549%) !default;
+
+$grid-cell-special-background-image: 'grid/cell-special-bg' !default;
+$grid-cell-special-selected-background-image: 'grid/cell-special-selected-bg' !default;

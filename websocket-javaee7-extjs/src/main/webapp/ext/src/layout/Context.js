@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * Manages context information during a layout.
@@ -594,9 +597,6 @@ Ext.define('Ext.layout.Context', {
             layout, key;
 
         Ext.failedLayouts = (Ext.failedLayouts || 0) + 1;
-        //<debug>
-        Ext.log('Layout run failed');
-        //</debug>
 
         for (key in layouts) {
             layout = layouts[key];
@@ -606,6 +606,14 @@ Ext.define('Ext.layout.Context', {
                 layout.ownerContext = null;
             }
         }
+
+        //<debug>
+        if (Ext.repoDevMode && !this.pageAnalyzerMode) {
+            Ext.Error.raise('Layout run failed');
+        } else {
+            Ext.log.error('Layout run failed');
+        }
+        //</debug>
     },
 
     /**
@@ -616,7 +624,6 @@ Ext.define('Ext.layout.Context', {
      * that new components will be introduced to the layout.
      * 
      * @param {Ext.Component/Array} components An array of Components or a single Component.
-     * @param {Ext.layout.ContextItem} ownerCtContext The ownerCt's ContextItem.
      * @param {Boolean} full True if all properties should be invalidated, otherwise only
      *  those calculated by the component should be invalidated.
      */

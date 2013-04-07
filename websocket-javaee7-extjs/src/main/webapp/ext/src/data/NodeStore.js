@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * Node Store
@@ -226,7 +229,7 @@ Ext.define('Ext.data.NodeStore', {
     },
 
     // Triggered by a NodeInterface's bubbled "collapse" event.
-    onNodeCollapse: function(parent, records, suppressEvent) {
+    onNodeCollapse: function(parent, records, suppressEvent, callback, scope) {
         var me = this,
             collapseIndex = me.indexOf(parent) + 1,
             node, lastNodeIndexPlus, sibling, found;
@@ -235,12 +238,12 @@ Ext.define('Ext.data.NodeStore', {
             return;
         }
 
-        // Used by the TreeView to bracket recursive expand & collapse ops
-        // and refresh the size. This is most effective when folder nodes are loaded,
-        // and this method is able to recurse.
-        // Also sets up the animWrap object if we are animating.
+        // Used by the TreeView to bracket recursive expand & collapse ops.
+        // The TreeViewsets up the animWrap object if we are animating.
+        // It also caches the collapse callback to call when it receives the
+        // end collapse event. See below.
         if (!suppressEvent) {
-            me.fireEvent('beforecollapse', parent, records, collapseIndex);
+            me.fireEvent('beforecollapse', parent, records, collapseIndex, callback, scope);
         }
 
         // Only attempt to remove the records if they are there.
@@ -332,8 +335,19 @@ Ext.define('Ext.data.NodeStore', {
     onNodeRemove: function(parent, node, isMove) {
         var me = this;
         if (me.indexOf(node) != -1) {
+
+            // If the removed node is a non-leaf and is expanded, use the onCollapse method to get rid
+            // of all descendants at any level.
             if (!node.isLeaf() && node.isExpanded()) {
+
+                // onCollapse expects to be able to use the "collapsing" node's parentNode
+                // and nextSibling pointers so temporarily reinstate them.
+                // Reinstating them is safe because we pass the suppressEvents flag, and no user code
+                // is executed.
+                node.parentNode = node.removeContext.parentNode;
+                node.nextSibling = node.removeContext.nextSibling;
                 me.onNodeCollapse(node, node.childNodes, true);
+                node.parentNode = node.nextSibling = null;
             }
             me.remove(node);
         }

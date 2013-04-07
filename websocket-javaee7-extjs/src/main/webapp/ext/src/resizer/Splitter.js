@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * This class functions **between siblings of a {@link Ext.layout.container.VBox VBox} or {@link Ext.layout.container.HBox HBox}
@@ -186,6 +189,8 @@ Ext.define('Ext.resizer.Splitter', {
         me.mon(me.getCollapseTarget(), {
             collapse: me.onTargetCollapse,
             expand: me.onTargetExpand,
+            beforeexpand: me.onBeforeTargetExpand,
+            beforecollapse: me.onBeforeTargetCollapse,
             scope: me
         });
 
@@ -241,13 +246,30 @@ Ext.define('Ext.resizer.Splitter', {
 
         return me.collapseTarget.isComponent ? me.collapseTarget : me.collapseTarget == 'prev' ? me.previousSibling() : me.nextSibling();
     },
+    
+    setCollapseEl: function(display){
+        var el = this.collapseEl;
+        if (el) {
+            el.setDisplayed(display);
+        }
+    },
+    
+    onBeforeTargetExpand: function(target) {
+        this.setCollapseEl('none');
+    },
+    
+    onBeforeTargetCollapse: function(){
+        this.setCollapseEl('none');
+    },
 
     onTargetCollapse: function(target) {
         this.el.addCls([this.collapsedClsInternal, this.collapsedCls]);
+        this.setCollapseEl('');
     },
 
     onTargetExpand: function(target) {
         this.el.removeCls([this.collapsedClsInternal, this.collapsedCls]);
+        this.setCollapseEl('');
     },
 
     toggleTargetCmp: function(e, t) {
@@ -255,19 +277,22 @@ Ext.define('Ext.resizer.Splitter', {
             placeholder = cmp.placeholder,
             toggle;
 
-        if (placeholder && !placeholder.hidden) {
-            toggle = true;
-        } else {
-            toggle = !cmp.hidden;
-        }
-
-        if (toggle) {
-            if (cmp.collapsed) {
-                cmp.expand();
-            } else if (cmp.collapseDirection) {
-                cmp.collapse();
+        // We can only toggle the target if it offers the expand/collapse API
+        if (Ext.isFunction(cmp.expand) && Ext.isFunction(cmp.collapse)) {
+            if (placeholder && !placeholder.hidden) {
+                toggle = true;
             } else {
-                cmp.collapse(this.renderData.collapseDir);
+                toggle = !cmp.hidden;
+            }
+
+            if (toggle) {
+                if (cmp.collapsed) {
+                    cmp.expand();
+                } else if (cmp.collapseDirection) {
+                    cmp.collapse();
+                } else {
+                    cmp.collapse(this.renderData.collapseDir);
+                }
             }
         }
     },

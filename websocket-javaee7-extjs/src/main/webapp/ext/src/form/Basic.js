@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * Provides input field management, validation, submission, and form loading services for the collection
@@ -94,7 +97,6 @@ Ext.define('Ext.form.Basic', {
      */
     constructor: function(owner, config) {
         var me = this,
-            onItemAddOrRemove = me.onItemAddOrRemove,
             reader,
             api,
             fn;
@@ -104,13 +106,20 @@ Ext.define('Ext.form.Basic', {
          * The container component to which this BasicForm is attached.
          */
         me.owner = owner;
-
-        // Listen for addition/removal of fields in the owner container
-        me.mon(owner, {
-            add: onItemAddOrRemove,
-            remove: onItemAddOrRemove,
-            scope: me
+        
+        me.checkValidityTask = new Ext.util.DelayedTask(me.checkValidity, me);
+        me.checkDirtyTask = new Ext.util.DelayedTask(me.checkDirty, me);
+        
+        // We use the monitor here as opposed to event bubbling. The problem with bubbling is it doesn't
+        // let us react to items being added/remove at different places in the hierarchy which may have an
+        // impact on the dirty/valid state.
+        me.monitor = new Ext.container.Monitor({
+            selector: '[isFormField]',
+            scope: me,
+            addHandler: me.onFieldAdd,
+            removeHandler: me.onFieldRemove
         });
+        me.monitor.bind(owner);
 
         Ext.apply(me, config);
 
@@ -127,9 +136,6 @@ Ext.define('Ext.form.Basic', {
                 }
             }
         }
-
-        me.checkValidityTask = new Ext.util.DelayedTask(me.checkValidity, me);
-        me.checkDirtyTask = new Ext.util.DelayedTask(me.checkDirty, me);
         
         reader = me.reader;
         if (reader && !reader.isReader) {
@@ -196,9 +202,8 @@ Ext.define('Ext.form.Basic', {
      * @private
      */
     initialize : function() {
-        var me = this;
-        me.initialized = true;
-        me.onValidityChange(!me.hasInvalidField());
+        this.initialized = true;
+        this.onValidityChange(!this.hasInvalidField());
     },
 
 
@@ -339,67 +344,44 @@ Ext.define('Ext.form.Basic', {
      * Destroys this object.
      */
     destroy: function() {
-        this.clearListeners();
-        this.checkValidityTask.cancel();
-        this.checkDirtyTask.cancel();
-    },
-
-    /**
-     * @private
-     * Handle addition or removal of descendant items. Invalidates the cached list of fields
-     * so that {@link #getFields} will do a fresh query next time it is called. Also adds listeners
-     * for state change events on added fields, and tracks components with formBind=true.
-     */
-    onItemAddOrRemove: function(parent, child) {
         var me = this,
-            isAdding = !!child.ownerCt,
-            isContainer = child.isContainer;
-
-        function handleField(field) {
-            // Listen for state change events on fields
-            me[isAdding ? 'mon' : 'mun'](field, {
-                validitychange: me.checkValidityDelay,
-                dirtychange: me.checkDirtyDelay,
-                scope: me
-            });
-            // Flush the cached list of fields
-            delete me._fields;
+            mon = me.monitor;
+        
+        if (mon) {
+            mon.unbind();
+            me.monitor = null;
         }
-
-        if (child.isFormField) {
-            handleField(child);
-        } else if (isContainer) {
-            // Walk down
-            if (child.isDestroyed || child.destroying) {
-                // the container is destroyed, this means we may have child fields, so here
-                // we just invalidate all the fields to be sure.
-                delete me._fields;
-            } else {
-                Ext.Array.forEach(child.query('[isFormField]'), handleField);
-            }
-        }
-
-        // Flush the cached list of formBind components
-        delete this._boundItems;
-
-        // Check form bind, but only after initial add. Batch it to prevent excessive validation
-        // calls when many fields are being added at once.
+        me.clearListeners();
+        me.checkValidityTask.cancel();
+        me.checkDirtyTask.cancel();
+    },
+    
+    onFieldAdd: function(field){
+        var me = this;
+        
+        me.mon(field, 'validitychange', me.checkValidityDelay, me);
+        me.mon(field, 'dirtychange', me.checkDirtyDelay, me);
         if (me.initialized) {
             me.checkValidityDelay();
         }
     },
-
+    
+    onFieldRemove: function(field){
+        var me = this;
+        
+        me.mun(field, 'validitychange', me.checkValidityDelay, me);
+        me.mun(field, 'dirtychange', me.checkDirtyDelay, me);
+        if (me.initialized) {
+            me.checkValidityDelay();
+        }
+    },
+    
     /**
      * Return all the {@link Ext.form.field.Field} components in the owner container.
      * @return {Ext.util.MixedCollection} Collection of the Field objects
      */
     getFields: function() {
-        var fields = this._fields;
-        if (!fields) {
-            fields = this._fields = new Ext.util.MixedCollection();
-            fields.addAll(this.owner.query('[isFormField]'));
-        }
-        return fields;
+        return this.monitor.getItems();
     },
 
     /**

@@ -1,6 +1,6 @@
 @if $include-ext-toolbar-toolbar {
     @include extjs-button-ui(
-        $ui: 'plain-small',
+        $ui: 'plain-toolbar-small',
 
         $border-radius: $button-small-border-radius,
         $border-width: $button-small-border-width,
@@ -9,7 +9,7 @@
         $border-color-over: $button-toolbar-border-color-over,
         $border-color-focus: $button-toolbar-border-color-focus,
         $border-color-pressed: $button-toolbar-border-color-pressed,
-        $border-color-disabled: $button-toolbar-border-color-disabled,
+        $border-color-disabled: transparent,
 
         $padding: $button-small-padding,
         $text-padding: $button-small-text-padding,
@@ -18,7 +18,7 @@
         $background-color-over: $button-toolbar-background-color-over,
         $background-color-focus: $button-toolbar-background-color-focus,
         $background-color-pressed: $button-toolbar-background-color-pressed,
-        $background-color-disabled: $button-toolbar-background-color-disabled,
+        $background-color-disabled: transparent,
 
         $background-gradient: $button-toolbar-background-gradient,
         $background-gradient-over: $button-toolbar-background-gradient-over,
@@ -51,14 +51,19 @@
         $font-family-disabled: $button-small-font-family-disabled,
 
         $icon-size: $button-small-icon-size,
+        $glyph-color: $button-toolbar-glyph-color,
+        $glyph-opacity: $button-toolbar-glyph-opacity,
         $arrow-width: $button-small-arrow-width,
         $arrow-height: $button-small-arrow-height,
         $split-width: $button-small-split-width,
-        $split-height: $button-small-split-height
+        $split-height: $button-small-split-height,
+
+        $opacity-disabled: $button-toolbar-opacity-disabled,
+        $inner-opacity-disabled: $button-toolbar-inner-opacity-disabled
     );
 
     @include extjs-button-ui(
-        $ui: 'plain-medium',
+        $ui: 'plain-toolbar-medium',
 
         $border-radius: $button-medium-border-radius,
         $border-width: $button-medium-border-width,
@@ -67,7 +72,7 @@
         $border-color-over: $button-toolbar-border-color-over,
         $border-color-focus: $button-toolbar-border-color-focus,
         $border-color-pressed: $button-toolbar-border-color-pressed,
-        $border-color-disabled: $button-toolbar-border-color-disabled,
+        $border-color-disabled: transparent,
 
         $padding: $button-medium-padding,
         $text-padding: $button-medium-text-padding,
@@ -76,7 +81,7 @@
         $background-color-over: $button-toolbar-background-color-over,
         $background-color-focus: $button-toolbar-background-color-focus,
         $background-color-pressed: $button-toolbar-background-color-pressed,
-        $background-color-disabled: $button-toolbar-background-color-disabled,
+        $background-color-disabled: transparent,
 
         $background-gradient: $button-toolbar-background-gradient,
         $background-gradient-over: $button-toolbar-background-gradient-over,
@@ -109,14 +114,19 @@
         $font-family-disabled: $button-medium-font-family-disabled,
 
         $icon-size: $button-medium-icon-size,
+        $glyph-color: $button-toolbar-glyph-color,
+        $glyph-opacity: $button-toolbar-glyph-opacity,
         $arrow-width: $button-medium-arrow-width,
         $arrow-height: $button-medium-arrow-height,
         $split-width: $button-medium-split-width,
-        $split-height: $button-medium-split-height
+        $split-height: $button-medium-split-height,
+
+        $opacity-disabled: $button-toolbar-opacity-disabled,
+        $inner-opacity-disabled: $button-toolbar-inner-opacity-disabled
     );
 
     @include extjs-button-ui(
-        $ui: 'plain-large',
+        $ui: 'plain-toolbar-large',
 
         $border-radius: $button-large-border-radius,
         $border-width: $button-large-border-width,
@@ -125,7 +135,7 @@
         $border-color-over: $button-toolbar-border-color-over,
         $border-color-focus: $button-toolbar-border-color-focus,
         $border-color-pressed: $button-toolbar-border-color-pressed,
-        $border-color-disabled: $button-toolbar-border-color-disabled,
+        $border-color-disabled: transparent,
 
         $padding: $button-large-padding,
         $text-padding: $button-large-text-padding,
@@ -134,7 +144,7 @@
         $background-color-over: $button-toolbar-background-color-over,
         $background-color-focus: $button-toolbar-background-color-focus,
         $background-color-pressed: $button-toolbar-background-color-pressed,
-        $background-color-disabled: $button-toolbar-background-color-disabled,
+        $background-color-disabled: transparent,
 
         $background-gradient: $button-toolbar-background-gradient,
         $background-gradient-over: $button-toolbar-background-gradient-over,
@@ -167,9 +177,38 @@
         $font-family-disabled: $button-large-font-family-disabled,
 
         $icon-size: $button-large-icon-size,
+        $glyph-color: $button-toolbar-glyph-color,
+        $glyph-opacity: $button-toolbar-glyph-opacity,
         $arrow-width: $button-large-arrow-width,
         $arrow-height: $button-large-arrow-height,
         $split-width: $button-large-split-width,
-        $split-height: $button-large-split-height
+        $split-height: $button-large-split-height,
+
+        $opacity-disabled: $button-toolbar-opacity-disabled,
+        $inner-opacity-disabled: $button-toolbar-inner-opacity-disabled
     );
+
+    // neptune buttons are given their disabled appearance using opacity. IE8 and below
+    // in xp have problems rendering png icons with alpha transparency when opacity
+    // is applied to the element if the element has a transparent background.  To work
+    // around this we give the disabled button the same background-color as the toolbar.
+    // see EXTJSIV-8846
+    .#{$prefix}btn-plain-toolbar-small-disabled,
+    .#{$prefix}btn-plain-toolbar-medium-disabled,
+    .#{$prefix}btn-plain-toolbar-large-disabled {
+        .#{$prefix}btn-icon-el {
+            background-color: $toolbar-background-color;
+            .#{$prefix}strict .#{$prefix}ie8 & {
+                // in IE8 strict, position: absolute breaks inheritance of opacity,
+                // so we have to apply the opacity to the icon element.
+                // We don't do this in the button mixin because the icon el has to 
+                // have a background-color or else partially transparent pixels
+                // in the icon will not display correctly.
+                @if $button-toolbar-opacity-disabled != 1 {
+                    @include opacity($button-toolbar-opacity-disabled);
+                }
+            }
+        }
+    }
+    
 }

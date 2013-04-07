@@ -23,7 +23,7 @@
 }
 
 .#{$prefix}column-header-open .#{$prefix}column-header-trigger {
-    background-color: mix($base-light-color, $neutral-light-color, 25%);
+    background-color: mix($base-light-color, $neutral-light-color, 30%);
 }
 
 // Background colour for sorted state
@@ -43,3 +43,20 @@
         border-left-color: $grid-header-background-color;
     }
 }
+
+.#{$prefix}column-header-last {
+    border-right: 0;
+    .#{$prefix}column-header-over .#{$prefix}column-header-trigger {
+        border-right: 1px solid $grid-header-border-color;
+    }
+}
+
+@if $include-rtl {
+    .#{$prefix}rtl.#{$prefix}column-header-last {
+        border-left: 0;
+        .#{$prefix}column-header-over .#{$prefix}column-header-trigger {
+            border-left: 1px solid $grid-header-border-color;
+        }
+    }
+}
+

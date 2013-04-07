@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * Implements buffered rendering of a grid, allowing users can scroll
@@ -95,6 +98,19 @@ Ext.define('Ext.grid.plugin.BufferedRenderer', {
     leadingBufferZone: 20,
 
     /**
+     * @cfg {Boolean} [synchronousRender=true]
+     * By default, on detection of a scroll event which brings the end of the rendered table within
+     * `{@link #numFromEdge}` rows of the grid viewport, if the required rows are available in the Store,
+     * the BufferedRenderer will render rows from the Store *immediately* before returning from the event handler. 
+     * This setting helps avoid the impression of whitespace appearing during scrolling.
+     *
+     * Set this to `true` to defer the render until the scroll event handler exits. This allows for faster
+     * scrolling, but also allows whitespace to be more easily scrolled into view.
+     *
+     */
+    synchronousRender: true,
+
+    /**
      * @cfg {Number}
      * This is the time in milliseconds to buffer load requests when scrolling the PagingScrollbar.
      */
@@ -142,7 +158,6 @@ Ext.define('Ext.grid.plugin.BufferedRenderer', {
         if (grid.isTree || grid.ownerLockable && grid.ownerLockable.isTree) {
             view.blockRefresh = false;
             view.loadMask = true;
-            view.preserveScrollOnRefresh = true;
         }
         if (view.positionBody) {
             viewListeners.refresh = me.onViewRefresh;
@@ -150,6 +165,7 @@ Ext.define('Ext.grid.plugin.BufferedRenderer', {
         me.grid = grid;
         me.view = view;
         view.bufferedRenderer = me;
+        view.preserveScrollOnRefresh = true;
 
         me.bindStore(view.dataSource);
         view.getViewRange = function() {
@@ -158,6 +174,7 @@ Ext.define('Ext.grid.plugin.BufferedRenderer', {
 
         me.position = 0;
 
+        me.gridListeners = grid.on('reconfigure', me.onReconfigure, me);
         me.viewListeners = view.on(viewListeners);
     },
 
@@ -176,6 +193,12 @@ Ext.define('Ext.grid.plugin.BufferedRenderer', {
         // If the view has acquired a size, calculate a new view size and scroll range when the store changes.
         if (me.view.componentLayout.layoutCount) {
             me.onViewResize(me.view, 0, me.view.getHeight());
+        }
+    },
+    
+    onReconfigure: function(grid, store){
+        if (store && store !== this.store) {
+            this.bindStore(store);
         }
     },
 
@@ -208,10 +231,17 @@ Ext.define('Ext.grid.plugin.BufferedRenderer', {
         var me = this,
             view = me.view;
         
-        me.setBodyTop(me.bodyTop);
-        if (view.all.getCount()) {
-            me.viewSize = 0;
-            me.onViewResize(view, null, view.getHeight());
+        if (me.scrollTop !== view.el.dom.scrollTop) {
+            // The view may have refreshed and scrolled to the top, for example
+            // on a sort. If so, it's as if we scrolled to the top, so we'll simulate
+            // it here.
+            me.onViewScroll();    
+        } else {
+            me.setBodyTop(me.bodyTop);
+            if (view.all.getCount()) {
+                me.viewSize = 0;
+                me.onViewResize(view, null, view.getHeight());
+            }
         }
     },
 
@@ -319,7 +349,6 @@ Ext.define('Ext.grid.plugin.BufferedRenderer', {
     scrollTo: function(recordIdx, doSelect, callback, scope) {
         var me = this,
             view = me.view,
-            grid = view.ownerCt,
             viewDom = view.el.dom,
             store = me.store,
             total = store.buffered ? store.getTotalCount() : store.getCount(),
@@ -351,7 +380,7 @@ Ext.define('Ext.grid.plugin.BufferedRenderer', {
                     viewDom.scrollTop = tableTop;
                 }
                 if (doSelect) {
-                    grid.selModel.select(targetRec);
+                    view.selModel.select(targetRec);
                 }
                 if (callback) {
                     callback.call(scope||me, recordIdx, targetRec);
@@ -377,10 +406,11 @@ Ext.define('Ext.grid.plugin.BufferedRenderer', {
         // If there is no paging to be done (Store's dataset is all in memory) we will be disabled.
         if (!me.disabled) {
 
-            // Moved at least the delta between leadingBufferZone and numFromEdge rows vertically, so test whether the numFromEdge is triggered
             vscrollDistance = scrollTop - me.position;
             scrollDirection = vscrollDistance > 0 ? 1 : -1;
             me.scrollTop = scrollTop;
+            
+            // Moved at leat 20 pixels, or cvhanged direction, so test whether the numFromEdge is triggered
             if (Math.abs(vscrollDistance) >= 20 || (scrollDirection !== me.lastScrollDirection)) {
                 me.position = scrollTop;
                 me.lastScrollDirection = scrollDirection;
@@ -492,7 +522,7 @@ Ext.define('Ext.grid.plugin.BufferedRenderer', {
             rows.clear(true);
             top = calculatedTop;
         }
-        
+
         if (!rows.getCount()) {
             view.doAdd(range, start);
         }
@@ -717,6 +747,6 @@ Ext.define('Ext.grid.plugin.BufferedRenderer', {
         }
 
         // Remove listeners from old grid, view and store
-        Ext.destroy(me.viewListeners, me.storeListeners);
+        Ext.destroy(me.viewListeners, me.storeListeners, me.gridListeners);
     }
 });

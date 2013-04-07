@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @private
@@ -172,10 +175,7 @@ Ext.define('Ext.layout.container.boxOverflow.Scroller', {
     },
 
     beginLayout: function (ownerContext) {
-        var layout = this.layout;
-
-        ownerContext.innerCtScrollPos = layout.innerCt.dom[layout.names.scrollLeft];
-
+        ownerContext.innerCtScrollPos = this.getElScrollPos();
         this.callParent(arguments);
     },
 
@@ -197,11 +197,27 @@ Ext.define('Ext.layout.container.boxOverflow.Scroller', {
     },
 
     finishedLayout: function(ownerContext) {
-        var me = this,
-            layout = me.layout,
-            scrollPos = Math.min(me.getMaxScrollPosition(), ownerContext.innerCtScrollPos);
+        var scrollPos = Math.min(this.getMaxScrollPosition(), ownerContext.innerCtScrollPos);
 
-        layout.innerCt.dom[layout.names.scrollLeft] = scrollPos;
+        this.setElScrollPos(scrollPos);
+    },
+    
+    setElScrollPos: function(scrollPos) {
+        var layout = this.layout;
+        if (layout.direction === 'vertical') {
+            layout.innerCt.dom.scrollTop = scrollPos;
+        } else {
+            layout.innerCt.setScrollLeft(scrollPos);
+        }
+    },
+    
+    getElScrollPos: function(){
+        var layout = this.layout;
+        if (layout.direction === 'vertical') {
+            return layout.innerCt.dom.scrollTop;
+        } else {
+            return layout.innerCt.getScrollLeft();
+        }
     },
 
     handleOverflow: function(ownerContext) {
@@ -373,15 +389,6 @@ Ext.define('Ext.layout.container.boxOverflow.Scroller', {
 
     /**
      * @private
-     * Returns true if the innerCt scroll is already at its left-most point
-     * @return {Boolean} True if already at furthest left point
-     */
-    atExtremeBefore: function() {
-        return !this.getScrollPosition();
-    },
-
-    /**
-     * @private
      * Scrolls to the left by the configured amount
      */
     scrollLeft: function() {
@@ -407,7 +414,7 @@ Ext.define('Ext.layout.container.boxOverflow.Scroller', {
 
         // Until we actually scroll, the scroll[Top|Left] is stored as zero to avoid DOM hits, after that it's NaN.
         if (isNaN(me.scrollPosition)) {
-            result = layout.innerCt.dom[layout.names.scrollLeft];
+            result = me.getElScrollPos();
         } else {
             result = me.scrollPosition;
         }
@@ -425,6 +432,15 @@ Ext.define('Ext.layout.container.boxOverflow.Scroller', {
             maxScrollPos = me.scrollSize - layout.innerCt[layout.names.getWidth]();
 
         return (maxScrollPos < 0) ? 0 : maxScrollPos;
+    },
+    
+    /**
+     * @private
+     * Returns true if the innerCt scroll is already at its left-most point
+     * @return {Boolean} True if already at furthest left point
+     */
+    atExtremeBefore: function() {
+        return !this.getScrollPosition();
     },
 
     /**
@@ -473,6 +489,7 @@ Ext.define('Ext.layout.container.boxOverflow.Scroller', {
     scrollToItem: function(item, animate) {
         var me = this,
             layout = me.layout,
+            owner = layout.owner,
             names = layout.names,
             visibility,
             box,
@@ -480,15 +497,21 @@ Ext.define('Ext.layout.container.boxOverflow.Scroller', {
 
         item = me.getItem(item);
         if (item !== undefined) {
-            visibility = me.getItemVisibility(item);
-            if (!visibility.fullyVisible) {
-                box  = item.getBox(true, true);
-                newPos = box[names.x];
-                if (visibility.hiddenEnd) {
-                    newPos -= (me.layout.innerCt[names.getWidth]() - box[names.width]);
+            if (item == owner.items.first()) {
+                newPos = 0
+            } else if (item === owner.items.last()) {
+                newPos = me.getMaxScrollPosition();
+            } else {
+                visibility = me.getItemVisibility(item);
+                if (!visibility.fullyVisible) {
+                    box = item.getBox(false, true);
+                    newPos = box[names.x];
+                    if (visibility.hiddenEnd) {
+                        newPos -= (me.layout.innerCt[names.getWidth]() - box[names.width]);
+                    }
                 }
-                me.scrollTo(newPos, animate);
             }
+            me.scrollTo(newPos, animate);
         }
     },
 

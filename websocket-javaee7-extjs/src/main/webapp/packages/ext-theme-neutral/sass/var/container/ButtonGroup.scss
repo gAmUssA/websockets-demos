@@ -13,12 +13,14 @@ $btn-group-header-font-size: $font-size !default;
 $btn-group-header-font-weight: normal !default;
 $btn-group-header-font-family: $font-family !default;
 $btn-group-header-font: $btn-group-header-font-weight $btn-group-header-font-size $btn-group-header-font-family !default;
-$btn-group-header-line-height: $panel-header-line-height !default;
+$btn-group-header-line-height: 16px !default;
 $btn-group-header-color: #000 !default;
-$btn-group-header-padding: $panel-header-padding !default;
+$btn-group-header-padding: 4px 5px !default;
 $btn-group-header-background-color: $base-color !default;
 
 $btn-group-framed-background-color: $btn-group-background-color !default;
 $btn-group-framed-border-width: 1px !default;
 
 $btn-group-border-spacing: 0 !default;
+
+$btn-group-tool-background-image: 'tools/tool-sprites' !default;

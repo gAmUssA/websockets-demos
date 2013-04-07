@@ -14,9 +14,9 @@ $tab-border-radius: 3px 3px 0 0 !default;
 $tab-border-width: 0 !default;
 $tab-inner-border-width: 0 !default;
 
-$tab-padding: 4px 12px 3px !default;
+$tab-padding: 8px 12px 7px !default;
 
-$tab-line-height: 24px !default;
+$tab-line-height: 16px !default;
 $tab-margin: 0 1px 0 0 !default;
 
 $tabbar-background-gradient: null !default;
@@ -34,11 +34,14 @@ $tabbar-scroller-opacity-disabled: .25 !default;
 $tabbar-scroller-include-hover-background-position: false !default;
 $tabbar-scroller-include-plain-icon: true !default;
 
-$tab-icon-width: 24px !default;
-$tab-icon-height: 24px !default;
-$tab-icon-spacing: 5px !default;
+$tab-icon-width: 16px !default;
+$tab-icon-height: 16px !default;
+$tab-icon-spacing: 6px !default;
 
 $tab-closable-icon-width: 12px !default;
 $tab-closable-icon-height: 12px !default;
 $tabbar-closable-icon-include-hover-background-position: true !default;
 $tabbar-closable-icon-include-pressed-background-position: true !default;
+
+$tab-text-opacity-disabled: .3 !default;
+$tab-closable-icon-opacity-disabled: $tab-text-opacity-disabled !default;

@@ -42,12 +42,6 @@
     float: left;
 }
 
-@if $include-rtl {
-    .#{$prefix}rtl.#{$prefix}box-layout-ct .#{$prefix}horizontal-box-overflow-body {
-        float: right;
-    }
-}
-
 .#{$prefix}box-scroller {
     position: relative;
     background-repeat: no-repeat;

@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @class Ext.fx.Manager
@@ -47,9 +50,10 @@ Ext.define('Ext.fx.Manager', {
         var me = this;
         me.items = new Ext.util.MixedCollection();
         me.mixins.queue.constructor.call(me);
-        me.taskRunner = new Ext.util.TaskRunner({
-            fireIdleEvent: false
-        });
+        
+        // Do not use fireIdleEvent: false. Each tick of the TaskRunner needs to fire the idleEvent
+        // in case an animation callback/listener adds a listener.
+        me.taskRunner = new Ext.util.TaskRunner();
 
         // this.requestAnimFrame = (function() {
         //     var raf = window.requestAnimationFrame ||
@@ -252,7 +256,6 @@ Ext.define('Ext.fx.Manager', {
             return;
         }
         var me = this,
-            targetId = anim.target.getId(),
             useCSS3 = me.useCSS3 && anim.target.type == 'element',
             elapsedTime = me.timestamp - anim.startTime,
             lastFrame = (elapsedTime >= anim.duration),

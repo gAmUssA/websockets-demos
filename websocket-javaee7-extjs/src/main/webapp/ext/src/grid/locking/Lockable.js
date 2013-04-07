@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @private
@@ -391,8 +394,9 @@ Ext.define('Ext.grid.locking.Lockable', {
         lockedHeaderCt = me.lockedGrid.headerCt;
         normalHeaderCt = me.normalGrid.headerCt;
 
-        // The top grid needs to have a headerCt which is usable
-        me.headerCt = new Ext.grid.locking.HeaderContainer(this);
+        // The top grid, and the LockingView both need to have a headerCt which is usable.
+        // It is part of their private API that framework code uses when dealing with a grid or grid view
+        me.headerCt = me.view.headerCt = new Ext.grid.locking.HeaderContainer(this);
 
         lockedHeaderCt.lockedCt = true;
         lockedHeaderCt.lockableInjected = true;
@@ -754,8 +758,8 @@ Ext.define('Ext.grid.locking.Lockable', {
             lockedView = locked.view,
             lockedViewEl = lockedView.el.dom,
             normal = me.normalGrid,
-            lockedColCount = locked.headerCt.getVisibleGridColumns(true).length,
-            normalColCount = normal.headerCt.getVisibleGridColumns(true).length;
+            lockedColCount = locked.headerCt.getVisibleGridColumns().length,
+            normalColCount = normal.headerCt.getVisibleGridColumns().length;
 
         Ext.suspendLayouts();
 
@@ -776,6 +780,9 @@ Ext.define('Ext.grid.locking.Lockable', {
                 locked.show();
             } else {
                 // No visible locked columns: hide the locked grid
+                // We also need to trigger a refresh to clear out any
+                // old dom nodes
+                locked.getView().refresh();
                 locked.hide();
             }
 

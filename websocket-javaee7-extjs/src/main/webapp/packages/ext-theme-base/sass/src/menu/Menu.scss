@@ -14,6 +14,9 @@
     .#{$prefix}field-label-cell {
         vertical-align: middle;
     }
+    @if $menu-component-margin != null {
+        margin: $menu-component-margin;
+    }
 }
 
 .#{$prefix}menu-icon-separator {
@@ -29,6 +32,7 @@
 
 .#{$prefix}menu-item-link {
     text-decoration: none;
+    outline: 0;
     zoom: 1;
 }
 
@@ -42,24 +46,5 @@
 .#{$prefix}menu-item-icon-right,
 .#{$prefix}menu-item-arrow {
     position: absolute;
-}
-
-@if $include-opera {
-    .#{$prefix}opera {
-        // Opera 10.5 absolute positioning of submenu arrow has issues
-        // This will fix it, and not affect newer Operas
-        .#{$prefix}menu-item-link {
-            position: relative;
-        }
-    }
-}
-
-// TODO: is this even used?
-.#{$prefix}menu-focus {
-    display: block;
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    width: 0px;
-    height: 0px;
+    text-align: center;
 }

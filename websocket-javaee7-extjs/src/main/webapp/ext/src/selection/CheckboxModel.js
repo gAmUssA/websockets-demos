@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * A selection model that renders a column of checkboxes that can be toggled to
@@ -49,6 +52,8 @@ Ext.define('Ext.selection.CheckboxModel', {
     /**
      * @cfg {Boolean} showHeaderCheckbox
      * Configure as `false` to not display the header checkbox at the top of the column.
+     * When {@link Ext.data.Store#buffered} is set to `true`, this configuration will
+     * not be available because the buffered data set does not always contain all data. 
      */
     showHeaderCheckbox: undefined,
     
@@ -138,6 +143,9 @@ Ext.define('Ext.selection.CheckboxModel', {
                 checkbox = headerCt.getColumnCount();
             }
             Ext.suspendLayouts();
+            if (view.getStore().buffered) {
+                me.showHeaderCheckbox = false;
+            }
             headerCt.add(checkbox,  me.getHeaderConfig());
             Ext.resumeLayouts();
         }
@@ -207,7 +215,7 @@ Ext.define('Ext.selection.CheckboxModel', {
      */
     getHeaderConfig: function() {
         var me = this,
-            showCheck = me.showHeaderCheckbox !== false;
+            showCheck = me.showHeaderCheckbox !== false;     
 
         return {
             isCheckerHd: showCheck,
@@ -325,7 +333,7 @@ Ext.define('Ext.selection.CheckboxModel', {
             selectedCount = 0,
             selected, len, i;
             
-        if (storeCount > 0) {
+        if (!store.buffered && storeCount > 0) {
             selected = me.selected;
             hdSelectStatus = true;
             for (i = 0, len = selected.getCount(); i < len; ++i) {

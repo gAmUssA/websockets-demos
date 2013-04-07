@@ -5,15 +5,16 @@
 .#{$prefix}column-header-checkbox .#{$prefix}column-header-inner {
     padding: 0;
     line-height: 0;
+    font-size: 0;
 }
 
 .#{$prefix}grid-row-checker,
 .#{$prefix}column-header-checkbox .#{$prefix}column-header-text {
-    height: 14px;
-    width: 14px;
+    height: $form-checkbox-size;
+    width: $form-checkbox-size;
     line-height: 0;
-    background-image: theme-background-image('grid/unchecked');
-    background-position: -1px -1px;
+    font-size: 0;
+    background-image: theme-background-image($form-checkbox-image);
     background-repeat: no-repeat;
     background-color: transparent;
 }
@@ -37,31 +38,18 @@
     .#{$prefix}quirks .#{$prefix}ie, .#{$prefix}ie7m {
         .#{$prefix}grid-row-checker,
         .#{$prefix}column-header-checkbox .#{$prefix}column-header-text {
-            line-height: 14px;
+            line-height: $form-checkbox-size;
         }
     }
 }
 
-.#{$prefix}grid-hd-checker-on .#{$prefix}column-header-text {
-    background-image: theme-background-image('grid/checked');
-}
-
 .#{$prefix}grid-cell-row-checker .#{$prefix}grid-cell-inner {
-    padding-top: 4px;
-    padding-bottom: 2px;
+    padding: 3px 5px;
     line-height: $grid-row-height - 6;
 }
 
-.#{$prefix}grid-with-row-lines .#{$prefix}grid-cell-row-checker .#{$prefix}grid-cell-inner {
-    padding-top: 3px;
-}
-
-.#{$prefix}grid-row-checker {
-    margin-left: 1px;
-    background-position: 50% -2px;
-}
-
+.#{$prefix}grid-hd-checker-on .#{$prefix}column-header-text,
 .#{$prefix}grid-row-selected .#{$prefix}grid-row-checker,
 .#{$prefix}grid-row-checked .#{$prefix}grid-row-checker {
-    background-image: theme-background-image('grid/checked');
+    background-position: 0 (-$form-checkbox-size);
 }

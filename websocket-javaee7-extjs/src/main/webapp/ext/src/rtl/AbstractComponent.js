@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * This override adds RTL support and the `rtl` config option to AbstactComponent.
@@ -26,6 +29,13 @@ Ext.define('Ext.rtl.AbstractComponent', {
      * True to layout this component and its descendants in "rtl" (right-to-left) mode.
      * Can be explicitly set to false to override a true value inherited from an ancestor.
      */
+    
+    initStyles: function(){
+        if (this.getHierarchyState().rtl) {
+            this.horizontalPosProp = 'right';
+        }
+        this.callParent(arguments);
+    },
 
     convertPositionSpec: function(posSpec) {
         // Since anchoring is done based on page level coordinates, we need to invert
@@ -75,6 +85,22 @@ Ext.define('Ext.rtl.AbstractComponent', {
     getLocalXY: function() {
         return this.isLocalRtl() ? this.el.rtlGetLocalXY() : this.el.getLocalXY();
     },
+    
+    unitizeBox: function(box) {
+        if (this.getHierarchyState().rtl) {
+            return Ext.dom.Element.rtlUnitizeBox(box); 
+        } else {
+            return this.callParent(arguments);
+        } 
+    },
+    
+    parseBox: function(box) {
+        if (this.getHierarchyState().rtl) {
+            return Ext.dom.Element.rtlParseBox(box); 
+        } else {
+            return this.callParent(arguments);
+        }
+    },
 
     initHierarchyState: function(hierarchyState) {
         this.callParent(arguments);
@@ -104,7 +130,9 @@ Ext.define('Ext.rtl.AbstractComponent', {
 
         if (me.floating) {
             if (me._isOffsetParentRtl === undefined) {
-                offsetParent = this.el.dom.offsetParent;
+                
+                // position:fixed elements do not report an offsetParent, so fall back to parentNode
+                offsetParent = this.el.dom.offsetParent || this.el.dom.parentNode;
                 if (offsetParent) {
                     doc = document;
                     if (offsetParent === doc.documentElement) {

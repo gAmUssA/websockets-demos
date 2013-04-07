@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * A mixin for {@link Ext.container.Container} components that are likely to have form fields in their
@@ -27,9 +30,15 @@ Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
  *   container, to facilitate uniform configuration of all fields.
  *
  * This mixin is primarily for internal use by {@link Ext.form.Panel} and {@link Ext.form.FieldContainer},
- * and should not normally need to be used directly. @docauthor Jason Johnston <jason@sencha.com>
+ * and should not normally need to be used directly.
+ *
+ * @docauthor Jason Johnston <jason@sencha.com>
  */
 Ext.define('Ext.form.FieldAncestor', {
+    
+    requires: [
+        'Ext.container.Monitor'
+    ],
 
     /**
      * @cfg {Object} fieldDefaults
@@ -115,11 +124,31 @@ Ext.define('Ext.form.FieldAncestor', {
             'fielderrorchange'
         );
 
-        // Catch bubbled change of error display status and change of validity status from descendants
-        me.on('errorchange', me.handleFieldErrorChange, me);
-        me.on('validitychange', me.handleFieldValidityChange, me);
-
+        // We use the monitor here as opposed to event bubbling. The problem with bubbling is it doesn't
+        // let us react to items being added/remove at different places in the hierarchy which may have an
+        // impact on the error/valid state.
+        me.monitor = new Ext.container.Monitor({
+            scope: me,
+            addHandler: me.onChildFieldAdd,
+            removeHandler: me.onChildFieldRemove
+        });
         me.initFieldDefaults();
+    },
+    
+    initMonitor: function() {
+        this.monitor.bind(this);    
+    },
+    
+    onChildFieldAdd: function(field) {
+        var me = this;
+        me.mon(field, 'errorchange', me.handleFieldErrorChange, me);
+        me.mon(field, 'validitychange', me.handleFieldValidityChange, me);
+    },
+    
+    onChildFieldRemove: function(field) {
+        var me = this;
+        me.mun(field, 'errorchange', me.handleFieldErrorChange, me);
+        me.mun(field, 'validitychange', me.handleFieldValidityChange, me);
     },
 
     /**
@@ -167,6 +196,11 @@ Ext.define('Ext.form.FieldAncestor', {
      * @param {String} error The new active error message
      * @protected
      */
-    onFieldErrorChange: Ext.emptyFn
+    onFieldErrorChange: Ext.emptyFn,
+    
+    beforeDestroy: function(){
+        this.monitor.unbind();
+        this.callParent();
+    }
 
 });

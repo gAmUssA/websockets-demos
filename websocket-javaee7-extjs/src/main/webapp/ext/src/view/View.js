@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * A mechanism for displaying data using custom layout templates and formatting.
@@ -74,12 +77,12 @@ Ext.define('Ext.view.View', {
     deferHighlight: Ext.isIE7m ? 100 : 0,
 
     /**
-     * @cfg {Number} [mouseOverOutBuffer=50]
+     * @cfg {Number} [mouseOverOutBuffer=20]
      * The number of milliseconds to buffer mouseover and mouseout event handling on view items.
      * 
      * Configure this as `false` to process mouseover and mouseout events immediately.
      */
-    mouseOverOutBuffer: 50,
+    mouseOverOutBuffer: 20,
 
     inputTagRe: /^textarea$|^input$/i,
 
@@ -441,7 +444,7 @@ Ext.define('Ext.view.View', {
     // @private
     afterRender: function(){
         var me = this,
-            onMouseOverOut = me.mouseOverOutBuffer ? me.onMouseOverOut : me.handleEvent;
+            onMouseOverOut = me.mouseOverOutBuffer ? me.onMouseOverOut : me.handleMouseOverOrOut;
 
         me.callParent();
         me.mon(me.getTargetEl(), {
@@ -522,6 +525,13 @@ Ext.define('Ext.view.View', {
     processSpecialEvent: Ext.emptyFn,
 
     processUIEvent: function(e) {
+
+        // If the target event has been removed from the body (data update causing view DOM to be updated),
+        // do not process. isAncestor uses native methods to check.
+        if (!Ext.getBody().isAncestor(e.target)) {
+            return;
+        }
+
         var me = this,
             item = e.getTarget(me.getItemSelector(), me.getTargetEl()),
             map = this.statics().EventMap,

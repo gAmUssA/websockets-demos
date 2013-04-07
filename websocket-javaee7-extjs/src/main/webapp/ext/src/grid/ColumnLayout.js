@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @private
@@ -44,50 +47,65 @@ Ext.define('Ext.grid.ColumnLayout', {
     // Collect the height of the table of data upon layout begin
     beginLayout: function (ownerContext) {
         var me = this,
+            owner = me.owner,
             grid = me.grid,
             view = grid.view,
-            i = 0,
             items = me.getVisibleItems(),
             len = items.length,
-            item;
+            firstCls = me.firstHeaderCls, 
+            lastCls = me.lastHeaderCls,
+            i, item;
 
         // If we are one side of a locking grid, then if we are on the "normal" side, we have to grab the normal view
         // for use in determining whether to subtract scrollbar width from available width.
         // The locked side does not have scrollbars, so it should not look at the view.
         if (grid.lockable) {
-            if (me.owner.up('tablepanel') === view.normalGrid) {
+            if (owner.up('tablepanel') === view.normalGrid) {
                 view = view.normalGrid.getView();
             } else {
                 view = null;
             }
         }
+        
+        for (i = 0; i < len; i++) {
+            item = items[i];
+            item.removeCls([firstCls, lastCls]);
+            if (i === 0) {
+                item.addCls(firstCls);
+            }
+            
+            if (i === len - 1) {
+                item.addCls(lastCls);
+            }
+        }
 
         me.callParent(arguments);
 
-        // Unstretch child items before the layout which stretches them.
+        // If the owner is the grid's HeaderContainer, and the UI displays old fashioned scrollbars and there is a rendered View with data in it,
+        // collect the View context to interrogate it for overflow, and possibly invalidate it if there is overflow
+        if (!owner.isHeader && Ext.getScrollbarSize().width && !grid.collapsed && view &&
+                view.rendered && (ownerContext.viewTable = view.body.dom)) {
+            ownerContext.viewContext = ownerContext.context.getCmp(view);
+        }
+    },
+    
+    beginLayoutCycle: function(ownerContext) {
+        this.callParent(arguments);
+        
+        var items = this.getVisibleItems(),
+            len = items.length,
+            i = 0, item;
+             
+         // Unstretch child items before the layout which stretches them.
         for (; i < len; i++) {
             item = items[i];
-            item.removeCls([me.firstHeaderCls, me.lastHeaderCls]);
             item.el.setStyle({
                 height: 'auto'
             });
             item.titleEl.setStyle({
-                height: 'auto',
-                paddingTop: ''  // reset back to default padding of the style
+                paddingTop: '',  // reset back to default padding of the style
+                paddingBottom: ''
             });
-        }
-
-        // Add special first/last classes
-        if (len > 0) {
-            items[0].addCls(me.firstHeaderCls);
-            items[len - 1].addCls(me.lastHeaderCls);
-        }
-
-        // If the owner is the grid's HeaderContainer, and the UI displays old fashioned scrollbars and there is a rendered View with data in it,
-        // collect the View context to interrogate it for overflow, and possibly invalidate it if there is overflow
-        if (!me.owner.isHeader && Ext.getScrollbarSize().width && !grid.collapsed && view &&
-                view.rendered && (ownerContext.viewTable = view.body.dom)) {
-            ownerContext.viewContext = ownerContext.context.getCmp(view);
         }
     },
 

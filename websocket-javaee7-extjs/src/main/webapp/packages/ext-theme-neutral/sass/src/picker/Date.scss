@@ -34,6 +34,12 @@ $datepicker-monthpicker-small-yearnav-height: $datepicker-monthpicker-small-item
     height: $datepicker-arrow-height;
     top: round(($datepicker-button-height + vertical($datepicker-header-padding) - $datepicker-arrow-height) / 2);
     cursor: $datepicker-arrow-cursor;
+
+    // EXTJSIV-8846: partially transparent png images do not display correctly
+    // in winXP/IE8m when the image element has a transparent background.
+    // to fix this, we give the element the same background-color as the datepicker.
+    background-color: $datepicker-header-background-color;
+
     @if $datepicker-arrow-opacity != 1 {
         @include opacity($datepicker-arrow-opacity);
     }
@@ -271,6 +277,11 @@ a.#{$prefix}monthpicker-item-inner:hover {
     @if $datepicker-monthpicker-yearnav-button-opacity != 1 {
         @include opacity($datepicker-monthpicker-yearnav-button-opacity);
     }
+
+    // EXTJSIV-8846: partially transparent png images do not display correctly
+    // in winXP/IE8m when the image element has a transparent background.
+    // to fix this, we give the element the same background-color as the datepicker.
+    background-color: $datepicker-background-color;
 }
 
 @if $datepicker-monthpicker-yearnav-button-opacity-over != 1 or $datepicker-monthpicker-yearnav-button-opacity != 1  {

@@ -15,6 +15,8 @@
 
 .#{$prefix}tab-button {
     zoom: 1;
+    display: block;
+    outline: none;
 }
 
 .#{$prefix}tab-inner {
@@ -24,6 +26,7 @@
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
     overflow: hidden;
+    zoom: 1; // required to make opacity work on IE quirks
 }
 
 .#{$prefix}btn-icon-el {
@@ -33,6 +36,7 @@
     left: 0;
     position: absolute;
     background-repeat: no-repeat;
+    text-align: center;
 }
 
 .#{$prefix}tab-bar {

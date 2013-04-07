@@ -120,8 +120,7 @@
     text-align: right;
 
     .#{$prefix}column-header-text {
-        padding-right: 0.5ex;
-        margin-right: 6px;
+        margin-right: $grid-column-align-right-margin;
     }
 }
 
@@ -130,10 +129,8 @@
         text-align: left;
     }
     .#{$prefix}column-header-align-right .#{$prefix}rtl.#{$prefix}column-header-text {
-        padding-right: 0;
-        padding-left: 0.5ex;
         margin-right: 0;
-        margin-left: 6px;
+        margin-left: $grid-column-align-right-margin;
     }
     .#{$prefix}rtl.#{$prefix}column-header-align-left {
         text-align: right;

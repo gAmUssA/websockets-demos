@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * Represents an Ext JS 4 application, which is typically a single page app using a {@link Ext.container.Viewport Viewport}.
@@ -217,15 +220,20 @@ Ext.define('Ext.app.Application', {
             Ext.app.addNamespaces(data.namespaces);
         }
 
-        Ext.Loader.setPath(data.name, data.appFolder || 'app');
-        paths = data.paths;
+        if (!data['paths processed']) {
+            Ext.Loader.setPath(data.name, data.appFolder || 'app');
+            paths = data.paths;
 
-        if (paths) {
-            for (ns in paths) {
-                if (paths.hasOwnProperty(ns)) {
-                    Ext.Loader.setPath(ns, paths[ns]);
+            if (paths) {
+                for (ns in paths) {
+                    if (paths.hasOwnProperty(ns)) {
+                        Ext.Loader.setPath(ns, paths[ns]);
+                    }
                 }
             }
+        }
+        else {
+            delete data['paths processed'];
         }
 
         if (data.autoCreateViewport) {

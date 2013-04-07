@@ -18,10 +18,9 @@ $tabbar-plain-padding: 0 !default;
 $tabbar-base-color: adjust-color($panel-base-color, $hue: 0deg, $saturation: -3.156%, $lightness: -5.294%) !default;
 
 $tab-text-opacity-disabled: 1 !default;
-$tab-icon-opacity-disabled: .5 !default;
 
 $tab-closable-icon-opacity: .6 !default;
-$tab-closable-icon-disabled-opacity: .3 !default;
+$tab-closable-icon-opacity-disabled: .3 !default;
 
 $tabbar-scroller-opacity-disabled: .5 !default;
 $tabbar-scroller-symmetrical-icons: false !default;

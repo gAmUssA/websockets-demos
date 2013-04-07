@@ -21,6 +21,7 @@
     display: block;
     text-decoration: none;
     overflow: hidden;
+    outline: 0;
     zoom: 1;
 }
 
@@ -38,6 +39,7 @@
     left: 0;
     position: absolute;
     background-repeat: no-repeat;
+    text-align: center;
 }
 
 .#{$prefix}btn-inner-center {

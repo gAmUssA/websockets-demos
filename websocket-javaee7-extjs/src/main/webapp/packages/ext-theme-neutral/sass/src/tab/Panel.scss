@@ -13,6 +13,7 @@
     $ui-tab-border-width: $tab-border-width,
     $ui-tab-margin: $tab-margin,
     $ui-tab-padding: $tab-padding,
+    $ui-tab-text-padding: $tab-text-padding,
     $ui-tab-border-color: $tab-border-color,
     $ui-tab-border-color-over: $tab-border-color-over,
     $ui-tab-border-color-active: $tab-border-color-active,
@@ -47,6 +48,14 @@
     $ui-tab-icon-width: $tab-icon-width,
     $ui-tab-icon-height: $tab-icon-height,
     $ui-tab-icon-spacing: $tab-icon-spacing,
+    $ui-tab-icon-background-position: $tab-icon-background-position,
+
+    $ui-tab-glyph-color: $tab-glyph-color,
+    $ui-tab-glyph-color-over: $tab-glyph-color-over,
+    $ui-tab-glyph-color-active: $tab-glyph-color-active,
+    $ui-tab-glyph-color-disabled: $tab-glyph-color-disabled,
+    $ui-tab-glyph-opacity: $tab-glyph-opacity,
+    $ui-tab-glyph-opacity-disabled: $tab-glyph-opacity-disabled,
 
     $ui-tab-opacity-disabled: $tab-opacity-disabled,
     $ui-tab-text-opacity-disabled: $tab-text-opacity-disabled,
@@ -67,6 +76,9 @@
 
     $ui-bar-scroller-cursor: $tabbar-scroller-cursor,
     $ui-bar-scroller-cursor-disabled: $tabbar-scroller-cursor-disabled,
+    $ui-bar-scroller-opacity: $tabbar-scroller-opacity,
+    $ui-bar-scroller-opacity-over: $tabbar-scroller-opacity-over,
+    $ui-bar-scroller-opacity-pressed: $tabbar-scroller-opacity-pressed,
     $ui-bar-scroller-opacity-disabled: $tabbar-scroller-opacity-disabled,
 
     $ui-tab-closable-icon-width: $tab-closable-icon-width,
@@ -136,10 +148,63 @@
             font-family: $ui-tab-font-family;
             color: $ui-tab-color;
             line-height: $ui-tab-line-height;
+            @if $ui-tab-text-padding != 0 {
+                padding: $ui-tab-text-padding;
+            }
         }
         .#{$prefix}tab-icon-el {
             width: $ui-tab-icon-width;
             height: $ui-tab-icon-height;
+            line-height: $ui-tab-icon-height;
+            background-position: $ui-tab-icon-background-position;
+        }
+
+        .#{$prefix}tab-glyph {
+            font-size: $ui-tab-icon-height;
+            color: $ui-tab-glyph-color;
+            @if $ui-tab-glyph-opacity != 1 {
+                // do not use the opacity mixin because we do not want IE's filter version of
+                // opacity to be included.  We emulate the opacity setting in IE8m by mixing
+                // the icon color into the background color. (see below)
+                opacity: $ui-tab-glyph-opacity;
+            }
+            // In IE8 and below when a glyph contains partially transparent pixels, we 
+            // can't apply an opacity filter to the glyph element, because IE8m will render
+            //  the partially transparent pixels of the glyph as black. To work around this,
+            // we emulate the approximate color that the glyph would have if it had opacity
+            // applied by mixing the glyph color with the tab's background-color.
+            .#{$prefix}ie8m & {
+                color: mix($ui-tab-glyph-color, $ui-tab-background-color, $ui-tab-glyph-opacity * 100);
+            }
+        }
+
+        @if $include-ie {
+            // EXTJSIV-8765: vertical tabs get shifted to the left when focused.  To work
+            // around this, we move the left padding to the tab-button el.
+            .#{$prefix}strict .#{$prefix}ie9 .#{$prefix}tab-bar-vertical & {
+                padding-left: 0;
+
+                .#{$prefix}tab-button {
+                    padding-left: left($ui-tab-padding);
+                }
+
+                .#{$prefix}tab-icon-el {
+                    left: left($ui-tab-padding);
+                }
+            }
+        }
+    }
+
+    .#{$prefix}tab-#{$ui}-icon {
+        .#{$prefix}tab-inner {
+            // even though there is no text we set a width and padding as buttons shrink-wrap around this element
+            width: $ui-tab-icon-width;
+        }
+    }
+
+    @if $include-rtl {
+        .#{$prefix}rtl.#{$prefix}tab-#{$ui} {
+            margin: rtl($ui-tab-margin);            
         }
     }
 
@@ -237,7 +302,7 @@
 
     .#{$prefix}tab-#{$ui}-icon-text-left {
         .#{$prefix}tab-inner {
-            padding-left: $ui-tab-icon-width + $ui-tab-icon-spacing;
+            padding-left: $ui-tab-icon-width + $ui-tab-icon-spacing + left($ui-tab-text-padding);
         }
     }
 
@@ -245,7 +310,7 @@
         .#{$prefix}rtl.#{$prefix}tab-#{$ui}-icon-text-left {
             .#{$prefix}tab-inner {
                 padding-left: 0;
-                padding-right: $ui-tab-icon-width + $ui-tab-icon-spacing;
+                padding-right: $ui-tab-icon-width + $ui-tab-icon-spacing + left($ui-tab-text-padding);
             }
         }
     }
@@ -271,6 +336,18 @@
             }
             @if $ui-tab-font-family-over != $ui-tab-font-family {
                 font-family: $ui-tab-font-family-over;
+            }
+        }
+
+        .#{$prefix}tab-glyph {
+            color: $ui-tab-glyph-color-over;
+            // In IE8 and below when a glyph contains partially transparent pixels, we 
+            // can't apply an opacity filter to the glyph element, because IE8m will render
+            //  the partially transparent pixels of the glyph as black. To work around this,
+            // we emulate the approximate color that the glyph would have if it had opacity
+            // applied by mixing the glyph color with the tab's background-color.
+            .#{$prefix}ie8m & {
+                color: mix($ui-tab-glyph-color-over, $ui-tab-background-color-over, $ui-tab-glyph-opacity * 100);
             }
         }
     }
@@ -302,6 +379,7 @@
         @if $ui-tab-border-color-active != $ui-tab-border-color {
             border-color: $ui-tab-border-color-active;
         }
+        background-color: $ui-tab-background-color-active;
 
         .#{$prefix}tab-inner {
             @if $ui-tab-color-active != $ui-tab-color {
@@ -317,13 +395,24 @@
                 font-family: $ui-tab-font-family-active;
             }
         }
+
+        .#{$prefix}tab-glyph {
+            color: $ui-tab-glyph-color-active;
+            // In IE8 and below when a glyph contains partially transparent pixels, we 
+            // can't apply an opacity filter to the glyph element, because IE8m will render
+            //  the partially transparent pixels of the glyph as black. To work around this,
+            // we emulate the approximate color that the glyph would have if it had opacity
+            // applied by mixing the glyph color with the tab's background-color.
+            .#{$prefix}ie8m & {
+                color: mix($ui-tab-glyph-color-active, $ui-tab-background-color-active, $ui-tab-glyph-opacity * 100);
+            }
+        }
     }
 
     .#{$prefix}tab-#{$ui}-top-active,
     .#{$prefix}tab-#{$ui}-left-active,
     .#{$prefix}tab-#{$ui}-right-active {
         border-bottom-color: $ui-strip-background-color;
-        background-color: $ui-tab-background-color-active;
         @if $ui-tab-background-gradient-active != null {
             @include background-gradient($ui-tab-background-color-active, $ui-tab-background-gradient-active, top);
 
@@ -337,7 +426,6 @@
 
     .#{$prefix}tab-#{$ui}-bottom-active {
         border-top-color: $ui-strip-background-color;
-        background-color: $ui-tab-background-color-active;
         @if $ui-tab-background-gradient-active != null {
             @include background-gradient($ui-tab-background-color-active, $ui-tab-background-gradient-active, bottom);
 
@@ -379,10 +467,29 @@
                 @include opacity($ui-tab-text-opacity-disabled);
             }
         }
-
-        .#{$prefix}tab-icon-el {
-            @if $ui-tab-icon-opacity-disabled != 1 {
+        
+        @if $ui-tab-icon-opacity-disabled != 1 {
+            .#{$prefix}tab-icon-el {
                 @include opacity($ui-tab-icon-opacity-disabled);
+            }
+        }
+
+        .#{$prefix}tab-glyph {
+            color: $ui-tab-glyph-color-disabled;
+            @if $ui-tab-glyph-opacity-disabled != 1 {
+                // do not use the opacity mixin because we do not want IE's filter version of
+                // opacity to be included.  We emulate the opacity setting in IE8m by mixing
+                // the icon color into the background color. (see below)
+                opacity: $ui-tab-glyph-opacity-disabled;
+            }
+            filter: none; // override opacity from tab-icon-el
+            // In IE8 and below when a glyph contains partially transparent pixels, we 
+            // can't apply an opacity filter to the glyph element, because IE8m will render
+            //  the partially transparent pixels of the glyph as black. To work around this,
+            // we emulate the approximate color that the glyph would have if it had opacity
+            // applied by mixing the glyph color with the tab's background-color.
+            .#{$prefix}ie8m & {
+                color: mix($ui-tab-glyph-color-disabled, $ui-tab-background-color-disabled, $ui-tab-glyph-opacity-disabled * 100);
             }
         }
     }
@@ -607,7 +714,8 @@
 
     // tabbar needs a fixed height so that the tabbar doesn't lose height when all tabs are closed...
     // this works because shrinkWrapping with no children measures the body element
-    $tabbar-body-height: $ui-tab-line-height + vertical($ui-tab-padding) + vertical($ui-tab-border-width) + $ui-strip-height;
+    $tabbar-body-height: $ui-tab-line-height + vertical($ui-tab-text-padding) + 
+        vertical($ui-tab-padding) + vertical($ui-tab-border-width) + $ui-strip-height;
     .#{$prefix}tab-bar-body-#{$ui}-horizontal {
         height: $tabbar-body-height;
 
@@ -760,8 +868,8 @@
 
         // include the element name since :hover causes performance issues in IE7 and 8 otherwise
         a.#{$prefix}tab-close-btn:hover {
-            @if  $tab-closable-icon-over-opacity != $tab-closable-icon-opacity {
-                @include opacity($tab-closable-icon-over-opacity);
+            @if  $tab-closable-icon-opacity-over != $tab-closable-icon-opacity {
+                @include opacity($tab-closable-icon-opacity-over);
             }
             @if $tabbar-closable-icon-include-hover-background-position {
                 background-position: (-$tab-closable-icon-width) 0;
@@ -815,8 +923,8 @@
 
     //Include the tab-bar ancestor cls to raise the specificity to equal the :hover 
     .#{$prefix}tab-bar .#{$prefix}tab-#{$ui}-disabled a.#{$prefix}tab-close-btn {
-        @if $tab-closable-icon-disabled-opacity != $tab-closable-icon-opacity or $tab-closable-icon-disabled-opacity != $tab-closable-icon-over-opacity {
-            @include opacity($tab-closable-icon-disabled-opacity);
+        @if $tab-closable-icon-opacity-disabled != $tab-closable-icon-opacity or $tab-closable-icon-opacity-disabled != $tab-closable-icon-opacity-over {
+            @include opacity($tab-closable-icon-opacity-disabled);
         }
         @if $tabbar-closable-icon-include-hover-background-position {
             background-position: 0 0;
@@ -827,47 +935,6 @@
         //Include the tab-bar ancestor cls to raise the specificity to equal the :hover 
         .#{$prefix}tab-bar .#{$prefix}tab-#{$ui}-pressed a.#{$prefix}tab-close-btn {
             background-position: (-$ui-tab-closable-icon-width * 2) 0;
-        }
-    }
-
-    @if not $supports-border-radius or $compile-all {
-        .#{$prefix}nbr {
-            .#{$prefix}tab-#{$ui} .#{$prefix}tab-close-btn {
-                right: $ui-tab-closable-icon-right - (right($ui-tab-border-radius) - right($ui-tab-border-width));
-            }
-
-            .#{$prefix}tab-#{$ui}-top,
-            .#{$prefix}tab-#{$ui}-left,
-            .#{$prefix}tab-#{$ui}-right {
-                .#{$prefix}tab-close-btn {
-                    top: $ui-tab-closable-icon-top - (right($ui-tab-border-radius) - top($ui-tab-border-width));
-                }
-            }
-
-            @if $include-rtl {
-                .#{$prefix}rtl.#{$prefix}tab-#{$ui} .#{$prefix}tab-close-btn {
-                    right: auto;
-                    left: $ui-tab-closable-icon-right - (right($ui-tab-border-radius) - right($ui-tab-border-width));
-                }
-            }
-
-            @if $tab-left-rotate-direction == 'right' {
-                .#{$prefix}tab-#{$ui}-left .#{$prefix}tab-close-btn {
-                    top: auto;
-                    right: auto;
-                    bottom: $ui-tab-closable-icon-top - (right($ui-tab-border-radius) - top($ui-tab-border-width));
-                    left: $ui-tab-closable-icon-right - (right($ui-tab-border-radius) - right($ui-tab-border-width));
-                }
-            }
-
-            @if $tab-right-rotate-direction == 'left' {
-                .#{$prefix}tab-#{$ui}-right .#{$prefix}tab-close-btn {
-                    top: auto;
-                    right: auto;
-                    bottom: $ui-tab-closable-icon-top - (right($ui-tab-border-radius) - top($ui-tab-border-width));
-                    left: $ui-tab-closable-icon-right - (right($ui-tab-border-radius) - right($ui-tab-border-width));
-                }
-            }
         }
     }
 
@@ -914,28 +981,48 @@
         }
     }
 
+    $needs-transparency-fix: (($ui-bar-scroller-opacity != 1 or $ui-bar-scroller-opacity-over != 1 or
+        $ui-bar-scroller-opacity-pressed != 1) and $ui-bar-background-gradient == null);
     .#{$prefix}tab-bar-#{$ui} {
         .#{$prefix}box-scroller {
             cursor: $ui-bar-scroller-cursor;
-            @if $tabbar-scroller-opacity != 1 {
-                @include opacity($tabbar-scroller-opacity);
+            @if $ui-bar-scroller-opacity != 1 {
+                @include opacity($ui-bar-scroller-opacity);
+            }
+            @if $needs-transparency-fix {
+                // EXTJSIV-8846: partially transparent png images do not display correctly
+                // in winXP/IE8m when the image element has a transparent background.
+                // to fix this, we give the element the same background-color as the tabbar.
+                background-color: $ui-bar-background-color;
             }
         }
 
-        @if $tabbar-scroller-opacity-over != 1 {
+        @if $needs-transparency-fix {
+            // plain tabbars have transparent backgrounds, so we use a white bg to overcome
+            // the png transparency issues. See EXTJSIV-8846
+            .#{$prefix}box-scroller-plain .#{$prefix}box-scroller {
+                background-color: transparent;
+                .#{$prefix}ie8m & {
+                    background-color: #fff;
+                }
+            }
+        }
+
+        @if $ui-bar-scroller-opacity-over != 1 {
             .#{$prefix}box-scroller-hover {
-                @include opacity($tabbar-scroller-opacity-over);
+                @include opacity($ui-bar-scroller-opacity-over);
             }
         }
 
-        @if $tabbar-scroller-opacity-pressed != 1 {
+        @if $ui-bar-scroller-opacity-pressed != 1 {
             .#{$prefix}box-scroller-pressed {
-                @include opacity($tabbar-scroller-opacity-pressed);
+                @include opacity($ui-bar-scroller-opacity-pressed);
             }
         }
 
         $scroller-width: $ui-bar-scroller-width;
-        $scroller-height: $ui-tab-line-height + vertical($ui-tab-padding) + vertical($ui-tab-border-width);
+        $scroller-height: $ui-tab-line-height + vertical($ui-tab-text-padding) +
+            vertical($ui-tab-padding) + vertical($ui-tab-border-width);
 
         .#{$prefix}tabbar-scroll-left,
         .#{$prefix}tabbar-scroll-right {

@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 
 /**
@@ -29,7 +32,8 @@ Ext.define('Ext.AbstractComponent', {
         'Ext.ComponentQuery',
         'Ext.ComponentManager',
         'Ext.util.ProtoElement',
-        'Ext.dom.CompositeElement'
+        'Ext.dom.CompositeElement',
+        'Ext.PluginManager'
     ],
 
     mixins: {
@@ -973,6 +977,8 @@ Ext.define('Ext.AbstractComponent', {
      * padding.  See {@link Ext.layout.container.Auto#managePadding managePadding}
      */ 
     contentPaddingProperty: 'padding',
+    
+    horizontalPosProp: 'left',
 
     /**
      * Creates new Component.
@@ -1324,10 +1330,11 @@ Ext.define('Ext.AbstractComponent', {
             to,
             clearWidth,
             clearHeight,
-            curWidth, w, curHeight, h, needsResize,
+            curWidth, w, curHeight, h, isExpanding,
             wasConstrained,
             wasConstrainedHeader,
-            passedCallback;
+            passedCallback,
+            oldOverflow;
 
         animObj = animObj || {};
         to = animObj.to || {};
@@ -1352,21 +1359,29 @@ Ext.define('Ext.AbstractComponent', {
             w = curWidth;
             curHeight = (animObj.from ? animObj.from.height : undefined) || me.getHeight();
             h = curHeight;
-            needsResize = false;
+            isExpanding = false;
 
             if (hasToHeight && toHeight > curHeight) {
                 h = toHeight;
-                needsResize = true;
+                isExpanding = true;
             }
             if (hasToWidth && toWidth > curWidth) {
                 w = toWidth;
-                needsResize = true;
+                isExpanding = true;
+            }
+
+            // During animated sizing, overflow has to be hidden to clip expanded content
+            if (hasToHeight || hasToWidth) {
+                oldOverflow = me.el.getStyle('overtflow');
+                if (oldOverflow !== 'hidden') {
+                    me.el.setStyle('overflow', 'hidden');
+                }
             }
 
             // If any dimensions are being increased, we must resize the internal structure
             // of the Component, but then clip it by sizing its encapsulating element back to original dimensions.
             // The animation will then progressively reveal the larger content.
-            if (needsResize) {
+            if (isExpanding) {
                 clearWidth = !Ext.isNumber(me.width);
                 clearHeight = !Ext.isNumber(me.height);
 
@@ -1406,6 +1421,9 @@ Ext.define('Ext.AbstractComponent', {
                 if (passedCallback) {
                     passedCallback.call(animObj.scope||me, arguments);
                 }
+                if (oldOverflow !== 'hidden') {
+                    me.el.setStyle('overflow', oldOverflow);
+                }
             };
         }
         return me.mixins.animate.animate.apply(me, arguments);
@@ -1422,22 +1440,26 @@ Ext.define('Ext.AbstractComponent', {
         this.updateLayout({ isRoot: false });
     },
 
+    /**
+     * @private
+     * @param {String/Object} ptype string or config object containing a ptype property.
+     *
+     * Constructs a plugin according to the passed config object/ptype string.
+     *
+     * Ensures that the constructed plugin always has a `cmp` reference back to this component.
+     * The setting up of this is done in PluginManager. The PluginManager ensures that a reference to this
+     * component is passed to the constructor. It also ensures that the plugin's `setCmp` method (if any) is called. 
+     */
     constructPlugin: function(plugin) {
-        if (plugin.ptype && !plugin.isPlugin) {
-            // If a config object with a ptype
-            plugin = Ext.PluginManager.create(plugin);
-        } else if (typeof plugin == 'string') {
-            // ptype only
-            plugin = Ext.PluginManager.create({
-                ptype: plugin
-            });
+        var me = this;
+        
+        // ptype only, pass as the defultType
+        if (typeof plugin == 'string') {
+            plugin = Ext.PluginManager.create({}, plugin, me);
         }
-        if (plugin.cmp !== this) {
-            if (plugin.setCmp) {
-                plugin.setCmp(this);
-            } else {
-                plugin.cmp = this;
-            }
+        // Object (either config with ptype or an instantiated plugin)
+        else {
+            plugin = Ext.PluginManager.create(plugin, null, me);
         }
         return plugin;
     },
@@ -1451,19 +1473,22 @@ Ext.define('Ext.AbstractComponent', {
      */
     constructPlugins: function() {
         var me = this,
-            plugins,
-            result = [],
-            i, len;
+            plugins = me.plugins,
+            result, i, len;
 
-        if (me.plugins) {
-            plugins = Ext.isArray(me.plugins) ? me.plugins : [ me.plugins ];
+        if (plugins) {
+            result = [];
+            if (!Ext.isArray(plugins)) {
+                plugins = [ plugins ];
+            }
             for (i = 0, len = plugins.length; i < len; i++) {
                 // this just returns already-constructed plugin instances...
                 result[i] = me.constructPlugin(plugins[i]);
             }
-            return result;
         }
+
         me.pluginsInitialized = true;
+        return result;
     },
 
     // @private
@@ -1506,6 +1531,18 @@ Ext.define('Ext.AbstractComponent', {
             });
         }
     },
+
+    /**
+     * Occurs before componentLayout is run. In previous releases, this method could
+     * return `false` to prevent its layout but that is not supported in Ext JS 4.1 or
+     * higher. This method is simply a notification of the impending layout to give the
+     * component a chance to adjust the DOM. Ideally, DOM reads should be avoided at this
+     * time to reduce expensive document reflows.
+     *
+     * @template
+     * @protected
+     */
+    beforeLayout: Ext.emptyFn,
 
     /**
      * @private
@@ -1884,7 +1921,7 @@ Ext.define('Ext.AbstractComponent', {
         me.initPadding(targetEl);
 
         if (margin != null) {
-            targetEl.setStyle('margin', Element.unitizeBox((margin === true) ? 5 : margin));
+            targetEl.setStyle('margin', this.unitizeBox((margin === true) ? 5 : margin));
         }
 
         if (border != null) {
@@ -1903,7 +1940,7 @@ Ext.define('Ext.AbstractComponent', {
         }
 
         if (x != null) {
-            targetEl.setStyle('left', (typeof x == 'number') ? (x + 'px') : x);
+            targetEl.setStyle(me.horizontalPosProp, (typeof x == 'number') ? (x + 'px') : x);
         }
         if (y != null) {
             targetEl.setStyle('top', (typeof y == 'number') ? (y + 'px') : y);
@@ -1957,8 +1994,41 @@ Ext.define('Ext.AbstractComponent', {
             } else {
                 // Convert the padding, margin and border properties from a space seperated string
                 // into a proper style string
-                targetEl.setStyle('padding', Ext.Element.unitizeBox((padding === true) ? 5 : padding));
+                targetEl.setStyle('padding', this.unitizeBox((padding === true) ? 5 : padding));
             }
+        }
+    },
+    
+    parseBox: function(box) {
+        return Ext.dom.Element.parseBox(box);    
+    },
+    
+    unitizeBox: function(box) {
+        return Ext.dom.Element.unitizeBox(box);    
+    },
+    
+    /**
+     * Sets the margin on the target element.
+     * @param {Number/String} margin The margin to set. See the {@link #margin} config.
+     */
+    setMargin: function(margin, /* private */ preventLayout) {
+        var me = this;
+        
+        if (me.rendered) {
+            if (!margin && margin !== 0) {
+                margin = '';
+            } else {
+                if (margin === true) {
+                    margin = 5;
+                }
+                margin = this.unitizeBox(margin);
+            }
+            me.getTargetEl().setStyle('margin', margin);
+            if (!preventLayout) {
+                me.updateLayout();
+            }
+        } else {
+            me.margin = margin;
         }
     },
 
@@ -3634,7 +3704,7 @@ Ext.define('Ext.AbstractComponent', {
             } else if (border === true) {
                 border = '1px';
             } else {
-                border = Ext.Element.unitizeBox(border);
+                border = this.unitizeBox(border);
             }
             targetEl.setStyle('border-width', border);
             if (!initial) {

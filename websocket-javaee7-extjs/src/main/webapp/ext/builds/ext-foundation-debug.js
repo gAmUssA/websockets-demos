@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 
 //@tag foundation,core
@@ -618,7 +621,6 @@ Ext.globalEval = Ext.global.execScript
         }());
     };
 
-
 //@tag foundation,core
 
 //@require ../Ext.js
@@ -629,7 +631,7 @@ Ext.globalEval = Ext.global.execScript
 
 
 
-var version = '4.2.0.489', Version;
+var version = '4.2.0.663', Version;
     Ext.Version = Version = Ext.extend(Object, {
 
         
@@ -835,7 +837,6 @@ var version = '4.2.0.489', Version;
     Ext.setVersion('core', version);
 
 }());
-
 
 //@tag foundation,core
 
@@ -1087,7 +1088,6 @@ Ext.htmlDecode = Ext.String.htmlDecode;
 
 Ext.urlAppend = Ext.String.urlAppend;
 
-
 //@tag foundation,core
 
 //@require String.js
@@ -1195,6 +1195,14 @@ Ext.Number = new function() {
         
         randomInt: function (from, to) {
            return math.floor(math.random() * (to - from + 1) + from);
+        },
+        
+        
+        correctFloat: function(n) {
+            
+            
+            
+            return parseFloat(n.toPrecision(14));
         }
     });
 
@@ -1203,7 +1211,6 @@ Ext.Number = new function() {
         return me.from.apply(this, arguments);
     };
 };
-
 
 //@tag foundation,core
 
@@ -2013,7 +2020,6 @@ Ext.Number = new function() {
     };
 }());
 
-
 //@tag foundation,core
 
 //@require Array.js
@@ -2242,7 +2248,6 @@ Ext.pass = Ext.Function.alias(Ext.Function, 'pass');
 
 
 Ext.bind = Ext.Function.alias(Ext.Function, 'bind');
-
 
 //@tag foundation,core
 
@@ -2647,7 +2652,6 @@ Ext.urlDecode = function() {
 };
 
 }());
-
 
 //@tag foundation,core
 
@@ -3732,7 +3736,6 @@ Ext.Date = new function() {
   });
 };
 
-
 //@tag foundation,core
 
 //@require ../lang/Date.js
@@ -4404,7 +4407,6 @@ var noArgs = [],
 
 }(Ext.Function.flexSetter));
 
-
 //@tag foundation,core
 
 //@require Base.js
@@ -4864,7 +4866,6 @@ var noArgs = [],
         return cls;
     };
 }());
-
 
 //@tag foundation,core
 
@@ -5844,7 +5845,6 @@ if (Ext._aliasMetadata) {
     Ext._aliasMetadata = null;
 }
 
-
 //@tag foundation,core
 
 //@require ClassManager.js
@@ -6476,14 +6476,15 @@ Ext.Loader = new function() {
                 
                 
                 if (syncModeEnabled && isClassFileLoaded.hasOwnProperty(className)) {
-                    Loader.numPendingFiles--;
-                    Loader.removeScriptElement(filePath);
-                    delete isClassFileLoaded[className];
+                    if (!isClassFileLoaded[className]) {
+                        Loader.numPendingFiles--;
+                        Loader.removeScriptElement(filePath);
+                        delete isClassFileLoaded[className];
+                    }
                 }
 
                 if (!isClassFileLoaded.hasOwnProperty(className)) {
                     isClassFileLoaded[className] = false;
-
                     classNameToFilePathMap[className] = filePath;
 
                     Loader.numPendingFiles++;
@@ -6510,12 +6511,17 @@ Ext.Loader = new function() {
 
         
         onFileLoaded: function(className, filePath) {
+            var loaded = isClassFileLoaded[className];
             Loader.numLoadedFiles++;
 
             isClassFileLoaded[className] = true;
             isFileLoaded[filePath] = true;
 
-            Loader.numPendingFiles--;
+            
+            
+            if (!loaded) {
+                Loader.numPendingFiles--;
+            }
 
             if (Loader.numPendingFiles === 0) {
                 Loader.refreshQueue();
@@ -6769,7 +6775,6 @@ Ext._endTime = new Date().getTime();
 if (Ext._beforereadyhandler){
     Ext._beforereadyhandler();
 }
-
 
 //@tag foundation,core
 

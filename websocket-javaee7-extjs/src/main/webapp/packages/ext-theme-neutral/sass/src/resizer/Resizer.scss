@@ -19,17 +19,38 @@
     display: none;
 }
 
+.#{$prefix}resizable-over {
+    .#{$prefix}resizable-handle-north {
+        cursor: n-resize;
+    }
+    .#{$prefix}resizable-handle-south {
+        cursor: s-resize;
+    }
+    .#{$prefix}resizable-handle-east {
+        cursor: e-resize;
+    }
+    .#{$prefix}resizable-handle-west {
+        cursor: w-resize;
+    }
+    .#{$prefix}resizable-handle-southeast {
+        cursor: se-resize;
+    }
+    .#{$prefix}resizable-handle-northwest {
+        cursor: nw-resize;
+    }
+    .#{$prefix}resizable-handle-northeast {
+        cursor: ne-resize;
+    }
+    .#{$prefix}resizable-handle-southwest {
+        cursor: sw-resize;
+    }
+}
+
 .#{$prefix}resizable-handle-east {
     width: $resizer-handle-size;
     height: 100%;
     right: 0;
     top: 0;
-}
-
-.#{$prefix}resizable-over {
-    .#{$prefix}resizable-handle-east {
-        cursor: e-resize;
-    }
 }
 
 .#{$prefix}resizable-handle-south {
@@ -39,12 +60,6 @@
     bottom: 0;
 }
 
-.#{$prefix}resizable-over {
-    .#{$prefix}resizable-handle-south {
-        cursor: s-resize;
-    }
-}
-
 .#{$prefix}resizable-handle-west {
     width: $resizer-handle-size;
     height: 100%;
@@ -52,23 +67,11 @@
     top: 0;
 }
 
-.#{$prefix}resizable-over {
-    .#{$prefix}resizable-handle-west {
-        cursor: w-resize;
-    }
-}
-
 .#{$prefix}resizable-handle-north {
     width: 100%;
     height: $resizer-handle-size;
     left: 0;
     top: 0;
-}
-
-.#{$prefix}resizable-over {
-    .#{$prefix}resizable-handle-north {
-        cursor: n-resize;
-    }
 }
 
 .#{$prefix}resizable-handle-southeast {
@@ -79,24 +82,12 @@
     z-index: 101;
 }
 
-.#{$prefix}resizable-over {
-    .#{$prefix}resizable-handle-southeast {
-        cursor: se-resize;
-    }
-}
-
 .#{$prefix}resizable-handle-northwest {
     width: $resizer-handle-size;
     height: $resizer-handle-size;
     left: 0;
     top: 0;
     z-index: 101;
-}
-
-.#{$prefix}resizable-over {
-    .#{$prefix}resizable-handle-northwest {
-        cursor: nw-resize;
-    }
 }
 
 .#{$prefix}resizable-handle-northeast {
@@ -107,12 +98,6 @@
     z-index: 101;
 }
 
-.#{$prefix}resizable-over {
-    .#{$prefix}resizable-handle-northeast {
-        cursor: ne-resize;
-    }
-}
-
 .#{$prefix}resizable-handle-southwest {
     width: $resizer-handle-size;
     height: $resizer-handle-size;
@@ -121,24 +106,19 @@
     z-index: 101;
 }
 
-.#{$prefix}resizable-over {
-    .#{$prefix}resizable-handle-southwest {
-        cursor: sw-resize;
-    }
-}
-
 /*IE rounding error*/
 .#{$prefix}ie {
     .#{$prefix}resizable-handle-east {
         margin-right: -1px; /*IE rounding error*/
     }
-    
+
     .#{$prefix}resizable-handle-south {
         margin-bottom: -1px;
     }
 }
 
-.#{$prefix}resizable-over .#{$prefix}resizable-handle, .#{$prefix}resizable-pinned .#{$prefix}resizable-handle{
+// If the pinned config is set, then handles are visible
+.#{$prefix}resizable-pinned .#{$prefix}resizable-handle {
     @include opacity(1);
 }
 
@@ -167,7 +147,7 @@
     .#{$prefix}resizable-handle-west {
         background-image: theme-background-image('sizer/e-handle');
     }
-    
+
     // themes provide position-y based upon image height
     .#{$prefix}resizable-handle-south,
     .#{$prefix}resizable-handle-north {
@@ -179,12 +159,12 @@
         background-position: top left;
         background-image: theme-background-image('sizer/se-handle');
     }
-    
+
     .#{$prefix}resizable-handle-northwest {
         background-position: bottom right;
         background-image: theme-background-image('sizer/nw-handle');
     }
-    
+
     .#{$prefix}resizable-handle-northeast {
         background-position: bottom left;
         background-image: theme-background-image('sizer/ne-handle');

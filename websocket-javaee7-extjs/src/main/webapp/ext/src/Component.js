@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * Base class for all Ext components.
@@ -984,6 +987,7 @@ Ext.define('Ext.Component', {
      */
     afterShow: function(animateTarget, cb, scope) {
         var me = this,
+            myEl = me.el,
             fromBox,
             toBox,
             ghostPanel;
@@ -997,9 +1001,19 @@ Ext.define('Ext.Component', {
         }
         // If we're animating, kick of an animation of the ghost from the target to the *Element* current box
         if (animateTarget) {
-            toBox = me.el.getBox();
-            fromBox = animateTarget.getBox();
-            me.el.addCls(me.offsetsCls);
+            toBox = {
+                x: myEl.getX(),
+                y: myEl.getY(),
+                width: myEl.dom.offsetWidth,
+                height: myEl.dom.offsetHeight
+            };
+            fromBox = {
+                x: animateTarget.getX(),
+                y: animateTarget.getY(),
+                width: animateTarget.dom.offsetWidth,
+                height: animateTarget.dom.offsetHeight
+            };
+            myEl.addCls(me.offsetsCls);
             ghostPanel = me.ghost();
             ghostPanel.el.stopAnimation();
 
@@ -1015,7 +1029,7 @@ Ext.define('Ext.Component', {
                         delete ghostPanel.componentLayout.lastComponentSize;
                         me.unghost();
                         delete me.ghostBox;
-                        me.el.removeCls(me.offsetsCls);
+                        myEl.removeCls(me.offsetsCls);
                         me.onShowComplete(cb, scope);
                     }
                 }
@@ -1024,7 +1038,7 @@ Ext.define('Ext.Component', {
         else {
             me.onShowComplete(cb, scope);
         }
-        this.fireHierarchyEvent('show');
+        me.fireHierarchyEvent('show');
     },
 
     /**
@@ -1116,7 +1130,12 @@ Ext.define('Ext.Component', {
         }
         // If we're animating, kick off an animation of the ghost down to the target
         if (animateTarget) {
-            toBox = animateTarget.getBox();
+            toBox = {
+                x: animateTarget.getX(),
+                y: animateTarget.getY(),
+                width: animateTarget.dom.offsetWidth,
+                height: animateTarget.dom.offsetHeight
+            };
             ghostPanel = me.ghost();
             ghostPanel.el.stopAnimation();
             fromSize = me.getSize();
@@ -1155,16 +1174,16 @@ Ext.define('Ext.Component', {
 
         // we are the back-end method of onHide at this level, but our call to our parent
         // may need to be async... so callParent won't quite work here...
-        Ext.AbstractComponent.prototype.onHide.call(this);
+        Ext.AbstractComponent.prototype.onHide.call(me);
 
         Ext.callback(cb, scope || me);
         me.fireEvent('hide', me);
-        this.fireHierarchyEvent('hide');
+        me.fireHierarchyEvent('hide');
     },
 
     /**
      * Allows addition of behavior to the destroy operation.
-     * After calling the superclass’s onDestroy, the Component will be destroyed.
+     * After calling the superclass's onDestroy, the Component will be destroyed.
      *
      * @template
      * @protected
@@ -1175,9 +1194,10 @@ Ext.define('Ext.Component', {
         // Ensure that any ancillary components are destroyed.
         if (me.rendered) {
             Ext.destroy(
+                me.dd,
+                me.resizer,
                 me.proxy,
                 me.proxyWrap,
-                me.resizer,
                 me.resizerComponent
             );
         }

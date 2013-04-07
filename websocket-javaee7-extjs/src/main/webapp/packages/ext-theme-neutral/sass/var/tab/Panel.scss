@@ -48,6 +48,7 @@ $tab-border-color-disabled: $tab-border-color !default;
 $tab-inner-border-color: #fff !default;
 
 $tab-padding: 3px 9px !default;
+$tab-text-padding: 0 !default;
 
 //size
 $tab-line-height: 13px !default;
@@ -62,8 +63,8 @@ $tab-closable-icon-right: 2px !default;
 $tab-closable-icon-spacing: 3px !default;
 
 $tab-closable-icon-opacity: 1 !default;
-$tab-closable-icon-over-opacity: 1 !default;
-$tab-closable-icon-disabled-opacity: 1 !default;
+$tab-closable-icon-opacity-over: 1 !default;
+$tab-closable-icon-opacity-disabled: 1 !default;
 
 /**
  * var {boolean} $tabbar-closable-icon-include-hover-background-position
@@ -93,7 +94,6 @@ $tabbar-strip-border-width: 1px 0 0 !default;
 $tabbar-strip-plain-border-width: 1px 1px 0 !default;
 
 $tabbar-scroller-width: 18px !default;
-$tabbar-scroller-opacity-disabled: 1 !default;
 $tabbar-scroller-cursor: pointer !default;
 $tabbar-scroller-cursor-disabled: default !default;
 $tabbar-scroller-opacity: 1 !default;
@@ -123,6 +123,14 @@ $tabbar-scroller-symmetrical-icons: true !default;
 $tab-icon-width: 16px !default;
 $tab-icon-height: 16px !default;
 $tab-icon-spacing: 4px !default;
+$tab-icon-background-position: center center !default;
+
+$tab-glyph-color: $tab-color !default;
+$tab-glyph-color-over: $tab-color-over !default;
+$tab-glyph-color-active: $tab-color-active !default;
+$tab-glyph-color-disabled: $tab-color-disabled !default;
+$tab-glyph-opacity: .5 !default;
+$tab-glyph-opacity-disabled: .3 !default;
 
 /**
  * var {number} $tab-opacity-disabled
@@ -140,7 +148,7 @@ $tab-text-opacity-disabled: .3 !default;
  * var {number} $tab-icon-opacity-disabled
  * opacity to apply to the tab's icon element when the tab is disabled
  */
-$tab-icon-opacity-disabled: 1 !default;
+$tab-icon-opacity-disabled: .5 !default;
 
 /**
  * var {string} $tab-left-rotate-direction

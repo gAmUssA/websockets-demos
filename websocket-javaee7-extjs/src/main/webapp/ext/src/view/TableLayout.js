@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  *  Component layout for {@link Ext.view.Table}
@@ -104,7 +107,8 @@ Ext.define('Ext.view.TableLayout', {
             column,
             i = 0, len = columns.length,
             tableWidth = 0,
-            colWidth;
+            colWidth,
+            isContentBox = !Ext.isBorderBox;
 
         // So that the setProp can trigger this layout.
         if (context) {
@@ -119,18 +123,22 @@ Ext.define('Ext.view.TableLayout', {
                 colWidth = 0;
             } else {
                 colWidth = context.getCmp(column).props.width;
+                tableWidth += colWidth;
+
+                // Browsers which cannot be switched to border box when doctype present (IE6 & IE7) - must subtract borders.
+                if (isContentBox) {
+                    colWidth -= context.getCmp(column).borderInfo.width;
+                }
             }
 
             // Select column sizing <col> elements within every <table> within the grid.
             // 90% of the time, there will be only one table.
             // The RowWrap and Summary Features embed tables within colspanning cells, and these also
-            // get <colgroup><col></colgroup> sizers ehich need updating.
+            // get <colgroup><col></colgroup> sizers which need updating.
             // On IE8, sizing <col> elements to control column width was about 2.25 times
             // faster than selecting all the cells in the column to be resized.
             // Column sizing using dynamic CSS rules is *extremely* expensive on IE.
             owner.body.select(owner.getColumnSizerSelector(column)).setWidth(colWidth);
-
-            tableWidth += colWidth;
         }
         // Set widths of all tables (includes tables embedded in RowWrap and Summary rows)
         owner.el.select(owner.getBodySelector()).setWidth(tableWidth);
@@ -147,7 +155,7 @@ Ext.define('Ext.view.TableLayout', {
         }
         // Make sure only one side gets to do the sync on completion - it's an expensive process.
         // Only do it if the syncRowHeightConfig hasn't been set to false.
-        if (me.lockedGrid && me.lockedGrid.syncRowHeight && me.lockedGrid.needsRowHeightSync) {
+        if (owner.refreshCounter && me.lockedGrid && me.lockedGrid.syncRowHeight && me.lockedGrid.needsRowHeightSync) {
             me.lockedGrid.syncRowHeights();
             me.lockedGrid.needsRowHeightSync = false;
         }

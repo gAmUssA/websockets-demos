@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 //@tag dom,core
 /**
@@ -101,9 +104,17 @@ Ext.define('Ext.dom.Element_scroll', {
      * @return {Ext.dom.Element} this
      */
     setScrollLeft: function(left){
-        this.dom.scrollLeft = left;
+        this.dom.scrollLeft = this.normalizeScrollLeft(left);
         return this;
     },
+    
+    /**
+     * @private
+     * Normalize the scroll left pos for setting.
+     * @param {Number} left The new left scroll position.
+     * @return {Number} The normalized scroll left position.
+     */
+    normalizeScrollLeft: Ext.identityFn,
     
     /**
      * Sets the top scroll position
@@ -146,7 +157,7 @@ Ext.define('Ext.dom.Element_scroll', {
         }
 
         if (deltaX) {
-            me.scrollTo('left', Math.max(Math.min(dom.scrollLeft + deltaX, dom.scrollWidth - dom.clientWidth), 0), animate);
+            me.scrollTo('left', Math.max(Math.min(me.getScrollLeft() + deltaX, dom.scrollWidth - dom.clientWidth), 0), animate);
         }
         if (deltaY) {
             me.scrollTo('top', Math.max(Math.min(dom.scrollTop + deltaY, dom.scrollHeight - dom.clientHeight), 0), animate);
@@ -167,14 +178,17 @@ Ext.define('Ext.dom.Element_scroll', {
     scrollTo: function(side, value, animate) {
         //check if we're scrolling top or left
         var top = /top/i.test(side),
+            prop = 'scroll' + (top ? 'Top' : 'Left'),
             me = this,
             dom = me.dom,
             animCfg,
             prop;
 
+        if (!top) {
+            value = me.normalizeScrollLeft(value);
+        }
         if (!animate || !me.anim) {
             // just setting the value, so grab the direction
-            prop = 'scroll' + (top ? 'Top' : 'Left');
             dom[prop] = value;
             // corrects IE, other browsers will ignore
             dom[prop] = value;
@@ -183,7 +197,7 @@ Ext.define('Ext.dom.Element_scroll', {
             animCfg = {
                 to: {}
             };
-            animCfg.to['scroll' + (top ? 'Top' : 'Left')] = value;
+            animCfg.to[prop] = value;
             if (Ext.isObject(animate)) {
                 Ext.applyIf(animCfg, animate);
             }

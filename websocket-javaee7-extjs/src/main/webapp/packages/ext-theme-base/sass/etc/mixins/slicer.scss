@@ -32,35 +32,35 @@ $slicer-map-size: 0 !default;
     @return map_put($slicer-map, $cls, $slices);
 }
 
-@function slicer-background-image($cls, $path, $extension: $image-extension) {
+@function slicer-background-image($cls, $path, $extension: $slicer-image-extension) {
     @return sliceit($cls, 'bg', $path, $extension);
 }
 
-@function slicer-background-image-rtl($cls, $path, $extension: $image-extension) {
+@function slicer-background-image-rtl($cls, $path, $extension: $slicer-image-extension) {
     @return sliceit($cls, 'bg-rtl', $path, $extension);
 }
 
-@function slicer-frame-background-image($cls, $path, $extension: $image-extension) {
+@function slicer-frame-background-image($cls, $path, $extension: $slicer-image-extension) {
     @return sliceit($cls, 'frame-bg', $path, $extension);
 }
 
-@function slicer-frame-background-image-rtl($cls, $path, $extension: $image-extension) {
+@function slicer-frame-background-image-rtl($cls, $path, $extension: $slicer-image-extension) {
     @return sliceit($cls, 'frame-bg-rtl', $path, $extension);
 }
 
-@function slicer-corner-sprite($cls, $path, $extension: $image-extension) {
+@function slicer-corner-sprite($cls, $path, $extension: $slicer-image-extension) {
     @return sliceit($cls, 'corners', $path, $extension);
 }
 
-@function slicer-corner-sprite-rtl($cls, $path, $extension: $image-extension) {
+@function slicer-corner-sprite-rtl($cls, $path, $extension: $slicer-image-extension) {
     @return sliceit($cls, 'corners-rtl', $path, $extension);
 }
 
-@function slicer-sides-sprite($cls, $path, $extension: $image-extension) {
+@function slicer-sides-sprite($cls, $path, $extension: $slicer-image-extension) {
     @return sliceit($cls, 'sides', $path, $extension);
 }
 
-@function slicer-sides-sprite-rtl($cls, $path, $extension: $image-extension) {
+@function slicer-sides-sprite-rtl($cls, $path, $extension: $slicer-image-extension) {
     @return sliceit($cls, 'sides-rtl', $path, $extension);
 }
 

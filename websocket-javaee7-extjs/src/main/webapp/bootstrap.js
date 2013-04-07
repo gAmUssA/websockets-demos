@@ -5,23 +5,46 @@
  * metadata-driven class system features 
  */
 Ext.Loader.addClassPathMappings({
+  "ExtThemeNeptune": "packages/ext-theme-neptune/overrides",
   "Ext": "ext/src",
   "Ext.rtl.EventObjectImpl": "ext/src/rtl/EventObject.js",
+  "Clear": "clear",
   "WebSocketDemo": "app"
 });
 Ext.ClassManager.addNameAlternateMappings({
+  "ExtThemeNeptune.menu.Menu": [],
   "Ext.ux.BoxReorderer": [],
+  "ExtThemeNeptune.container.ButtonGroup": [],
+  "Clear.ux.EventSource": [],
   "Ext.ux.grid.filter.Filter": [],
   "WebSocketDemo.controller.Main": [],
   "Ext.ux.GroupTabRenderer": [],
   "Ext.ux.ajax.DataSimlet": [],
   "Ext.ux.grid.TransformGrid": [],
+  "Clear.data.reader.Json": [
+    "Clear.data.JsonReader"
+  ],
   "Ext.ux.FieldReplicator": [],
+  "Clear.data.writer.Json": [
+    "Clear.data.JsonWriter"
+  ],
+  "ExtThemeNeptune.toolbar.Paging": [],
+  "ExtThemeNeptune.panel.Panel": [],
   "Ext.ux.grid.filter.ListFilter": [],
+  "Clear.override.data.association.HasMany": [],
   "Ext.ux.ajax.XmlSimlet": [],
   "Ext.ux.event.Driver": [],
+  "Clear.transaction.BatchMember": [],
+  "Ext.ux.dd.PanelFieldDragZone": [],
   "Ext.ux.DataView.DragSelector": [],
+  "Clear.data.NegativeSequentialIdGenerator": [],
+  "ExtThemeNeptune.toolbar.Toolbar": [],
+  "Clear.data.Operation": [],
+  "ExtThemeNeptune.tab.Tab": [],
+  "WebSocketDemo.model.StockModel": [],
   "Ext.ux.grid.menu.ListMenu": [],
+  "Clear.override.direct.RemotingProvider": [],
+  "Clear.override.ExtJSOverrider": [],
   "Ext.ux.GMapPanel": [],
   "Ext.ux.form.MultiSelect": [
     "Ext.ux.Multiselect"
@@ -30,36 +53,54 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.GroupTabPanel": [],
   "Ext.ux.grid.filter.StringFilter": [],
   "Ext.ux.statusbar.ValidationStatus": [],
+  "Clear.override.data.Model": [],
   "Ext.ux.layout.Center": [],
-  "Ext.ux.CheckColumn": [],
   "Ext.ux.PreviewPlugin": [],
   "Ext.ux.DataView.Animated": [],
+  "ExtThemeNeptune.resizer.Splitter": [],
+  "Clear.data.DirectStore": [],
   "Ext.ux.ajax.SimXhr": [],
   "Ext.ux.event.RecorderManager": [],
   "Ext.ux.ProgressBarPager": [],
   "Ext.ux.CellDragDrop": [],
+  "Clear.override.grid.header.Container": [],
+  "WebSocketDemo.view.StockGrid": [],
   "Ext.ux.statusbar.StatusBar": [
     "Ext.ux.StatusBar"
   ],
   "Ext.ux.ajax.Simlet": [],
+  "Clear.transaction.BatchManager": [],
   "Ext.ux.SlidingPager": [],
   "Ext.ux.TabReorderer": [],
   "Ext.ux.grid.filter.NumericFilter": [],
+  "ExtThemeNeptune.layout.component.Dock": [],
+  "ExtThemeNeptune.panel.Table": [],
   "WebSocketDemo.view.Main": [],
+  "WebSocketDemo.view.MyGridPanel": [],
   "Ext.ux.grid.menu.RangeMenu": [],
+  "Clear.data.ChangeObject": [
+    "ChangeObject"
+  ],
   "Ext.ux.RowExpander": [],
   "Ext.ux.event.Recorder": [],
   "Ext.ux.event.Player": [],
+  "ExtThemeNeptune.panel.Tool": [],
   "Ext.ux.ajax.SimManager": [],
+  "Clear.data.proxy.DirectProxy": [
+    "Clear.data.DirectProxy"
+  ],
   "Ext.ux.grid.filter.BooleanFilter": [],
   "Ext.ux.ToolbarDroppable": [],
   "Ext.ux.event.Maker": [],
   "Ext.ux.TabScrollerMenu": [],
+  "ExtThemeNeptune.menu.Separator": [],
   "Ext.ux.IFrame": [],
   "WebSocketDemo.view.Viewport": [],
   "Ext.ux.DataView.Draggable": [],
   "Ext.ux.TabCloseMenu": [],
   "Ext.ux.form.SearchField": [],
+  "Ext.ux.dd.CellFieldDropZone": [],
+  "WebSocketDemo.store.StockStore": [],
   "Ext.ux.LiveSearchGridPanel": [],
   "Ext.ux.DataTip": [],
   "Ext.ux.grid.filter.DateFilter": [],
@@ -69,14 +110,24 @@ Ext.ClassManager.addNameAlternateMappings({
     "Ext.ux.ItemSelector"
   ],
   "Ext.ux.ajax.JsonSimlet": [],
+  "ExtThemeNeptune.form.field.HtmlEditor": [],
   "Ext.ux.Spotlight": [],
+  "ExtThemeNeptune.picker.Month": [],
+  "ExtThemeNeptune.grid.RowEditor": [],
   "Ext.ux.grid.FiltersFeature": [],
+  "ExtThemeNeptune.Component": [],
   "Ext.ux.data.PagingMemoryProxy": [
     "Ext.data.PagingMemoryProxy"
-  ]
+  ],
+  "Clear.override.app.Controller": []
 });
 Ext.ClassManager.addNameAliasMappings({
+  "ExtThemeNeptune.menu.Menu": [],
   "Ext.ux.BoxReorderer": [],
+  "ExtThemeNeptune.container.ButtonGroup": [],
+  "Clear.ux.EventSource": [
+    "widget.eventsource"
+  ],
   "Ext.ux.grid.filter.Filter": [],
   "WebSocketDemo.controller.Main": [],
   "Ext.ux.GroupTabRenderer": [
@@ -84,16 +135,38 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Ext.ux.ajax.DataSimlet": [],
   "Ext.ux.grid.TransformGrid": [],
+  "Clear.data.reader.Json": [
+    "reader.clear"
+  ],
   "Ext.ux.FieldReplicator": [],
+  "Clear.data.writer.Json": [
+    "writer.clear"
+  ],
+  "ExtThemeNeptune.toolbar.Paging": [],
+  "ExtThemeNeptune.panel.Panel": [],
   "Ext.ux.grid.filter.ListFilter": [
     "gridfilter.list"
   ],
+  "Clear.override.data.association.HasMany": [],
   "Ext.ux.ajax.XmlSimlet": [
     "simlet.xml"
   ],
   "Ext.ux.event.Driver": [],
+  "Clear.transaction.BatchMember": [
+    "batchMember"
+  ],
+  "Ext.ux.dd.PanelFieldDragZone": [],
   "Ext.ux.DataView.DragSelector": [],
+  "Clear.data.NegativeSequentialIdGenerator": [
+    "idgen.negativesequential"
+  ],
+  "ExtThemeNeptune.toolbar.Toolbar": [],
+  "Clear.data.Operation": [],
+  "ExtThemeNeptune.tab.Tab": [],
+  "WebSocketDemo.model.StockModel": [],
   "Ext.ux.grid.menu.ListMenu": [],
+  "Clear.override.direct.RemotingProvider": [],
+  "Clear.override.ExtJSOverrider": [],
   "Ext.ux.GMapPanel": [
     "widget.gmappanel"
   ],
@@ -109,16 +182,18 @@ Ext.ClassManager.addNameAliasMappings({
     "gridfilter.string"
   ],
   "Ext.ux.statusbar.ValidationStatus": [],
+  "Clear.override.data.Model": [],
   "Ext.ux.layout.Center": [
     "layout.ux.center"
-  ],
-  "Ext.ux.CheckColumn": [
-    "widget.checkcolumn"
   ],
   "Ext.ux.PreviewPlugin": [
     "plugin.preview"
   ],
   "Ext.ux.DataView.Animated": [],
+  "ExtThemeNeptune.resizer.Splitter": [],
+  "Clear.data.DirectStore": [
+    "store.clear"
+  ],
   "Ext.ux.ajax.SimXhr": [],
   "Ext.ux.event.RecorderManager": [
     "widget.eventrecordermanager"
@@ -127,23 +202,38 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.CellDragDrop": [
     "plugin.celldragdrop"
   ],
+  "Clear.override.grid.header.Container": [],
+  "WebSocketDemo.view.StockGrid": [
+    "widget.stockgrid"
+  ],
   "Ext.ux.statusbar.StatusBar": [
     "widget.statusbar"
   ],
   "Ext.ux.ajax.Simlet": [
     "simlet.basic"
   ],
+  "Clear.transaction.BatchManager": [],
   "Ext.ux.SlidingPager": [],
   "Ext.ux.TabReorderer": [],
   "Ext.ux.grid.filter.NumericFilter": [
     "gridfilter.numeric"
   ],
+  "ExtThemeNeptune.layout.component.Dock": [],
+  "ExtThemeNeptune.panel.Table": [],
   "WebSocketDemo.view.Main": [],
+  "WebSocketDemo.view.MyGridPanel": [
+    "widget.mypanel"
+  ],
   "Ext.ux.grid.menu.RangeMenu": [],
+  "Clear.data.ChangeObject": [],
   "Ext.ux.RowExpander": [],
   "Ext.ux.event.Recorder": [],
   "Ext.ux.event.Player": [],
+  "ExtThemeNeptune.panel.Tool": [],
   "Ext.ux.ajax.SimManager": [],
+  "Clear.data.proxy.DirectProxy": [
+    "proxy.clear"
+  ],
   "Ext.ux.grid.filter.BooleanFilter": [
     "gridfilter.boolean"
   ],
@@ -152,6 +242,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.TabScrollerMenu": [
     "plugin.tabscrollermenu"
   ],
+  "ExtThemeNeptune.menu.Separator": [],
   "Ext.ux.IFrame": [
     "widget.uxiframe"
   ],
@@ -163,6 +254,8 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.form.SearchField": [
     "widget.searchfield"
   ],
+  "Ext.ux.dd.CellFieldDropZone": [],
+  "WebSocketDemo.store.StockStore": [],
   "Ext.ux.LiveSearchGridPanel": [],
   "Ext.ux.DataTip": [
     "plugin.datatip"
@@ -183,11 +276,31 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.ajax.JsonSimlet": [
     "simlet.json"
   ],
+  "ExtThemeNeptune.form.field.HtmlEditor": [],
   "Ext.ux.Spotlight": [],
+  "ExtThemeNeptune.picker.Month": [],
+  "ExtThemeNeptune.grid.RowEditor": [],
   "Ext.ux.grid.FiltersFeature": [
     "feature.filters"
   ],
+  "ExtThemeNeptune.Component": [],
   "Ext.ux.data.PagingMemoryProxy": [
     "proxy.pagingmemory"
-  ]
+  ],
+  "Clear.override.app.Controller": []
 });
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/Component.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/container/ButtonGroup.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/panel/Panel.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/layout/component/Dock.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/toolbar/Toolbar.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/form/field/HtmlEditor.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/grid/RowEditor.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/menu/Menu.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/menu/Separator.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/panel/Table.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/panel/Tool.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/picker/Month.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/resizer/Splitter.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/tab/Tab.js");
+Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/toolbar/Paging.js");

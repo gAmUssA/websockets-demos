@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * The FocusManager is responsible for globally:
@@ -289,7 +292,7 @@ Ext.define('Ext.FocusManager', {
      * Enables the FocusManager by turning on all automatic focus management and keyboard navigation
      * @param {Boolean/Object} options Either `true`/`false` to turn on the focus frame, or an object
      * with the following options:
-     * @param {Boolean} [focusFrame=false] `true` to show the focus frame around a component when it is focused.
+     * @param {Boolean} [options.focusFrame=false] `true` to show the focus frame around a component when it is focused.
      */
     enable: function(options) {
         var me = this;

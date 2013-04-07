@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @private
@@ -269,7 +272,7 @@ Ext.define('Ext.view.NodeCache', {
             }
 
             // Shuffle entries forward of the delete range back into contiguity.
-            if (fromIndex <= me.endIndex) {
+            if (fromIndex <= me.endIndex && fromIndex >= me.startIndex) {
                 el = elements[index] = elements[fromIndex];
                 el.setAttribute('data-recordIndex', index);
             } else {
@@ -291,9 +294,10 @@ Ext.define('Ext.view.NodeCache', {
         var me = this,
             elements = me.elements,
             recCount = newRecords.length,
-            i, el, removeEnd, beforeNode,
+            i, el, removeEnd,
             newNodes,
-            nodeContainer = me.view.getNodeContainer();
+            nodeContainer = me.view.getNodeContainer(),
+            frag = document.createDocumentFragment();
 
         // Scrolling up (content moved down - new content needed at top, remove from bottom)
         if (direction == -1) {
@@ -304,14 +308,13 @@ Ext.define('Ext.view.NodeCache', {
             }
             me.endIndex -= removeCount;
 
-            beforeNode = nodeContainer.firstChild;
-
             // grab all nodes rendered, not just the data rows
-            newNodes = me.view.bufferRender(newRecords, me.startIndex -= recCount, true);
+            newNodes = me.view.bufferRender(newRecords, me.startIndex -= recCount);
             for (i = 0; i < recCount; i++) {
                 elements[me.startIndex + i] = newNodes[i];
-                nodeContainer.insertBefore(newNodes[i], beforeNode);
+                frag.appendChild(newNodes[i]);
             }
+            nodeContainer.insertBefore(frag, nodeContainer.firstChild);
         }
 
         // Scrolling down (content moved up - new content needed at bottom, remove from top)
@@ -325,11 +328,12 @@ Ext.define('Ext.view.NodeCache', {
             me.startIndex = i;
 
             // grab all nodes rendered, not just the data rows
-            newNodes = me.view.bufferRender(newRecords, me.endIndex + 1, true);
+            newNodes = me.view.bufferRender(newRecords, me.endIndex + 1);
             for (i = 0; i < recCount; i++) {
                 elements[me.endIndex += 1] = newNodes[i];
-                nodeContainer.appendChild(newNodes[i]);
+                frag.appendChild(newNodes[i]);
             }
+            nodeContainer.appendChild(frag);
         }
         // Keep count consistent.
         me.count = me.endIndex - me.startIndex + 1;

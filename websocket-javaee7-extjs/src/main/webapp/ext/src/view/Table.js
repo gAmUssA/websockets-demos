@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * This class encapsulates the user interface for a tabular data set.
@@ -119,7 +122,7 @@ Ext.define('Ext.view.Table', {
      * @private
      * Simple initial tpl for TableView just to satisfy the validation within AbstractView.initComponent.
      */
-    tpl: '{%values.view.initTplRender(); values.view.tableTpl.applyOut(values, out)%}',
+    tpl: '{%values.view.tableTpl.applyOut(values, out)%}',
 
     tableTpl: [
         '<table id="{view.id}-table" class="' + Ext.baseCSSPrefix + '{view.id}-table ' + Ext.baseCSSPrefix + 'grid-table" border="0" cellspacing="0" cellpadding="0" style="{tableStyle}" tabIndex="-1">',
@@ -166,7 +169,7 @@ Ext.define('Ext.view.Table', {
             priority: 0
         }
     ],
-    
+
     /**
      * @private
      * Flag to disable refreshing SelectionModel on view refresh. Table views render rows with selected CSS class already added if necessary.
@@ -176,18 +179,20 @@ Ext.define('Ext.view.Table', {
     tableValues: {},
 
     // Private properties used during the row and cell render process.
-    // They are allocated here on the prototype, and cleared/re-sued to avoid GC churn during repeated rendering.
+    // They are allocated here on the prototype, and cleared/re-used to avoid GC churn during repeated rendering.
     rowValues: {
         itemClasses: [],
         rowClasses: []
     },
     cellValues: {
-        classes: []
+        classes: [
+            Ext.baseCSSPrefix + 'grid-cell ' + Ext.baseCSSPrefix + 'grid-td' // for styles shared between cell and rowwrap 
+        ]
     },
-    
+
     /// Private used for buffered rendering
     renderBuffer: document.createElement('div'),
-    
+
     constructor: function(config) {
         // Adjust our base class if we are inside a TreePanel
         if (config.grid.isTree) {
@@ -492,8 +497,8 @@ Ext.define('Ext.view.Table', {
      * See {@link Ext.grid.header.Container#getGridColumns}.
      * @private
      */
-    getGridColumns: function(refreshCache) {
-        return this.headerCt.getGridColumns(refreshCache);
+    getGridColumns: function() {
+        return this.headerCt.getGridColumns();
     },
 
     /**
@@ -568,12 +573,6 @@ Ext.define('Ext.view.Table', {
             me.featuresMC.add(feature);
             feature.init(grid);
         }
-    },
-    
-    initTplRender: function(){
-        // Refresh the column cache before rendering
-        this.getGridColumns(true);
-        return '';    
     },
     
     renderTHead: function(values, out) {
@@ -910,7 +909,7 @@ Ext.define('Ext.view.Table', {
         rowValues.rowId = me.getRowId(record);
         rowValues.itemCls = rowValues.rowCls = '';
         if (!rowValues.columns) {
-            rowValues.columns = me.headerCt.getGridColumns(true);
+            rowValues.columns = me.headerCt.getGridColumns();
         }
 
         itemClasses.length = rowClasses.length = 0;
@@ -959,7 +958,7 @@ Ext.define('Ext.view.Table', {
             classes = cellValues.classes,
             fieldValue = record.data[column.dataIndex],
             cellTpl = me.cellTpl,
-            value;
+            value, clsInsertPoint;
 
         cellValues.record = record;
         cellValues.column = column;
@@ -967,7 +966,8 @@ Ext.define('Ext.view.Table', {
         cellValues.columnIndex = columnIndex;
         cellValues.cellIndex = columnIndex;
         cellValues.align = column.align;
-        cellValues.tdCls = cellValues.style = cellValues.tdAttr = "";
+        cellValues.tdCls = column.tdCls;
+        cellValues.style = cellValues.tdAttr = "";
         cellValues.unselectableAttr = me.enableTextSelection ? '' : 'unselectable="on"';
 
         if (column.renderer && column.renderer.call) {
@@ -982,37 +982,39 @@ Ext.define('Ext.view.Table', {
         } else {
             value = fieldValue;
         }
-        if (value === undefined || value === null || value === '') {
-            value = '&#160;';
+        cellValues.value = (value == null || value === '') ? '&#160;' : value;
+
+        // Calculate classes to add to cell
+        classes[1] = Ext.baseCSSPrefix + 'grid-cell-' + column.getItemId();
+            
+        // On IE8, array[len] = 'foo' is twice as fast as array.push('foo')
+        // So keep an insertion point and use assignment to help IE!
+        clsInsertPoint = 2;
+
+        if (column.tdCls) {
+            classes[clsInsertPoint++] = column.tdCls;
         }
-        cellValues.value = value;
-
-        // Calculate rows to add to cell
-        classes.length = 0;
-        classes.push(
-            (column.tdCls ||''),
-            Ext.baseCSSPrefix + 'grid-cell ',
-            Ext.baseCSSPrefix + 'grid-td', // for styles shared between cell and rowwrap 
-            Ext.baseCSSPrefix + 'grid-cell-' + column.getItemId()
-        );
-
         if (me.markDirty && record.isModified(column.dataIndex)) {
-            classes.push(me.dirtyCls);
+            classes[clsInsertPoint++] = me.dirtyCls;
         }
         if (column.isFirstVisible) {
-            classes.push(me.firstCls);
+            classes[clsInsertPoint++] = me.firstCls;
         }
         if (column.isLastVisible) {
-            classes.push(me.lastCls);
+            classes[clsInsertPoint++] = me.lastCls;
         }
         if (!me.enableTextSelection) {
-            classes.push(Ext.baseCSSPrefix + 'unselectable');
+            classes[clsInsertPoint++] = Ext.baseCSSPrefix + 'unselectable';
         }
 
-        classes.push(cellValues.tdCls);
+        classes[clsInsertPoint++] = cellValues.tdCls;
         if (selModel && selModel.isCellSelected && selModel.isCellSelected(me, recordIndex, columnIndex)) {
-            classes.push(me.selectedCellCls);
+            classes[clsInsertPoint++] = (me.selectedCellCls);
         }
+
+        // Chop back array to only what we've set
+        classes.length = clsInsertPoint;
+
         cellValues.tdCls = classes.join(' ');
 
         cellTpl.applyOut(cellValues, out);
@@ -1294,14 +1296,16 @@ Ext.define('Ext.view.Table', {
      * record associated with the node.
      */
     focusRow: function(rowIdx) {
-        var me         = this,
-            row        = me.getNode(rowIdx, true),
+        var me = this,
+            row,
+            gridCollapsed = me.ownerCt && me.ownerCt.collapsed,
             record;
 
-        if (row && me.el) {
+        // Do not attempt to focus if hidden or owning grid is collapsed
+        if (me.isVisible(true) && !gridCollapsed && (row = me.getNode(rowIdx, true)) && me.el) {
             record = me.getRecord(row);
             rowIdx = me.indexInStore(row);
-            
+
             // Focusing the row scrolls it into view
             me.selModel.setLastFocused(record);
             row.focus();
@@ -1377,9 +1381,7 @@ Ext.define('Ext.view.Table', {
         var me = this,
             rowTpl = me.rowTpl,
             firstRowHeight = firstRow.dom.offsetHeight,
-            secondRowHeight = secondRow.dom.offsetHeight,
-            // Hack for legacy IE browsers which add cell borders onto the TR height.
-            incr = Ext.isBorderBox ? 0 : -2;
+            secondRowHeight = secondRow.dom.offsetHeight;
 
         // If the two rows *need* syncing...
         if (firstRowHeight !== secondRowHeight) {
@@ -1411,9 +1413,11 @@ Ext.define('Ext.view.Table', {
                     secondRowHeight = secondRow.dom.offsetHeight;
 
                     if (firstRowHeight > secondRowHeight) {
-                        secondRow.setHeight(firstRowHeight + incr);
+                        firstRow.setHeight(firstRowHeight);
+                        secondRow.setHeight(firstRowHeight);
                     } else if (secondRowHeight > firstRowHeight) {
-                        firstRow.setHeight(secondRowHeight + incr);
+                        firstRow.setHeight(secondRowHeight);
+                        secondRow.setHeight(secondRowHeight);
                     }
                 }
             }
@@ -1422,8 +1426,7 @@ Ext.define('Ext.view.Table', {
     
     onIdChanged: function(store, rec, oldId, newId, oldInternalId){
         var me = this,
-            rowDom,
-            id;
+            rowDom;
             
         if (me.viewReady) {
             rowDom = me.getNodeById(oldInternalId);
@@ -1512,8 +1515,14 @@ Ext.define('Ext.view.Table', {
             column,
             oldCell, newCell,
             row,
-            // See if an editing plugin is active.
-            isEditing = me.editingPlugin && me.editingPlugin.editing,
+            
+            // See if our View has an editingPlugin, or if we are a locking twin, see if the top LockingView
+            // has an editingPlugin.
+            // We do not support one editing plugin on the top lockable and some other on the twinned views.
+            editingPlugin = me.editingPlugin || (me.lockingPartner && me.ownerCt.ownerLockable.view.editingPlugin),
+
+            // See if the found editing plugin is active.
+            isEditing = editingPlugin && editingPlugin.editing,
             cellSelector = me.getCellSelector();
 
             // Copy new row attributes across. Use IE-specific method if possible.
@@ -1562,15 +1571,17 @@ Ext.define('Ext.view.Table', {
 
     shouldUpdateCell: function(record, column, changedFieldNames){
         // Though this may not be the most efficient, a renderer could be dependent on any field in the
-        // store, so we must always update the cell
-        if (column.hasCustomRenderer) {
+        // store, so we must always update the cell.
+        // If no changeFieldNames array was passed, we have to assume that that information
+        // is unknown and update all cells.
+        if (column.hasCustomRenderer || !changedFieldNames) {
             return true;
         }
-        
+
         if (changedFieldNames) {
             var len = changedFieldNames.length,
                 i, field;
-                
+
             for (i = 0; i < len; ++i) {
                 field = changedFieldNames[i];
                 if (field === column.dataIndex || field === record.idProperty) {
@@ -1741,7 +1752,7 @@ Ext.define('Ext.view.Table', {
      * Sizes the passed header to fit the max content width.
      * *Note that group columns shrinkwrap around the size of leaf columns. Auto sizing a group column
      * autosizes descendant leaf columns.*
-     * @param {Ext.grid.column.Column/Number} The header (or index of header) to auto size.
+     * @param {Ext.grid.column.Column/Number} header The header (or index of header) to auto size.
      */
     autoSizeColumn: function(header) {
         if (Ext.isNumber(header)) {

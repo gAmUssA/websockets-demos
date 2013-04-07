@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * This class provides an abstract grid editing plugin on selected {@link Ext.grid.column.Column columns}.
@@ -174,8 +177,17 @@ Ext.define('Ext.grid.plugin.Editing', {
         me.grid = grid;
         me.view = grid.view;
         me.initEvents();
-        me.mon(grid, 'reconfigure', me.onReconfigure, me);
-        me.onReconfigure();
+
+        // Set up fields at render and reconfigure time
+        me.mon(grid, {
+            reconfigure: me.onReconfigure,
+            scope: me,
+            beforerender: {
+                fn: me.onReconfigure,
+                single: true,
+                scope: me
+            }
+        });
 
         grid.relayEvents(me, me.relayedEvents);
         
@@ -194,7 +206,12 @@ Ext.define('Ext.grid.plugin.Editing', {
      * @private
      */
     onReconfigure: function() {
-        this.initFieldAccessors(this.view.getGridColumns());
+        var grid = this.grid;
+
+        // In a Lockable assembly, the owner's view aggregates all grid columns across both sides.
+        // We grab all columns here.
+        grid = grid.ownerLockable ? grid.ownerLockable : grid;
+        this.initFieldAccessors(grid.getView().getGridColumns());
     },
 
     /**
@@ -452,19 +469,35 @@ Ext.define('Ext.grid.plugin.Editing', {
      */
     startEdit: function(record, columnHeader) {
         var me = this,
-            context = me.getEditingContext(record, columnHeader);
+            context,
+            layoutView = me.grid.lockable ? me.grid : me.view;
 
-        if (context == null || me.beforeEdit(context) === false || me.fireEvent('beforeedit', me, context) === false || context.cancel || !me.grid.view.isVisible(true)) {
+        // The view must have had a layout to show the editor correctly, defer until that time.
+        // In case a grid's startup code invokes editing immediately.
+        if (!layoutView.componentLayoutCounter) {
+            layoutView.on({
+                boxready: Ext.Function.bind(me.startEdit, me, [record, columnHeader]),
+                single: true
+            });
             return false;
         }
 
-        me.context = context;
+        // If grid collapsed, or view not truly visible, don't even calculate a context - we cannot edit
+        if (me.grid.collapsed || !me.grid.view.isVisible(true)) {
+            return false;
+        }
+
+        context = me.getEditingContext(record, columnHeader);
+        if (context == null || me.beforeEdit(context) === false || me.fireEvent('beforeedit', me, context) === false || context.cancel) {
+            return false;
+        }
 
         /**
          * @property {Boolean} editing
          * Set to `true` while the editing plugin is active and an Editor is visible.
          */
         me.editing = true;
+        return context;
     },
 
     // TODO: Have this use a new class Ext.grid.CellContext for use here, and in CellSelectionModel

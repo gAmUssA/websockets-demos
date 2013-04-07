@@ -196,11 +196,6 @@
     padding: 0 right($grid-cell-inner-padding) 0 left($grid-cell-inner-padding);
 }
 
-.#{$prefix}grid-cell-treecolumn {
-    // Connector line images must flow between cells, overwriting borders
-    overflow: visible;
-}
-
 .#{$prefix}grid-cell-treecolumn .#{$prefix}grid-cell-inner {
     padding-left: 0;
     // Connector line images must flow between cells, overwriting borders

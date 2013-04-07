@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 //@tag dom,core
 //@require util/Event.js
@@ -31,6 +34,7 @@ Ext.EventManager = new function() {
     var EventManager = this,
         doc = document,
         win = window,
+        escapeRx = /\\/g,
         prefix = Ext.baseCSSPrefix,
         readyEvent,
         initExtCss = function() {
@@ -483,7 +487,7 @@ Ext.EventManager = new function() {
          * 
          * {@link Ext.EventManager#on} is an alias for {@link Ext.EventManager#addListener}.
          *
-         * @param {String/HTMLElement} el The html element or id to assign the event handler to.
+         * @param {String/Ext.Element/HTMLElement/Window} el The html element or id to assign the event handler to.
          *
          * @param {String} eventName The name of the event to listen for.
          *
@@ -593,7 +597,7 @@ Ext.EventManager = new function() {
         
         // Handle the case where the window/document already has an id attached.
         // In this case we still want to return our custom window/doc id.
-        normalizeId: function(dom) {
+        normalizeId: function(dom, force) {
             var id;
             if (dom === document) {
                 id = Ext.documentId;
@@ -637,7 +641,7 @@ Ext.EventManager = new function() {
          *
          * {@link Ext.EventManager#on} is an alias for {@link Ext.EventManager#addListener}.
          *
-         * @param {String/HTMLElement} el The id or html element from which to remove the listener.
+         * @param {String/Ext.Element/HTMLElement/Window} el The id or html element from which to remove the listener.
          * @param {String} eventName The name of the event.
          * @param {Function} fn The handler function to remove. **This must be a reference to the function passed
          * into the {@link #addListener} call.**
@@ -710,10 +714,10 @@ Ext.EventManager = new function() {
         },
 
         /**
-        * Removes all event handers from an element.  Typically you will use {@link Ext.Element#removeAllListeners}
-        * directly on an Element in favor of calling this version.
-        * @param {String/HTMLElement} el The id or html element from which to remove all event handlers.
-        */
+         * Removes all event handers from an element.  Typically you will use {@link Ext.Element#removeAllListeners}
+         * directly on an Element in favor of calling this version.
+         * @param {String/Ext.Element/HTMLElement/Window} el The id or html element from which to remove all event handlers.
+         */
         removeAll : function(element) {
             var id = (typeof element === 'string') ? element : element.id,
                 cache, events, eventName;
@@ -734,7 +738,7 @@ Ext.EventManager = new function() {
         /**
          * Recursively removes all previous added listeners from an element and its children. Typically you will use {@link Ext.Element#purgeAllListeners}
          * directly on an Element in favor of calling this version.
-         * @param {String/HTMLElement} el The id or html element from which to remove all event handlers.
+         * @param {String/Ext.Element/HTMLElement/Window} el The id or html element from which to remove all event handlers.
          * @param {String} eventName (optional) The name of the event.
          */
         purgeElement : function(element, eventName) {
@@ -768,12 +772,12 @@ Ext.EventManager = new function() {
         createListenerWrap : function(dom, ename, fn, scope, options) {
             options = options || {};
 
-            var f, gen, escapeRx = /\\/g, wrap = function(e, args) {
+            var f, gen, wrap = function(e, args) {
                 // Compile the implementation upon first firing
                 if (!gen) {
                     f = ['if(!' + Ext.name + ') {return;}'];
 
-                    if(options.buffer || options.delay || options.freezeEvent) {
+                    if (options.buffer || options.delay || options.freezeEvent) {
                         if (options.freezeEvent) {
                             // If we're freezing, we still want to update the singleton event object
                             // as well as returning a frozen copy
@@ -797,7 +801,7 @@ Ext.EventManager = new function() {
                         f.push('if(e.target !== options.target) {return;}');
                     }
 
-                    if(options.stopEvent) {
+                    if (options.stopEvent) {
                         f.push('e.stopEvent();');
                     } else {
                         if(options.preventDefault) {
@@ -808,16 +812,16 @@ Ext.EventManager = new function() {
                         }
                     }
 
-                    if(options.normalized === false) {
+                    if (options.normalized === false) {
                         f.push('e = e.browserEvent;');
                     }
 
-                    if(options.buffer) {
+                    if (options.buffer) {
                         f.push('(wrap.task && clearTimeout(wrap.task));');
                         f.push('wrap.task = setTimeout(function() {');
                     }
 
-                    if(options.delay) {
+                    if (options.delay) {
                         f.push('wrap.tasks = wrap.tasks || [];');
                         f.push('wrap.tasks.push(setTimeout(function() {');
                     }
@@ -825,7 +829,7 @@ Ext.EventManager = new function() {
                     // finally call the actual handler fn
                     f.push('result = fn.call(scope || dom, e, t, options);');
 
-                    if(options.single) {
+                    if (options.single) {
                         f.push('evtMgr.removeListener(dom, ename, fn, scope);');
                     }
 
@@ -837,11 +841,11 @@ Ext.EventManager = new function() {
                         f.push('}');
                     }
 
-                    if(options.delay) {
+                    if (options.delay) {
                         f.push('}, ' + options.delay + '));');
                     }
 
-                    if(options.buffer) {
+                    if (options.buffer) {
                         f.push('}, ' + options.buffer + ');');
                     }
                     f.push('return result;');
@@ -920,7 +924,7 @@ Ext.EventManager = new function() {
 
         /**
          * Stop the event (preventDefault and stopPropagation)
-         * @param {Event} The event to stop
+         * @param {Event} event The event to stop
          */
         stopEvent: function(event) {
             EventManager.stopPropagation(event);
@@ -929,7 +933,7 @@ Ext.EventManager = new function() {
 
         /**
          * Cancels bubbling of the event.
-         * @param {Event} The event to stop bubbling.
+         * @param {Event} event The event to stop bubbling.
          */
         stopPropagation: function(event) {
             event = event.browserEvent || event;
@@ -942,7 +946,7 @@ Ext.EventManager = new function() {
 
         /**
          * Prevents the browsers default handling of the event.
-         * @param {Event} The event to prevent the default
+         * @param {Event} event The event to prevent the default
          */
         preventDefault: function(event) {
             event = event.browserEvent || event;

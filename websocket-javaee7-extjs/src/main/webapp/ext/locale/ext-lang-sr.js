@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * Serbian Latin Translation
@@ -28,32 +31,6 @@ Ext.onReady(function() {
     if (Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Učitavam...</div>';
     }
-
-    Ext.define("Ext.locale.sr.view.View", {
-        override: "Ext.view.View",
-        emptyText: "Ne postoji ni jedan slog"
-    });
-
-    Ext.define("Ext.locale.sr.grid.plugin.DragDrop", {
-        override: "Ext.grid.plugin.DragDrop",
-        dragText: "{0} izabranih redova"
-    });
-
-    Ext.define("Ext.locale.sr.TabPanelItem", {
-        override: "Ext.TabPanelItem",
-        closeText: "Zatvori оvu »karticu«"
-    });
-
-    Ext.define("Ext.locale.sr.form.field.Base", {
-        override: "Ext.form.field.Base",
-        invalidText: "Unešena vrednost nije pravilna"
-    });
-
-    // changing the msg text below will affect the LoadMask
-    Ext.define("Ext.locale.sr.view.AbstractView", {
-        override: "Ext.view.AbstractView",
-        msg: "Učitavam..."
-    });
 
     if (Ext.Date) {
         Ext.Date.monthNames = ["Januar", "Februar", "Mart", "April", "Мај", "Jun", "Јul", "Avgust", "Septembar", "Oktobar", "Novembar", "Decembar"];
@@ -80,72 +57,6 @@ Ext.onReady(function() {
         });
     }
 
-    Ext.define("Ext.locale.sr.picker.Date", {
-        override: "Ext.picker.Date",
-        todayText: "Danas",
-        minText: "Datum је ispred najmanjeg dozvoljenog datuma",
-        maxText: "Datum је nakon najvećeg dozvoljenog datuma",
-        disabledDaysText: "",
-        disabledDatesText: "",
-        monthNames: Ext.Date.monthNames,
-        dayNames: Ext.Date.dayNames,
-        nextText: 'Sledeći mesec (Control+Desno)',
-        prevText: 'Prethodni mesec (Control+Levo)',
-        monthYearText: 'Izaberite mesec (Control+Gore/Dole za izbor godine)',
-        todayTip: "{0} (Razmaknica)",
-        format: "d.m.y",
-        startDay: 1
-    });
-
-    Ext.define("Ext.locale.sr.toolbar.Paging", {
-        override: "Ext.PagingToolbar",
-        beforePageText: "Strana",
-        afterPageText: "od {0}",
-        firstText: "Prva strana",
-        prevText: "Prethodna strana",
-        nextText: "Sledeća strana",
-        lastText: "Poslednja strana",
-        refreshText: "Osveži",
-        displayMsg: "Prikazana {0} - {1} od {2}",
-        emptyMsg: 'Nemam šta prikazati'
-    });
-
-    Ext.define("Ext.locale.sr.form.field.Text", {
-        override: "Ext.form.field.Text",
-        minLengthText: "Minimalna dužina ovog polja је {0}",
-        maxLengthText: "Maksimalna dužina ovog polja је {0}",
-        blankText: "Polje је obavezno",
-        regexText: "",
-        emptyText: null
-    });
-
-    Ext.define("Ext.locale.sr.form.field.Number", {
-        override: "Ext.form.field.Number",
-        minText: "Minimalna vrednost u polju је {0}",
-        maxText: "Maksimalna vrednost u polju је {0}",
-        nanText: "{0} nije pravilan broj"
-    });
-
-    Ext.define("Ext.locale.sr.form.field.Date", {
-        override: "Ext.form.field.Date",
-        disabledDaysText: "Pasivno",
-        disabledDatesText: "Pasivno",
-        minText: "Datum u ovom polju mora biti nakon {0}",
-        maxText: "Datum u ovom polju mora biti pre {0}",
-        invalidText: "{0} nije pravilan datum - zahtevani oblik je {1}",
-        format: "d.m.y",
-        altFormats: "d.m.y|d/m/Y|d-m-y|d-m-Y|d/m|d-m|dm|dmy|dmY|d|Y-m-d"
-    });
-
-    Ext.define("Ext.locale.sr.form.field.ComboBox", {
-        override: "Ext.form.field.ComboBox",
-        valueNotFoundText: undefined
-    }, function() {
-        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
-            loadingText: "Učitavam..."
-        });
-    });
-
     if (exists('Ext.form.field.VTypes')) {
         Ext.apply(Ext.form.field.VTypes, {
             emailText: 'Ovo polje prihavata e-mail adresu isključivo u obliku "korisnik@domen.com"',
@@ -154,21 +65,118 @@ Ext.onReady(function() {
             alphanumText: 'Ovo polje može sadržati само slova, brojeve i znak _'
         });
     }
-
-    Ext.define("Ext.locale.sr.grid.header.Container", {
-        override: "Ext.grid.header.Container",
-        sortAscText: "Rastući redosled",
-        sortDescText: "Opadajući redosled",
-        lockText: "Zaključaj kolonu",
-        unlockText: "Otključaj kolonu",
-        columnsText: "Kolone"
-    });
-
-    Ext.define("Ext.locale.sr.grid.PropertyColumnModel", {
-        override: "Ext.grid.PropertyColumnModel",
-        nameText: "Naziv",
-        valueText: "Vrednost",
-        dateFormat: "d.m.Y"
-    });
-
 });
+
+Ext.define("Ext.locale.sr.view.View", {
+    override: "Ext.view.View",
+    emptyText: "Ne postoji ni jedan slog"
+});
+
+Ext.define("Ext.locale.sr.grid.plugin.DragDrop", {
+    override: "Ext.grid.plugin.DragDrop",
+    dragText: "{0} izabranih redova"
+});
+
+Ext.define("Ext.locale.sr.TabPanelItem", {
+    override: "Ext.TabPanelItem",
+    closeText: "Zatvori оvu »karticu«"
+});
+
+Ext.define("Ext.locale.sr.form.field.Base", {
+    override: "Ext.form.field.Base",
+    invalidText: "Unešena vrednost nije pravilna"
+});
+
+// changing the msg text below will affect the LoadMask
+Ext.define("Ext.locale.sr.view.AbstractView", {
+    override: "Ext.view.AbstractView",
+    msg: "Učitavam..."
+});
+
+Ext.define("Ext.locale.sr.picker.Date", {
+    override: "Ext.picker.Date",
+    todayText: "Danas",
+    minText: "Datum је ispred najmanjeg dozvoljenog datuma",
+    maxText: "Datum је nakon najvećeg dozvoljenog datuma",
+    disabledDaysText: "",
+    disabledDatesText: "",
+    monthNames: Ext.Date.monthNames,
+    dayNames: Ext.Date.dayNames,
+    nextText: 'Sledeći mesec (Control+Desno)',
+    prevText: 'Prethodni mesec (Control+Levo)',
+    monthYearText: 'Izaberite mesec (Control+Gore/Dole za izbor godine)',
+    todayTip: "{0} (Razmaknica)",
+    format: "d.m.y",
+    startDay: 1
+});
+
+Ext.define("Ext.locale.sr.toolbar.Paging", {
+    override: "Ext.PagingToolbar",
+    beforePageText: "Strana",
+    afterPageText: "od {0}",
+    firstText: "Prva strana",
+    prevText: "Prethodna strana",
+    nextText: "Sledeća strana",
+    lastText: "Poslednja strana",
+    refreshText: "Osveži",
+    displayMsg: "Prikazana {0} - {1} od {2}",
+    emptyMsg: 'Nemam šta prikazati'
+});
+
+Ext.define("Ext.locale.sr.form.field.Text", {
+    override: "Ext.form.field.Text",
+    minLengthText: "Minimalna dužina ovog polja је {0}",
+    maxLengthText: "Maksimalna dužina ovog polja је {0}",
+    blankText: "Polje је obavezno",
+    regexText: "",
+    emptyText: null
+});
+
+Ext.define("Ext.locale.sr.form.field.Number", {
+    override: "Ext.form.field.Number",
+    minText: "Minimalna vrednost u polju је {0}",
+    maxText: "Maksimalna vrednost u polju је {0}",
+    nanText: "{0} nije pravilan broj"
+});
+
+Ext.define("Ext.locale.sr.form.field.Date", {
+    override: "Ext.form.field.Date",
+    disabledDaysText: "Pasivno",
+    disabledDatesText: "Pasivno",
+    minText: "Datum u ovom polju mora biti nakon {0}",
+    maxText: "Datum u ovom polju mora biti pre {0}",
+    invalidText: "{0} nije pravilan datum - zahtevani oblik je {1}",
+    format: "d.m.y",
+    altFormats: "d.m.y|d/m/Y|d-m-y|d-m-Y|d/m|d-m|dm|dmy|dmY|d|Y-m-d"
+});
+
+Ext.define("Ext.locale.sr.form.field.ComboBox", {
+    override: "Ext.form.field.ComboBox",
+    valueNotFoundText: undefined
+}, function() {
+    Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+        loadingText: "Učitavam..."
+    });
+});
+
+Ext.define("Ext.locale.sr.grid.header.Container", {
+    override: "Ext.grid.header.Container",
+    sortAscText: "Rastući redosled",
+    sortDescText: "Opadajući redosled",
+    lockText: "Zaključaj kolonu",
+    unlockText: "Otključaj kolonu",
+    columnsText: "Kolone"
+});
+
+Ext.define("Ext.locale.sr.grid.PropertyColumnModel", {
+    override: "Ext.grid.PropertyColumnModel",
+    nameText: "Naziv",
+    valueText: "Vrednost",
+    dateFormat: "d.m.Y"
+});
+
+// This is needed until we can refactor all of the locales into individual files
+Ext.define("Ext.locale.sr.Component", {	
+    override: "Ext.Component"
+});
+

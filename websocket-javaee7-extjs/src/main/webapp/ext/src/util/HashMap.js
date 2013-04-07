@@ -5,19 +5,20 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
- * @class Ext.util.HashMap
- *
  * Represents a collection of a set of key and value pairs. Each key in the HashMap
  * must be unique, the same key cannot exist twice. Access to items is provided via
  * the key only. Sample usage:
@@ -61,7 +62,7 @@ Ext.define('Ext.util.HashMap', {
             /**
              * @event add
              * Fires when a new item is added to the hash.
-             * @param {Ext.util.HashMap} this.
+             * @param {Ext.util.HashMap} this
              * @param {String} key The key of the added item.
              * @param {Object} value The value of the added item.
              */
@@ -69,13 +70,13 @@ Ext.define('Ext.util.HashMap', {
             /**
              * @event clear
              * Fires when the hash is cleared.
-             * @param {Ext.util.HashMap} this.
+             * @param {Ext.util.HashMap} this
              */
             'clear',
             /**
              * @event remove
              * Fires when an item is removed from the hash.
-             * @param {Ext.util.HashMap} this.
+             * @param {Ext.util.HashMap} this
              * @param {String} key The key of the removed item.
              * @param {Object} value The value of the removed item.
              */
@@ -83,7 +84,7 @@ Ext.define('Ext.util.HashMap', {
             /**
              * @event replace
              * Fires when an item is replaced in the hash.
-             * @param {Ext.util.HashMap} this.
+             * @param {Ext.util.HashMap} this
              * @param {String} key The key of the replaced item.
              * @param {Object} value The new value for the item.
              * @param {Object} old The old value for the item.
@@ -313,14 +314,11 @@ Ext.define('Ext.util.HashMap', {
      * Executes the specified function once for each item in the hash.
      * Returning false from the function will cease iteration.
      *
-     * The paramaters passed to the function are:
-     * <div class="mdetail-params"><ul>
-     * <li><b>key</b> : String<p class="sub-desc">The key of the item</p></li>
-     * <li><b>value</b> : Number<p class="sub-desc">The value of the item</p></li>
-     * <li><b>length</b> : Number<p class="sub-desc">The total number of items in the hash</p></li>
-     * </ul></div>
      * @param {Function} fn The function to execute.
-     * @param {Object} scope The scope to execute in. Defaults to <tt>this</tt>.
+     * @param {String} fn.key The key of the item.
+     * @param {Number} fn.value The value of the item.
+     * @param {Number} fn.length The total number of items in the hash.
+     * @param {Object} [scope] The scope to execute in. Defaults to <tt>this</tt>.
      * @return {Ext.util.HashMap} this
      */
     each: function(fn, scope) {

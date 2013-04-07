@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /** */
 Ext.define('Ext.rtl.dom.Element_scroll', {
@@ -89,36 +92,27 @@ Ext.define('Ext.rtl.dom.Element_scroll', {
     
     getScrollLeft: function() {
         var me = this,
-            dom = this.dom,
+            dom = me.dom,
             doc = document,
-            flag = me._rtlScrollFlag,
-            left;
+            flag = me._rtlScrollFlag;
             
         if (dom === doc || dom === doc.body) {
             return me.rtlGetScroll().left;
         } else {
-            left = dom.scrollLeft;
-            if (flag === 0) {
-                left = -left;
-            } else if (flag === 1) {
-                left = dom.scrollWidth - dom.clientWidth - left;
-            }
-            return left;
+            return me.normalizeScrollLeft(dom.scrollLeft);
         }
     },
     
-    setScrollLeft: function(left){
+    normalizeScrollLeft: function(left){
         var dom = this.dom,
             flag = this._rtlScrollFlag;
             
         if (flag === 0) {
-            dom.scrollLeft = -left;
+            left = -left;
         } else if (flag === 1) {
-            dom.scrollLeft = dom.scrollWidth - left - dom.clientWidth;
-        } else {
-            dom.scrollLeft = left;
+            left = dom.scrollWidth - left - dom.clientWidth;
         }
-        return this;
+        return left;
     }
     
 }, function() {

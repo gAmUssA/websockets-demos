@@ -121,6 +121,7 @@ Ext.define('Ext.ux.grid.filter.DateFilter', {
                     itemId: 'range-' + item,
                     text: me[item + 'Text'],
                     menu: Ext.create('Ext.menu.Menu', {
+                        plain: true,
                         items: [
                             Ext.apply(pickerCfg, {
                                 itemId: item,

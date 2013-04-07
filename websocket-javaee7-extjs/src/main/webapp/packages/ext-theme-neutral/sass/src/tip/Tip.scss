@@ -6,8 +6,8 @@
     $ui-background-color: $tip-background-color,
     $ui-background-gradient: $tip-background-gradient,
 
-    $ui-tool-padding: $tip-tool-padding,
-    $ui-tool-margin: $tip-tool-margin,
+    $ui-tool-spacing: $tip-tool-spacing,
+    $ui-tool-background-image: $tip-tool-background-image,
     $ui-header-body-padding: $tip-header-body-padding,
     $ui-header-color: $tip-header-color,
     $ui-header-font-size: $tip-header-font-size,
@@ -41,12 +41,40 @@
                 $color: $ui-inner-border-color
             );
         }
+
+        .#{$prefix}tool-img {
+            @if $ui-tool-background-image != $tool-background-image {
+                background-image: theme-background-image($ui-tool-background-image);
+            }
+            @if $ui-background-gradient == null {
+                // EXTJSIV-8846: partially transparent png images do not display correctly
+                // in winXP/IE8m when the image element has a transparent background.
+                // to fix this, we give the element the same background-color as the tooltip.
+                background-color: $ui-background-color;
+            }
+        }
     }
 
+    $ui-tool-margin: 0 0 0 $ui-tool-spacing;
     .#{$prefix}tip-header-#{$ui-label} {
-        .#{$prefix}tool {
-            padding: $ui-tool-padding;
+        .#{$prefix}tool-after-title {
             margin: $ui-tool-margin;
+        }
+
+        @if $include-rtl {
+            .#{$prefix}rtl.#{$prefix}tool-after-title {
+                margin: rtl($ui-tool-margin);
+            }
+        }
+
+        .#{$prefix}tool-before-title {
+            margin: rtl($ui-tool-margin);
+        }
+
+        @if $include-rtl {
+            .#{$prefix}rtl.#{$prefix}tool-before-title {
+                margin: $ui-tool-margin;
+            }
         }
     }
 

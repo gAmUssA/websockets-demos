@@ -16,7 +16,8 @@
     $border-width: $toolbar-border-width,
     $scroller-cursor: $toolbar-scroller-cursor,
     $scroller-cursor-disabled: $toolbar-scroller-cursor-disabled,
-    $scroller-opacity-disabled: $toolbar-scroller-opacity-disabled
+    $scroller-opacity-disabled: $toolbar-scroller-opacity-disabled,
+    $tool-background-image: $toolbar-tool-background-image
 ) {
     .#{$prefix}toolbar-#{$ui} {
         border-color: $border-color;
@@ -34,6 +35,20 @@
             }
             @if $scroller-cursor-disabled != null {
                 cursor: $scroller-cursor-disabled;
+            }
+        }
+
+        @if $include-ext-panel-tool {
+            .#{$prefix}tool-img {
+                @if $toolbar-tool-background-image != null {
+                    background-image: theme-background-image($toolbar-tool-background-image);
+                }
+                @if $background-gradient == null {
+                    // EXTJSIV-8846: partially transparent png images do not display correctly
+                    // in winXP/IE8m when the image element has a transparent background.
+                    // to fix this, we give the element the same background-color as the toolbar.
+                    background-color: $background-color;
+                }
             }
         }
     }
@@ -173,7 +188,6 @@
 
     .#{$prefix}toolbar-separator-vertical {
         margin: $toolbar-separator-vertical-margin;
-        width: $toolbar-separator-vertical-width;
         border-style: $toolbar-separator-vertical-border-style;
         border-width: $toolbar-separator-vertical-border-width;
         border-top-color: $toolbar-separator-color;

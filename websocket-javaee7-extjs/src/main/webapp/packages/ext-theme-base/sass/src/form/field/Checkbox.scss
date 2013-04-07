@@ -14,12 +14,3 @@
         zoom: 1; // give the label element hasLayout so that IE will respect its line-height
     }
 }
-
-@if $include-ie {
-    /* Hack for IE; causes alignment problem in IE9 standards mode so exclude that */
-    .#{$prefix}nbr.#{$prefix}ie {
-        .#{$prefix}form-cb {
-            font-size: 0;
-        }
-    }
-}

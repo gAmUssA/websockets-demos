@@ -24,13 +24,12 @@ $toolbar-spacer-width: 2px !default;
 $toolbar-separator-color: adjust-color($base-color, $hue: -1deg, $saturation: 100%, $lightness: -4.3%) !default;
 $toolbar-separator-highlight-color: #fff !default;
 
-$toolbar-separator-horizontal-margin: 0 3px 0 2px !default;
+$toolbar-separator-horizontal-margin: 0 $toolbar-horizontal-spacing 0 0 !default;
 $toolbar-separator-horizontal-height: 14px !default;
 $toolbar-separator-horizontal-border-style: none solid !default;
 $toolbar-separator-horizontal-border-width: 0 1px !default;
 
-$toolbar-separator-vertical-margin: 2px 5px 3px 5px !default;
-$toolbar-separator-vertical-width: 10px !default;
+$toolbar-separator-vertical-margin: 0 5px $toolbar-vertical-spacing !default;
 $toolbar-separator-vertical-border-style: solid none !default;
 $toolbar-separator-vertical-border-width: 1px 0 !default;
 //text
@@ -53,3 +52,5 @@ $toolbar-scroller-cursor-disabled: default !default;
 $toolbar-scroller-opacity-disabled: 1 !default;
 
 $toolbar-scroll-left-background-x: -$toolbar-scroller-width !default;
+
+$toolbar-tool-background-image: null !default;

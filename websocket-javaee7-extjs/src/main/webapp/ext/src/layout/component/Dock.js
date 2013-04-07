@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * This ComponentLayout handles docking for Panels. It takes care of panels that are
@@ -94,20 +97,36 @@ Ext.define('Ext.layout.component.Dock', {
         return true;
     },
 
-    dockOpposites: {
-        top: 'bottom',
-        right: 'left',
-        bottom: 'top',
-        left: 'right'
+    noBorderClasses: [
+        Ext.baseCSSPrefix + 'docked-noborder-top',
+        Ext.baseCSSPrefix + 'docked-noborder-right',
+        Ext.baseCSSPrefix + 'docked-noborder-bottom',
+        Ext.baseCSSPrefix + 'docked-noborder-left'
+    ],
+
+    noBorderClassesSides: {
+        top: Ext.baseCSSPrefix + 'docked-noborder-top',
+        right: Ext.baseCSSPrefix + 'docked-noborder-right',
+        bottom: Ext.baseCSSPrefix + 'docked-noborder-bottom',
+        left: Ext.baseCSSPrefix + 'docked-noborder-left'
+    },
+
+    borderWidthProps: {
+        top: 'border-top-width',
+        right: 'border-right-width',
+        bottom: 'border-bottom-width',
+        left: 'border-left-width'
     },
 
     handleItemBorders: function() {
         var me = this,
             owner = me.owner,
             borders, docked,
+            lastItems = me.lastDockedItems,
             oldBorders = me.borders,
-            opposites = me.dockOpposites,
             currentGeneration = owner.dockedItems.generation,
+            noBorderClassesSides = me.noBorderClassesSides,
+            borderWidthProps = me.borderWidthProps,
             i, ln, item, dock, side, borderItem,
             collapsed = me.collapsed;
 
@@ -119,7 +138,7 @@ Ext.define('Ext.layout.component.Dock', {
 
         // Borders have to be calculated using expanded docked item collection.
         me.collapsed = false;
-        docked = me.getLayoutItems();
+        me.lastDockedItems = docked = me.getLayoutItems();
         me.collapsed = collapsed;
 
         borders = { top: [], right: [], bottom: [], left: [] };
@@ -137,56 +156,49 @@ Ext.define('Ext.layout.component.Dock', {
                 borders[dock].satisfied = true;
             }
 
-            if (!borders.top.satisfied && opposites[dock] !== 'top') {
+            if (!borders.top.satisfied && dock !== 'bottom') {
                 borders.top.push(item);
             }
-            if (!borders.right.satisfied && opposites[dock] !== 'right') {
+            if (!borders.right.satisfied && dock !== 'left') {
                 borders.right.push(item);
             }
-            if (!borders.bottom.satisfied && opposites[dock] !== 'bottom') {
+            if (!borders.bottom.satisfied && dock !== 'top') {
                 borders.bottom.push(item);
             }
-            if (!borders.left.satisfied && opposites[dock] !== 'left') {
+            if (!borders.left.satisfied && dock !== 'right') {
                 borders.left.push(item);
+            }
+        }
+
+        if (lastItems) {
+            for (i = 0, ln = lastItems.length; i < ln; i++) {
+                item = lastItems[i];
+                if (!item.isDestroyed && !item.ignoreBorderManagement && !owner.manageBodyBorders) {
+                    item.removeCls(me.noBorderClasses);
+                }
             }
         }
 
         if (oldBorders) {
             for (side in oldBorders) {
-                if (oldBorders.hasOwnProperty(side)) {
-                    ln = oldBorders[side].length;
-                    if (!owner.manageBodyBorders) {
-                        for (i = 0; i < ln; i++) {
-                            borderItem = oldBorders[side][i];
-                            if (!borderItem.isDestroyed) {
-                                borderItem.removeCls(Ext.baseCSSPrefix + 'docked-noborder-' + side);
-                            }
-                        }
-                        if (!oldBorders[side].satisfied && !owner.bodyBorder) {
-                            owner.removeBodyCls(Ext.baseCSSPrefix + 'docked-noborder-' + side);
-                        }
-                    }
-                    else if (oldBorders[side].satisfied) {
-                        owner.setBodyStyle('border-' + side + '-width', '');
-                    }
+                if (owner.manageBodyBorders && oldBorders[side].satisfied) {
+                    owner.setBodyStyle(borderWidthProps[side], '');
                 }
             }
         }
 
         for (side in borders) {
-            if (borders.hasOwnProperty(side)) {
-                ln = borders[side].length;
-                if (!owner.manageBodyBorders) {
-                    for (i = 0; i < ln; i++) {
-                        borders[side][i].addCls(Ext.baseCSSPrefix + 'docked-noborder-' + side);
-                    }
-                    if ((!borders[side].satisfied && !owner.bodyBorder) || owner.bodyBorder === false) {
-                        owner.addBodyCls(Ext.baseCSSPrefix + 'docked-noborder-' + side);
-                    }
+            ln = borders[side].length;
+            if (!owner.manageBodyBorders) {
+                for (i = 0; i < ln; i++) {
+                    borders[side][i].addCls(noBorderClassesSides[side]);
                 }
-                else if (borders[side].satisfied) {
-                    owner.setBodyStyle('border-' + side + '-width', '1px');
+                if ((!borders[side].satisfied && !owner.bodyBorder) || owner.bodyBorder === false) {
+                    owner.addBodyCls(noBorderClassesSides[side]);
                 }
+            }
+            else if (borders[side].satisfied) {
+                owner.setBodyStyle(borderWidthProps[side], '1px');
             }
         }
 
@@ -239,8 +251,6 @@ Ext.define('Ext.layout.component.Dock', {
 
         me.callParent(arguments);
 
-        me.handleItemBorders();
-
         // Cache the children as ContextItems (like a Container). Also setup to handle
         // collapsed state:
         collapsed = owner.getCollapsed();
@@ -289,9 +299,24 @@ Ext.define('Ext.layout.component.Dock', {
 
         me.callParent(arguments);
 
-        if (lastHeightModel && lastHeightModel.shrinkWrap &&
-                    !ownerContext.heightModel.shrinkWrap && !me.owner.manageHeight) {
-            owner.body.dom.style.marginBottom = '';
+        if (me.owner.manageHeight) {
+            // Reset in case manageHeight gets turned on during lifecycle.
+            // See below for why display could be set to non-default value.
+            if (me.lastBodyDisplay) {
+                owner.body.dom.style.display = me.lastBodyDisplay = '';
+            }
+        } else {
+            // When manageHeight is false, the body stretches the outer el by using wide margins to force it to
+            // accommodate the docked items. When overflow is visible (when panel is resizable and has embedded handles),
+            // the body must be inline-block so as not to collapse its margins
+            if (me.lastBodyDisplay !== 'inline-block') {
+                owner.body.dom.style.display = me.lastBodyDisplay = 'inline-block';
+            }
+
+            if (lastHeightModel && lastHeightModel.shrinkWrap &&
+                        !ownerContext.heightModel.shrinkWrap) {
+                owner.body.dom.style.marginBottom = '';
+            }
         }
 
         if (ownerContext.widthModel.auto) {
@@ -1281,6 +1306,8 @@ Ext.define('Ext.layout.component.Dock', {
             items = me.getDockedItems(),
             target = me.getRenderTarget();
 
+        me.handleItemBorders();
+
         me.renderItems(items, target);
     },
 
@@ -1506,5 +1533,67 @@ Ext.define('Ext.layout.component.Dock', {
             dom.parentNode.removeChild(dom);
         }
         this.childrenChanged = true;
+    },
+
+    /**
+     * This object is indexed by a component's `baseCls` to yield another object which
+     * is then indexed by the component's `ui` to produce an array of CSS class names.
+     * This array is indexed in the same manner as the `noBorderClassTable` and indicates
+     * the a particular edge of a docked item or the body element is actually "collapsed"
+     * with the component's outer border.
+     * @private
+     */
+    borderCollapseMap: {
+        /*
+        'x-panel': {
+            'default': []
+        }
+        */
+    },
+
+    /**
+     * Returns the array of class names to add to a docked item or body element when for
+     * the edges that should collapse with the outer component border. Basically, the
+     * panel's outer border must look visually like a contiguous border but may need to
+     * be realized by using the border of docked items and/or the body. This class name
+     * allows the border color and width to be controlled accordingly and distinctly from
+     * the border of the docked item or body element when it is not having its border
+     * collapsed.
+     * @private
+     */
+    getBorderCollapseTable: function () {
+        var me = this,
+            map = me.borderCollapseMap,
+            owner = me.owner,
+            baseCls = owner.baseCls,
+            ui = owner.ui,
+            table;
+
+        map = map[baseCls] || (map[baseCls] = {});
+        table = map[ui];
+
+        if (!table) {
+            baseCls += '-' + ui + '-outer-border-';
+            map[ui] = table = [
+                0,                  // TRBL
+                baseCls + 'l',      // 0001 = 1
+                baseCls + 'b',      // 0010 = 2
+                baseCls + 'bl',     // 0011 = 3
+                baseCls + 'r',      // 0100 = 4
+                baseCls + 'rl',     // 0101 = 5
+                baseCls + 'rb',     // 0110 = 6
+                baseCls + 'rbl',    // 0111 = 7
+                baseCls + 't',      // 1000 = 8
+                baseCls + 'tl',     // 1001 = 9
+                baseCls + 'tb',     // 1010 = 10
+                baseCls + 'tbl',    // 1011 = 11
+                baseCls + 'tr',     // 1100 = 12
+                baseCls + 'trl',    // 1101 = 13
+                baseCls + 'trb',    // 1110 = 14
+                baseCls + 'trbl'    // 1111 = 15
+            ];
+        }
+
+        return table;
     }
 });

@@ -27,3 +27,9 @@
     border-style: $form-checkboxgroup-label-border-style;
     border-color: $form-checkboxgroup-label-border-color;
 }
+
+@if $include-rtl {
+    .#{$prefix}rtl.#{$prefix}form-check-group-label {
+        margin: rtl($form-checkboxgroup-label-margin);
+    }
+}

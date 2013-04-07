@@ -3,9 +3,9 @@ $grid-row-height: 24px !default;
 
 //Neptune cells
 $grid-row-line-height-increment: 4 !default;
-$grid-cell-inner-padding: 3px 6px 3px 10px!default;
+$grid-cell-inner-padding: 3px 6px !default;
 $grid-row-cell-border-color: #ededed !default;
-$grid-row-cell-background: #fff !default;
+$grid-row-cell-background-color: #fff !default;
 $grid-row-cell-font-size: $font-size;
 $grid-row-line-height-increment: 1 !default;
 
@@ -21,7 +21,7 @@ $grid-cell-special-border-color: null !default;
 $grid-cell-special-selected-border-color: null !default;
 
 //row cell over
-$grid-row-cell-over-border-color: mix($base-light-color, #fff, 50%) !default;
+$grid-row-cell-over-border-color: mix(#fff, $base-light-color, 65%) !default;
 $grid-row-cell-over-background-color: $grid-row-cell-over-border-color !default;
 $grid-row-cell-over-background-gradient: null !default;
 
@@ -33,3 +33,5 @@ $grid-row-cell-selected-background-color: $grid-row-cell-selected-border-color !
 $grid-row-cell-focus-border-color: $grid-row-cell-over-border-color !default;
 $grid-row-cell-focus-background-color: $grid-row-cell-over-border-color !default;
 $grid-row-cell-focus-background-gradient: null !default;
+
+$grid-body-border-color: #c0c0c0 !default;

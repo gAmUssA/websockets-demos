@@ -2,7 +2,9 @@
     .#{$prefix}grid-row .#{$prefix}grid-property-name .#{$prefix}grid-cell-inner,
     .#{$prefix}grid-row-over .#{$prefix}grid-property-name .#{$prefix}grid-cell-inner {
         padding-left: 12px;
-        background-image: theme-background-image('grid/property-cell-bg');
+        @if $grid-property-cell-background-image != null {
+            background-image: theme-background-image($grid-property-cell-background-image);
+        }
         background-repeat: no-repeat;
         background-position: -16px 2px;
     }

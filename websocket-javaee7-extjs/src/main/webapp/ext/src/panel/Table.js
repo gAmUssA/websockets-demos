@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @author Nicolas Ferrero
@@ -303,7 +306,6 @@ Ext.define('Ext.panel.Table', {
         var me          = this,
             headerCtCfg = me.columns || me.colModel,
             view,
-            border      = me.border,
             i, len,
             // Look up the configured Store. If none configured, use the fieldless, empty Store defined in Ext.data.Store.
             store       = me.store = Ext.data.StoreManager.lookup(me.store || 'ext-empty-store');
@@ -326,13 +328,12 @@ Ext.define('Ext.panel.Table', {
         // Either way, we extract a columns property referencing an array of Column definitions.
         if (headerCtCfg instanceof Ext.grid.header.Container) {
             me.headerCt = headerCtCfg;
-            me.headerCt.border = border;
+            me.headerCt.isRootHeader = true;
             me.columns = me.headerCt.items.items;
         } else {
             if (Ext.isArray(headerCtCfg)) {
                 headerCtCfg = {
-                    items: headerCtCfg,
-                    border: border
+                    items: headerCtCfg
                 };
             }
             Ext.apply(headerCtCfg, {
@@ -340,8 +341,8 @@ Ext.define('Ext.panel.Table', {
                 sortable: me.sortableColumns,
                 enableColumnMove: me.enableColumnMove,
                 enableColumnResize: me.enableColumnResize,
-                border:  border,
-                sealed: me.sealedColumns
+                sealed: me.sealedColumns,
+                isRootHeader: true
             });
 
             if (Ext.isDefined(me.enableColumnHide)) {
@@ -1025,41 +1026,50 @@ Ext.define('Ext.panel.Table', {
      * @return {Ext.selection.Model} selModel
      */
     getSelectionModel: function(){
-        if (!this.selModel) {
-            this.selModel = {};
+        var me = this,
+            selModel = me.selModel,
+            applyMode, mode, type;
+        
+        if (!selModel) {
+            selModel = {};
+            // no config, set our own mode
+            applyMode = true;
         }
 
-        var mode = 'SINGLE',
-            type;
-        if (this.simpleSelect) {
+        if (!selModel.events) {
+            // only config provided, set our mode if one doesn't exist on the config
+            type = selModel.selType || me.selType;
+            applyMode = !selModel.mode;
+            selModel = me.selModel = Ext.create('selection.' + type, selModel);
+        }
+
+        if (me.simpleSelect) {
             mode = 'SIMPLE';
-        } else if (this.multiSelect) {
+        } else if (me.multiSelect) {
             mode = 'MULTI';
         }
 
-        Ext.applyIf(this.selModel, {
-            allowDeselect: this.allowDeselect,
-            mode: mode
+        Ext.applyIf(selModel, {
+            allowDeselect: me.allowDeselect
         });
-
-        if (!this.selModel.events) {
-            type = this.selModel.selType || this.selType;
-            this.selModel = Ext.create('selection.' + type, this.selModel);
+        
+        if (mode && applyMode) {
+            selModel.setSelectionMode(mode);
         }
 
-        if (!this.selModel.hasRelaySetup) {
-            this.relayEvents(this.selModel, [
+        if (!selModel.hasRelaySetup) {
+            me.relayEvents(selModel, [
                 'selectionchange', 'beforeselect', 'beforedeselect', 'select', 'deselect'
             ]);
-            this.selModel.hasRelaySetup = true;
+            selModel.hasRelaySetup = true;
         }
 
         // lock the selection model if user
         // has disabled selection
-        if (this.disableSelection) {
-            this.selModel.locked = true;
+        if (me.disableSelection) {
+            selModel.locked = true;
         }
-        return this.selModel;
+        return selModel;
     },
     
     getScrollTarget: function(){

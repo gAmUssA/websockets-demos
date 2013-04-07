@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @private
@@ -214,12 +217,12 @@ Ext.define('Ext.tree.ViewDropZone', {
 
     handleNodeDrop : function(data, targetNode, position) {
         var me = this,
-            view = me.view,
-            parentNode = targetNode ? targetNode.parentNode : view.panel.getRootNode(),
-            Model = view.getStore().treeStore.model,
+            targetView = me.view,
+            parentNode = targetNode ? targetNode.parentNode : targetView.panel.getRootNode(),
+            Model = targetView.getStore().treeStore.model,
             records, i, len, record,
             insertionMethod, argList,
-            needTargetExpand, recParent,
+            needTargetExpand,
             transferData;
 
         // If the copy flag is set, create a copy of the models
@@ -276,6 +279,8 @@ Ext.define('Ext.tree.ViewDropZone', {
             // Coalesce layouts caused by node removal, appending and sorting
             Ext.suspendLayouts();
 
+            targetView.getSelectionModel().clearSelections();
+
             // Insert the records into the target node
             for (i = 0, len = data.records.length; i < len; i++) {
                 argList[0] = data.records[i];
@@ -296,24 +301,13 @@ Ext.define('Ext.tree.ViewDropZone', {
                 color = me.dropHighlightColor;
 
                 for (i = 0; i < len; i++) {
-                    n = view.getNode(data.records[i]);
+                    n = targetView.getNode(data.records[i]);
                     if (n) {
                         Ext.fly(n).highlight(color);
                     }
                 }
             }
         };
-
-        // Remove nodes from their current place in case there's a delay while the target node loads
-        view.getSelectionModel().clearSelections();
-        for (i = 0, len = data.records.length; i < len; i++) {
-            record = data.records[i];
-            // If we're dragging from a non-tree source we might not have a parent yet
-            recParent = record.parentNode;
-            if (recParent) {
-                recParent.removeChild(record);
-            }
-        }
 
         // If dropping right on an unexpanded node, transfer the data after it is expanded.
         if (needTargetExpand) {

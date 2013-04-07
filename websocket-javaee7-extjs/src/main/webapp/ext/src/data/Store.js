@@ -5,22 +5,25 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * The Store class encapsulates a client side cache of {@link Ext.data.Model Model} objects. Stores load data via a
  * {@link Ext.data.proxy.Proxy Proxy}, and also provide functions for {@link #sort sorting}, {@link #filter filtering}
  * and querying the {@link Ext.data.Model model} instances contained within it.
  *
- * Creating a Store is easy - we just tell it the Model and the Proxy to use to load and save its data:
+ * Creating a Store is easy - we just tell it the Model and the Proxy to use for loading and saving its data:
  *
  *      // Set up a {@link Ext.data.Model model} to use in our Store
  *      Ext.define('User', {
@@ -1160,7 +1163,7 @@ Ext.define('Ext.data.Store', {
      * Note that if this Store is sorted, the new Model instances will be inserted
      * at the correct point in the Store to maintain the sort order.
      *
-     * @param {Ext.data.Model[]/Ext.data.Model...} model An array of Model instances
+     * @param {Ext.data.Model[]/Ext.data.Model.../Object[]/Object...} model An array of Model instances
      * or Model configuration objects, or variable number of Model instance or config arguments.
      * @return {Ext.data.Model[]} The model instances that were added
      */
@@ -1929,7 +1932,7 @@ Ext.define('Ext.data.Store', {
      *
      * Using this method is great if the data is in the correct format already (e.g. it doesn't need to be
      * processed by a reader). If your data requires processing to decode the data structure, use a
-     * {@link Ext.data.proxy.Memory MemoryProxy} instead.
+     * {@link Ext.data.proxy.Memory MemoryProxy} or {@link #loadRawData}.
      *
      * @param {Ext.data.Model[]/Object[]} data Array of data to load. Any non-model instances will be cast
      * into model instances first.
@@ -2373,7 +2376,7 @@ Ext.define('Ext.data.Store', {
      * index.
      * @private
      * @param {Ext.data.Model[]} records The records to cache
-     * @param {Ext.data.Operation} The associated operation
+     * @param {Ext.data.Operation} page The associated operation
      */
     cachePage: function(records, page) {
         var me = this,

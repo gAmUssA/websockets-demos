@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * Container which holds headers and is docked at the top or bottom of a TablePanel.
@@ -257,10 +260,19 @@ Ext.define('Ext.grid.header.Container', {
         }
         return this.callParent();
     },
+    
+    // Find the topmost HeaderContainer
+    getOwnerHeaderCt: function() {
+        var me = this;
+        return me.isRootHeader ? me : me.up('[isRootHeader]');
+    },
 
     onDestroy: function() {
         var me = this;
 
+        if (me.menu) {
+            me.menu.un('hide', me.onMenuHide, me);
+        }
         me.menuTask.cancel();
         Ext.destroy(me.resizer, me.reorderer);
         me.callParent();
@@ -348,22 +360,30 @@ Ext.define('Ext.grid.header.Container', {
         }
         //</debug>
         me.callParent(arguments);
-        me.onColumnAddRemove();
+        me.onColumnsChanged();
     },
 
-    onColumnAddRemove: function() {
-        var topHeaderCt,
-            c = this;
+    onMove: function() {
+        this.callParent(arguments);
+        this.onColumnsChanged();
+    },
 
-        if (c.rendered) {
-            c = this;
-            // Upon add/remove of any column we need to purge the *HeaderContainer's* cache of leaf view columns.
-            while (c instanceof Ext.grid.header.Container) {
-                topHeaderCt = c;
-                c = c.ownerCt;
-            }
+    onShow: function() {
+        this.callParent(arguments);
+        this.onColumnsChanged();
+    },
+
+    // Private
+    // Called whenever a column is added or removed or moved.
+    // Ensures that the gridColumns caches are cleared.
+    onColumnsChanged: function() {
+        var topHeaderCt = this.getOwnerHeaderCt();
+
+        if (topHeaderCt) {
             topHeaderCt.purgeCache();
-            topHeaderCt.fireEvent('columnschanged', topHeaderCt);
+            if (this.rendered) {
+                topHeaderCt.fireEvent('columnschanged', topHeaderCt);
+            }
         }
     },
 
@@ -383,13 +403,19 @@ Ext.define('Ext.grid.header.Container', {
         delete me._usedIDs[c.headerId];
         //</debug>
 
-        me.onColumnAddRemove();
-        if (me.isGroupHeader && !me.items.getCount() && ownerCt) {
-            // If we don't have any items left and we're a group, remove ourselves.
-            // This will cascade up if necessary
-            Ext.suspendLayouts();
-            ownerCt.remove(me);
-            Ext.resumeLayouts(true);
+        if (!me.destroying) {
+            me.onColumnsChanged();
+            if (me.isGroupHeader && !me.items.getCount() && ownerCt) {
+                // Detach the header from the DOM here. Since we're removing and destroying the container,
+                // the inner DOM may get overwritten, since Container::deatchOnRemove gets processed after
+                // onRemove.
+                me.detachComponent(c);
+                // If we don't have any items left and we're a group, remove ourselves.
+                // This will cascade up if necessary
+                Ext.suspendLayouts();
+                ownerCt.remove(me);
+                Ext.resumeLayouts(true);
+            }
         }
     },
 
@@ -616,15 +642,18 @@ Ext.define('Ext.grid.header.Container', {
     },
 
     purgeCache: function() {
-        var me = this;
+        var me = this,
+            menu = me.menu;
+            
         // Delete column cache - column order has changed.
         me.gridDataColumns = me.hideableColumns = null;
 
         // Menu changes when columns are moved. It will be recreated.
-        if (me.menu) {
+        // Menu does not change when columns are hidden or shown (which is all that happens when menu is visible)
+        if (menu && menu.hidden) {
             // Must hide before destroy so that trigger el is deactivated
-            me.menu.hide();
-            me.menu.destroy();
+            menu.hide();
+            menu.destroy();
             me.menu = null;
         }
     },
@@ -767,9 +796,9 @@ Ext.define('Ext.grid.header.Container', {
     /**
      * Gets the full width of all columns that are visible.
      */
-    getFullWidth: function(flushCache) {
+    getFullWidth: function() {
         var fullWidth = 0,
-            headers = this.getVisibleGridColumns(flushCache),
+            headers = this.getVisibleGridColumns(),
             headersLn = headers.length,
             i = 0,
             header;
@@ -805,11 +834,21 @@ Ext.define('Ext.grid.header.Container', {
     /**
      * Returns an array of the **visible** columns in the grid. This goes down to the lowest column header
      * level, and does not return **grouped** headers which contain sub headers.
-     * @param {Boolean} refreshCache If omitted, the cached set of columns will be returned. Pass true to refresh the cache.
      * @returns {Array}
      */
-    getVisibleGridColumns: function(refreshCache) {
-        return Ext.ComponentQuery.query(':not([hidden])', this.getGridColumns(refreshCache));
+    getVisibleGridColumns: function() {
+        var allColumns = this.getGridColumns(),
+            result = [],
+            len = allColumns.length, i;
+
+        // Use an inline check instead of ComponentQuery filtering for better performance for
+        // repeated grid row rendering - as in buffered rendering.
+        for (i = 0; i < len; i++) {
+            if (!allColumns[i].hidden) {
+                result[result.length] = allColumns[i];
+            }
+        }
+        return result;
     }, 
 
     /**
@@ -820,12 +859,10 @@ Ext.define('Ext.grid.header.Container', {
      *
      * Headers which have a hidden ancestor have a `hiddenAncestor: true` property injected so that they can also be rendered at zero width without interrogating
      * that header's ownerCt axis for a hidden ancestor.
-     *
-     * @param {Boolean} refreshCache If omitted, the cached set of columns will be returned. Pass true to refresh the cache.
      * @returns {Array}
      */
-    getGridColumns: function(refreshCache /* private - used in recursion*/, inResult, hiddenAncestor) {
-        if (!inResult && !refreshCache && this.gridDataColumns) {
+    getGridColumns: function(/* private - used in recursion*/inResult, hiddenAncestor) {
+        if (!inResult && this.gridDataColumns) {
             return this.gridDataColumns;
         }
 
@@ -840,7 +877,7 @@ Ext.define('Ext.grid.header.Container', {
             for (i = 0, len = items.length; i < len; i++) {
                 item = items[i];
                 if (item.isGroupHeader) {
-                    item.getGridColumns(true, result, hiddenAncestor);
+                    item.getGridColumns(result, hiddenAncestor);
                 } else {
                     item.hiddenAncestor = hiddenAncestor;
                     result.push(item);
@@ -878,9 +915,9 @@ Ext.define('Ext.grid.header.Container', {
      * For use by column headers in determining whether there are any hideable columns when deciding whether or not
      * the header menu should be disabled.
      */
-    getHideableColumns: function(refreshCache) {
+    getHideableColumns: function() {
         var me = this,
-            result = refreshCache ? null : me.hideableColumns;
+            result = me.hideableColumns;
 
         if (!result) {
             result = me.hideableColumns = me.query('[hideable]');
@@ -908,7 +945,7 @@ Ext.define('Ext.grid.header.Container', {
     /**
      * Get a leaf level header by index regardless of what the nesting
      * structure is.
-     * @param {Number} The column index for which to retrieve the column.
+     * @param {Number} index The column index for which to retrieve the column.
      */
     getHeaderAtIndex: function(index) {
         var columns = this.getGridColumns();

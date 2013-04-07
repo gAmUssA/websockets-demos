@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * The Ext.grid.plugin.CellEditing plugin injects editing at a cell level for a Grid. Only a single
@@ -91,99 +94,116 @@ Ext.define('Ext.grid.plugin.CellEditing', {
     requires: ['Ext.grid.CellEditor', 'Ext.util.DelayedTask'],
     lockableScope: 'both',
 
-    constructor: function() {
-        /**
-         * @event beforeedit
-         * Fires before cell editing is triggered. Return false from event handler to stop the editing.
-         *
-         * @param {Ext.grid.plugin.CellEditing} editor
-         * @param {Object} e An edit event with the following properties:
-         *
-         * - grid - The grid
-         * - record - The record being edited
-         * - field - The field name being edited
-         * - value - The value for the field being edited.
-         * - row - The grid table row
-         * - column - The grid {@link Ext.grid.column.Column Column} defining the column that is being edited.
-         * - rowIdx - The row index that is being edited
-         * - colIdx - The column index that is being edited
-         * - cancel - Set this to true to cancel the edit or return false from your handler.
-         */
-        /**
-         * @event edit
-         * Fires after a cell is edited. Usage example:
-         *
-         *     grid.on('edit', function(editor, e) {
-         *         // commit the changes right after editing finished
-         *         e.record.commit();
-         *     });
-         *
-         * @param {Ext.grid.plugin.CellEditing} editor
-         * @param {Object} e An edit event with the following properties:
-         *
-         * - grid - The grid
-         * - record - The record that was edited
-         * - field - The field name that was edited
-         * - value - The value being set
-         * - originalValue - The original value for the field, before the edit.
-         * - row - The grid table row
-         * - column - The grid {@link Ext.grid.column.Column Column} defining the column that was edited.
-         * - rowIdx - The row index that was edited
-         * - colIdx - The column index that was edited
-         */
-        /**
-         * @event validateedit
-         * Fires after a cell is edited, but before the value is set in the record. Return false from event handler to
-         * cancel the change.
-         *
-         * Usage example showing how to remove the red triangle (dirty record indicator) from some records (not all). By
-         * observing the grid's validateedit event, it can be cancelled if the edit occurs on a targeted row (for
-         * example) and then setting the field's new value in the Record directly:
-         *
-         *     grid.on('validateedit', function(editor, e) {
-         *       var myTargetRow = 6;
-         *
-         *       if (e.row == myTargetRow) {
-         *         e.cancel = true;
-         *         e.record.data[e.field] = e.value;
-         *       }
-         *     });
-         *
-         * @param {Ext.grid.plugin.CellEditing} editor
-         * @param {Object} e An edit event with the following properties:
-         *
-         * - grid - The grid
-         * - record - The record being edited
-         * - field - The field name being edited
-         * - value - The value being set
-         * - originalValue - The original value for the field, before the edit.
-         * - row - The grid table row
-         * - column - The grid {@link Ext.grid.column.Column Column} defining the column that is being edited.
-         * - rowIdx - The row index that is being edited
-         * - colIdx - The column index that is being edited
-         * - cancel - Set this to true to cancel the edit or return false from your handler.
-         */
-        /**
-         * @event canceledit
-         * Fires when the user started editing a cell but then cancelled the edit.
-         * @param {Ext.grid.plugin.CellEditing} editor
-         * @param {Object} e An edit event with the following properties:
-         * 
-         * - grid - The grid
-         * - record - The record that was edited
-         * - field - The field name that was edited
-         * - value - The value being set
-         * - row - The grid table row
-         * - column - The grid {@link Ext.grid.column.Column Column} defining the column that was edited.
-         * - rowIdx - The row index that was edited
-         * - colIdx - The column index that was edited
-         */
+    /**
+     * @event beforeedit
+     * Fires before cell editing is triggered. Return false from event handler to stop the editing.
+     *
+     * @param {Ext.grid.plugin.CellEditing} editor
+     * @param {Object} e An edit event with the following properties:
+     *
+     * - grid - The grid
+     * - record - The record being edited
+     * - field - The field name being edited
+     * - value - The value for the field being edited.
+     * - row - The grid table row
+     * - column - The grid {@link Ext.grid.column.Column Column} defining the column that is being edited.
+     * - rowIdx - The row index that is being edited
+     * - colIdx - The column index that is being edited
+     * - cancel - Set this to true to cancel the edit or return false from your handler.
+     */
+    /**
+     * @event edit
+     * Fires after a cell is edited. Usage example:
+     *
+     *     grid.on('edit', function(editor, e) {
+     *         // commit the changes right after editing finished
+     *         e.record.commit();
+     *     });
+     *
+     * @param {Ext.grid.plugin.CellEditing} editor
+     * @param {Object} e An edit event with the following properties:
+     *
+     * - grid - The grid
+     * - record - The record that was edited
+     * - field - The field name that was edited
+     * - value - The value being set
+     * - originalValue - The original value for the field, before the edit.
+     * - row - The grid table row
+     * - column - The grid {@link Ext.grid.column.Column Column} defining the column that was edited.
+     * - rowIdx - The row index that was edited
+     * - colIdx - The column index that was edited
+     */
+    /**
+     * @event validateedit
+     * Fires after a cell is edited, but before the value is set in the record. Return false from event handler to
+     * cancel the change.
+     *
+     * Usage example showing how to remove the red triangle (dirty record indicator) from some records (not all). By
+     * observing the grid's validateedit event, it can be cancelled if the edit occurs on a targeted row (for
+     * example) and then setting the field's new value in the Record directly:
+     *
+     *     grid.on('validateedit', function(editor, e) {
+     *       var myTargetRow = 6;
+     *
+     *       if (e.row == myTargetRow) {
+     *         e.cancel = true;
+     *         e.record.data[e.field] = e.value;
+     *       }
+     *     });
+     *
+     * @param {Ext.grid.plugin.CellEditing} editor
+     * @param {Object} e An edit event with the following properties:
+     *
+     * - grid - The grid
+     * - record - The record being edited
+     * - field - The field name being edited
+     * - value - The value being set
+     * - originalValue - The original value for the field, before the edit.
+     * - row - The grid table row
+     * - column - The grid {@link Ext.grid.column.Column Column} defining the column that is being edited.
+     * - rowIdx - The row index that is being edited
+     * - colIdx - The column index that is being edited
+     * - cancel - Set this to true to cancel the edit or return false from your handler.
+     */
+    /**
+     * @event canceledit
+     * Fires when the user started editing a cell but then cancelled the edit.
+     * @param {Ext.grid.plugin.CellEditing} editor
+     * @param {Object} e An edit event with the following properties:
+     * 
+     * - grid - The grid
+     * - record - The record that was edited
+     * - field - The field name that was edited
+     * - value - The value being set
+     * - row - The grid table row
+     * - column - The grid {@link Ext.grid.column.Column Column} defining the column that was edited.
+     * - rowIdx - The row index that was edited
+     * - colIdx - The column index that was edited
+     */
 
-        this.callParent(arguments);
-        this.editors = new Ext.util.MixedCollection(false, function(editor) {
-            return editor.editorId;
-        });
-        this.editTask = new Ext.util.DelayedTask();
+    init: function(grid) {
+        var me = this,
+            lockingPartner = me.lockingPartner;
+
+        me.callParent(arguments);
+
+        // Share editor apparatus with lockingPartner becuse columns may move from side to side
+        if (lockingPartner) {
+            if (lockingPartner.editors) {
+                me.editors = lockingPartner.editors;
+                me.editTask = lockingPartner.editTask;
+            } else {
+                me.editors = lockingPartner.editors = new Ext.util.MixedCollection(false, function(editor) {
+                    return editor.editorId;
+                });
+                me.editTask = lockingPartner.editTask = new Ext.util.DelayedTask();
+            }
+        } else {
+            me.editors = new Ext.util.MixedCollection(false, function(editor) {
+                return editor.editorId;
+            });
+            me.editTask = new Ext.util.DelayedTask();
+        }
     },
 
     onReconfigure: function(grid, store, columns){
@@ -200,9 +220,11 @@ Ext.define('Ext.grid.plugin.CellEditing', {
      */
     destroy: function() {
         var me = this;
-        me.editTask.cancel();
-        me.editors.each(Ext.destroy, Ext);
-        me.editors.clear();
+        if (me.editors) {
+            me.editTask.cancel();
+            me.editors.each(Ext.destroy, Ext);
+            me.editors.clear();
+        }
         me.callParent(arguments);
     },
 
@@ -226,7 +248,7 @@ Ext.define('Ext.grid.plugin.CellEditing', {
             }
             // Horiz scroll just requires that the editor be realigned.
             else {
-                 ed.realign();
+                ed.realign();
             }
         }
         me.scroll = scroll;
@@ -262,52 +284,53 @@ Ext.define('Ext.grid.plugin.CellEditing', {
 
     /**
      * Starts editing the specified record, using the specified Column definition to define which field is being edited.
-     * @param {Ext.data.Model} record The Store data record which backs the row to be edited.
-     * @param {Ext.grid.column.Column} columnHeader The Column object defining the column to be edited.
+     * @param {Ext.data.Model/Number} record The Store data record which backs the row to be edited, or index of the record.
+     * @param {Ext.grid.column.Column/Number} columnHeader The Column object defining the column to be edited, or index of the column.
      * @return {Boolean} `true` if editing was started, `false` otherwise.
      */
     startEdit: function(record, columnHeader, /* private */ context) {
         var me = this,
             ed;
-            
-        context = context || me.getEditingContext(record, columnHeader);
+
+        context = context || me.callParent(arguments);
 
         // Complete the edit now, before getting the editor's target
         // cell DOM element. Completing the edit causes a row refresh.
         // Also allows any post-edit events to take effect before continuing
         me.completeEdit();
+        
+        // Cancel editing if EditingContext could not be found (possibly because record has been deleted by an intervening listener),
+        // or if the grid view is not currently visible
+        if (context && me.grid.view.isVisible(true)) {
+            me.context = context;
 
-        // Cancel editing if EditingContext could not be found (possibly because record has been deleted by an intervening listener), or if the grid view is not currently visible
-        if (!context || !me.grid.view.isVisible(true)) {
+            record = context.record;
+            columnHeader = context.column;
+
+            // See if the field is editable for the requested record
+            if (columnHeader && !columnHeader.getEditor(record)) {
+                return false;
+            }
+
+            context.originalValue = context.value = record.get(columnHeader.dataIndex);
+            if (me.beforeEdit(context) === false || me.fireEvent('beforeedit', me, context) === false || context.cancel) {
+                return false;
+            }
+
+            ed = me.getEditor(record, columnHeader);
+
+            // Whether we are going to edit or not, ensure the edit cell is scrolled into view
+            me.grid.view.cancelFocus();
+            me.view.focusCell({
+                row: context.rowIdx,
+                column: context.colIdx
+            });
+            if (ed) {
+                me.editTask.delay(15, me.showEditor, me, [ed, context, context.value]);
+                return true;
+            }
             return false;
         }
-
-        record = context.record;
-        columnHeader = context.column;
-
-        // See if the field is editable for the requested record
-        if (columnHeader && !columnHeader.getEditor(record)) {
-            return false;
-        }
-
-        context.originalValue = context.value = record.get(columnHeader.dataIndex);
-        if (me.beforeEdit(context) === false || me.fireEvent('beforeedit', me, context) === false || context.cancel) {
-            return false;
-        }
-
-        ed = me.getEditor(record, columnHeader);
-
-        // Whether we are going to edit or not, ensure the edit cell is scrolled into view
-        me.grid.view.cancelFocus();
-        me.view.focusCell({
-            row: context.rowIdx,
-            column: context.colIdx
-        });
-        if (ed) {
-            me.editTask.delay(15, me.showEditor, me, [ed, context, context.value]);
-            return true;
-        }
-        return false;
     },
 
     showEditor: function(ed, context, value) {
@@ -400,11 +423,6 @@ Ext.define('Ext.grid.plugin.CellEditing', {
             // Add to top level grid if we are editing one side of a locking system
             editorOwner = me.grid.ownerLockable || me.grid;
 
-        // Editors are shared between editing plugins on both sides of a locked grid
-        if (!editor && me.lockingPartner) {
-            editor = me.lockingPartner.editors.getByKey(editorId);
-        }
-
         if (!editor) {
             editor = column.getEditor(record);
             if (!editor) {
@@ -413,14 +431,12 @@ Ext.define('Ext.grid.plugin.CellEditing', {
 
             // Allow them to specify a CellEditor in the Column
             if (editor instanceof Ext.grid.CellEditor) {
-                editor.editingPlugin = me;
                 editor.floating = true;
                 editor.isForTree = me.grid.isTree;
             }
             // But if it's just a Field, wrap it.
             else {
                 editor = new Ext.grid.CellEditor({
-                    editingPlugin: me,
                     floating: true,
                     editorId: editorId,
                     field: editor,
@@ -438,6 +454,9 @@ Ext.define('Ext.grid.plugin.CellEditing', {
             column.on('removed', me.cancelActiveEdit, me);
             editors.add(editor);
         }
+        
+        // Keep upward pointer correct for each use - editors are shared between locking sides
+        editor.editingPlugin = me;
         return editor;
     },
     
@@ -514,8 +533,9 @@ Ext.define('Ext.grid.plugin.CellEditing', {
             // Restore focus back to the view's element.
             if (sm.setCurrentPosition) {
                 sm.setCurrentPosition(sm.getCurrentPosition());
+            } else {
+                grid.getView().focus();
             }
-            grid.getView().getEl(activeColumn).focus();
             me.fireEvent('edit', me, context);
             me.editing = false;
         }

@@ -22,7 +22,8 @@
     $ui-header-line-height: $btn-group-header-line-height,
     $ui-header-padding: $btn-group-header-padding,
 
-    $ui-body-padding: $btn-group-padding
+    $ui-body-padding: $btn-group-padding,
+    $ui-tool-background-image: $btn-group-tool-background-image
 ){
     @if $ui-border-radius != 0 {
         @include x-frame(
@@ -63,6 +64,16 @@
         background: $ui-header-background-color;
         @if $ui-border-radius != null {
             @include border-top-radius($ui-border-radius);
+        }
+
+        .#{$prefix}tool-img {
+            @if $ui-tool-background-image != $tool-background-image {
+                background-image: theme-background-image($ui-tool-background-image);
+            }
+            // EXTJSIV-8846: partially transparent png images do not display correctly
+            // in winXP/IE8m when the image element has a transparent background.
+            // to fix this, we give the element the same background-color as the ButtonGroup.
+            background-color: $ui-header-background-color;
         }
     }
 

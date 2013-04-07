@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @class Ext.layout.container.Auto
@@ -239,7 +242,7 @@ Ext.define('Ext.layout.container.Auto', {
                 // height:100% is required on the innerCt in order for percentage-height
                 // children to work in IE, firefox, and opera
                 '<div id="{ownerId}-innerCt" style="display:table-cell;height:100%;',
-                'vertical-align:top;{%this.renderPadding(out, values)%}">',
+                'vertical-align:top;{%this.renderPadding(out, values)%}" class="{innerCtCls}">',
                     '{%this.renderBody(out,values)%}',
                 '</div>',
             '</span>',
@@ -250,7 +253,7 @@ Ext.define('Ext.layout.container.Auto', {
             '<table id="{ownerId}-outerCt" class="' + Ext.baseCSSPrefix + 'table-plain">',
                 '<tr>',
                     '<td id="{ownerId}-innerCt" style="vertical-align:top;padding:0;',
-                        '{%this.renderPadding(out, values)%}">',
+                        '{%this.renderPadding(out, values)%}" class="{innerCtCls}">',
                         '{%this.renderBody(out,values)%}',
                          // clear element to contain the bottom margin of floated last child item
                         '<div id="{ownerId}-clearEl" class="', Ext.baseCSSPrefix,  'clear"',
@@ -266,7 +269,7 @@ Ext.define('Ext.layout.container.Auto', {
             // margin of the first child item would collapse into the top padding of
             // the innerCt.
             '<div id="{ownerId}-outerCt" style="zoom:1;{%this.renderPadding(out, values)%}">',
-                '<div id="{ownerId}-innerCt" style="zoom:1;height:100%;">',
+                '<div id="{ownerId}-innerCt" style="zoom:1;height:100%;" class="{innerCtCls}">',
                     '{%this.renderBody(out,values)%}',
                      // clear element to contain the bottom margin of floated last child item
                     '<div id="{ownerId}-clearEl" class="', Ext.baseCSSPrefix,  'clear"',
@@ -286,7 +289,7 @@ Ext.define('Ext.layout.container.Auto', {
         '<table id="{ownerId}-outerCt" class="' + Ext.baseCSSPrefix + 'table-plain">',
             '<tr>',
                 '<td id="{ownerId}-innerCt" style="vertical-align:top;padding:0;',
-                    '{%this.renderPadding(out, values)%}">',
+                    '{%this.renderPadding(out, values)%}" class="{innerCtCls}">',
                 '</td>',
             '</tr>',
         '</table>'

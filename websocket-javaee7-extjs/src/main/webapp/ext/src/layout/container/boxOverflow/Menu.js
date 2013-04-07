@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @private
@@ -105,7 +108,6 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
             id: oid + '-menu-trigger',
             cls: Ext.layout.container.Box.prototype.innerCls + ' ' + me.triggerButtonCls + ' ' + Ext.baseCSSPrefix + 'toolbar-item',
             plain: owner.usePlainButtons,
-            hidden: true,
             ownerCt: owner, // To enable the Menu to ascertain a valid zIndexManager owner in the same tree
             ownerLayout: layout,
             iconCls: Ext.baseCSSPrefix + me.getOwnerType(owner) + '-more-icon',
@@ -140,7 +142,7 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
         }
 
         return {
-            reservedSpace: me.menuTrigger[names.getWidth]() + me.menuTrigger.el.getMargin(names.parallelMargins)
+            reservedSpace: me.triggerTotalWidth
         };
     },
 
@@ -149,9 +151,14 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
      * @private
      */
     captureChildElements: function() {
-        var menuTrigger = this.menuTrigger;
+        var me = this,
+            menuTrigger = me.menuTrigger,
+            names = me.layout.names;
+
+        // The rendering flag is set when getRenderTree is called which we do when returning markup string for the owning layout's "suffix"
         if (menuTrigger.rendering) {
             menuTrigger.finishRender();
+            me.triggerTotalWidth = menuTrigger[names.getWidth]() + menuTrigger.el.getMargin(names.parallelMargins);
         }
     },
 
@@ -216,7 +223,7 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
         menuTrigger.show();
         menuTrigger.resumeLayouts(me._asLayoutRoot);
 
-        available -= me.menuTrigger.getWidth();
+        available -= me.triggerTotalWidth;
 
         owner.suspendLayouts();
 
@@ -295,11 +302,12 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
      * @param {Boolean} hideOnClick Passed through to the menu item
      */
     createMenuConfig : function(component, hideOnClick) {
-        var config = Ext.apply({}, component.initialConfig),
+        var me = this,
+            config = Ext.apply({}, component.initialConfig),
             group  = component.toggleGroup;
 
         Ext.copyTo(config, component, [
-            'iconCls', 'icon', 'itemId', 'disabled', 'handler', 'scope', 'menu'
+            'iconCls', 'icon', 'itemId', 'disabled', 'handler', 'scope', 'menu', 'tabIndex'
         ]);
 
         Ext.apply(config, {
@@ -329,10 +337,8 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
                 hideOnClick: false,
                 group  : group,
                 checked: component.pressed,
-                listeners: {
-                    checkchange: function(item, checked) {
-                        component.toggle(checked);
-                    }
+                handler: function(item, e) {
+                    component.onClick(e);
                 }
             });
         }
@@ -340,8 +346,9 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
         // Buttons may have their text or icon changed - this must be propagated to the clone in the overflow menu
         if (component.isButton && !component.changeListenersAdded) {
             component.on({
-                textchange: this.onButtonAttrChange,
-                iconchange: this.onButtonAttrChange
+                textchange: me.onButtonAttrChange,
+                iconchange: me.onButtonAttrChange,
+                toggle:     me.onButtonToggle
             });
             component.changeListenersAdded = true;
         }
@@ -359,6 +366,13 @@ Ext.define('Ext.layout.container.boxOverflow.Menu', {
         clone.setIcon(btn.icon);
         clone.setIconCls(btn.iconCls);
         clone.resumeLayouts(true);
+    },
+
+    onButtonToggle: function(btn, state) {
+        // Keep the clone in sync with the original if necessary
+        if (btn.overflowClone.checked !== state) {
+            btn.overflowClone.setChecked(state);
+        }
     },
 
     /**

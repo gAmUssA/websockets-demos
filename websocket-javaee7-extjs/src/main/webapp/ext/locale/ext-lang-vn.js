@@ -5,17 +5,19 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
-﻿
 /**
  * List compiled by mystix on the extjs.com forums.
  * Thank you Mystix!
@@ -30,32 +32,6 @@ Ext.onReady(function() {
     if (Ext.Updater) {
         Ext.Updater.defaults.indicatorText = '<div class="loading-indicator">Đang tải...</div>';
     }
-
-    Ext.define("Ext.locale.vn.view.View", {
-        override: "Ext.view.View",
-        emptyText: ""
-    });
-
-    Ext.define("Ext.locale.vn.grid.plugin.DragDrop", {
-        override: "Ext.grid.plugin.DragDrop",
-        dragText: "{0} dòng được chọn"
-    });
-
-    Ext.define("Ext.locale.vn.TabPanelItem", {
-        override: "Ext.TabPanelItem",
-        closeText: "Đóng thẻ này"
-    });
-
-    Ext.define("Ext.locale.vn.form.field.Base", {
-        override: "Ext.form.field.Base",
-        invalidText: "Giá trị của ô này không hợp lệ."
-    });
-
-    // changing the msg text below will affect the LoadMask
-    Ext.define("Ext.locale.vn.view.AbstractView", {
-        override: "Ext.view.AbstractView",
-        msg: "Đang tải..."
-    });
 
     if (Ext.Date) {
         Ext.Date.monthNames = ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"];
@@ -82,70 +58,6 @@ Ext.onReady(function() {
         });
     }
 
-    Ext.define("Ext.locale.vn.picker.Date", {
-        override: "Ext.picker.Date",
-        todayText: "Hôm nay",
-        minText: "Ngày này nhỏ hơn ngày nhỏ nhất",
-        maxText: "Ngày này lớn hơn ngày lớn nhất",
-        disabledDaysText: "",
-        disabledDatesText: "",
-        monthNames: Ext.Date.monthNames,
-        dayNames: Ext.Date.dayNames,
-        nextText: 'Tháng sau (Control+Right)',
-        prevText: 'Tháng trước (Control+Left)',
-        monthYearText: 'Chọn một tháng (Control+Up/Down để thay đổi năm)',
-        todayTip: "{0} (Spacebar - Phím trắng)",
-        format: "d/m/y"
-    });
-
-    Ext.define("Ext.locale.vn.toolbar.Paging", {
-        override: "Ext.PagingToolbar",
-        beforePageText: "Trang",
-        afterPageText: "of {0}",
-        firstText: "Trang đầu",
-        prevText: "Trang trước",
-        nextText: "Trang sau",
-        lastText: "Trang cuối",
-        refreshText: "Tải lại",
-        displayMsg: "Hiển thị {0} - {1} của {2}",
-        emptyMsg: 'Không có dữ liệu để hiển thị'
-    });
-
-    Ext.define("Ext.locale.vn.form.field.Text", {
-        override: "Ext.form.field.Text",
-        minLengthText: "Chiều dài tối thiểu của ô này là {0}",
-        maxLengthText: "Chiều dài tối đa của ô này là {0}",
-        blankText: "Ô này cần phải nhập giá trị",
-        regexText: "",
-        emptyText: null
-    });
-
-    Ext.define("Ext.locale.vn.form.field.Number", {
-        override: "Ext.form.field.Number",
-        minText: "Giá trị nhỏ nhất của ô này là {0}",
-        maxText: "Giá trị lớn nhất của ô này là  {0}",
-        nanText: "{0} hông phải là một số hợp lệ"
-    });
-
-    Ext.define("Ext.locale.vn.form.field.Date", {
-        override: "Ext.form.field.Date",
-        disabledDaysText: "Vô hiệu",
-        disabledDatesText: "Vô hiệu",
-        minText: "Ngày nhập trong ô này phải sau ngày {0}",
-        maxText: "Ngày nhập trong ô này phải trước ngày {0}",
-        invalidText: "{0} không phải là một ngày hợp lệ - phải có dạng {1}",
-        format: "d/m/y"
-    });
-
-    Ext.define("Ext.locale.vn.form.field.ComboBox", {
-        override: "Ext.form.field.ComboBox",
-        valueNotFoundText: undefined
-    }, function() {
-        Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
-            loadingText: "Đang tải..."
-        });
-    });
-
     if (exists('Ext.form.field.VTypes')) {
         Ext.apply(Ext.form.field.VTypes, {
             emailText: 'Giá trị của ô này phải là một địa chỉ email có dạng như "ten@abc.com"',
@@ -154,21 +66,116 @@ Ext.onReady(function() {
             alphanumText: 'Ô này chỉ được nhập các kí tự, số và gạch dưới(_)'
         });
     }
-
-    Ext.define("Ext.locale.vn.grid.header.Container", {
-        override: "Ext.grid.header.Container",
-        sortAscText: "Tăng dần",
-        sortDescText: "Giảm dần",
-        lockText: "Khóa cột",
-        unlockText: "Bỏ khóa cột",
-        columnsText: "Các cột"
-    });
-
-    Ext.define("Ext.locale.vn.grid.PropertyColumnModel", {
-        override: "Ext.grid.PropertyColumnModel",
-        nameText: "Tên",
-        valueText: "Giá trị",
-        dateFormat: "j/m/Y"
-    });
-
 });
+
+Ext.define("Ext.locale.vn.view.View", {
+    override: "Ext.view.View",
+    emptyText: ""
+});
+
+Ext.define("Ext.locale.vn.grid.plugin.DragDrop", {
+    override: "Ext.grid.plugin.DragDrop",
+    dragText: "{0} dòng được chọn"
+});
+
+Ext.define("Ext.locale.vn.TabPanelItem", {
+    override: "Ext.TabPanelItem",
+    closeText: "Đóng thẻ này"
+});
+
+Ext.define("Ext.locale.vn.form.field.Base", {
+    override: "Ext.form.field.Base",
+    invalidText: "Giá trị của ô này không hợp lệ."
+});
+
+// changing the msg text below will affect the LoadMask
+Ext.define("Ext.locale.vn.view.AbstractView", {
+    override: "Ext.view.AbstractView",
+    msg: "Đang tải..."
+});
+
+Ext.define("Ext.locale.vn.picker.Date", {
+    override: "Ext.picker.Date",
+    todayText: "Hôm nay",
+    minText: "Ngày này nhỏ hơn ngày nhỏ nhất",
+    maxText: "Ngày này lớn hơn ngày lớn nhất",
+    disabledDaysText: "",
+    disabledDatesText: "",
+    monthNames: Ext.Date.monthNames,
+    dayNames: Ext.Date.dayNames,
+    nextText: 'Tháng sau (Control+Right)',
+    prevText: 'Tháng trước (Control+Left)',
+    monthYearText: 'Chọn một tháng (Control+Up/Down để thay đổi năm)',
+    todayTip: "{0} (Spacebar - Phím trắng)",
+    format: "d/m/y"
+});
+
+Ext.define("Ext.locale.vn.toolbar.Paging", {
+    override: "Ext.PagingToolbar",
+    beforePageText: "Trang",
+    afterPageText: "of {0}",
+    firstText: "Trang đầu",
+    prevText: "Trang trước",
+    nextText: "Trang sau",
+    lastText: "Trang cuối",
+    refreshText: "Tải lại",
+    displayMsg: "Hiển thị {0} - {1} của {2}",
+    emptyMsg: 'Không có dữ liệu để hiển thị'
+});
+
+Ext.define("Ext.locale.vn.form.field.Text", {
+    override: "Ext.form.field.Text",
+    minLengthText: "Chiều dài tối thiểu của ô này là {0}",
+    maxLengthText: "Chiều dài tối đa của ô này là {0}",
+    blankText: "Ô này cần phải nhập giá trị",
+    regexText: "",
+    emptyText: null
+});
+
+Ext.define("Ext.locale.vn.form.field.Number", {
+    override: "Ext.form.field.Number",
+    minText: "Giá trị nhỏ nhất của ô này là {0}",
+    maxText: "Giá trị lớn nhất của ô này là  {0}",
+    nanText: "{0} hông phải là một số hợp lệ"
+});
+
+Ext.define("Ext.locale.vn.form.field.Date", {
+    override: "Ext.form.field.Date",
+    disabledDaysText: "Vô hiệu",
+    disabledDatesText: "Vô hiệu",
+    minText: "Ngày nhập trong ô này phải sau ngày {0}",
+    maxText: "Ngày nhập trong ô này phải trước ngày {0}",
+    invalidText: "{0} không phải là một ngày hợp lệ - phải có dạng {1}",
+    format: "d/m/y"
+});
+
+Ext.define("Ext.locale.vn.form.field.ComboBox", {
+    override: "Ext.form.field.ComboBox",
+    valueNotFoundText: undefined
+}, function() {
+    Ext.apply(Ext.form.field.ComboBox.prototype.defaultListConfig, {
+        loadingText: "Đang tải..."
+    });
+});
+
+Ext.define("Ext.locale.vn.grid.header.Container", {
+    override: "Ext.grid.header.Container",
+    sortAscText: "Tăng dần",
+    sortDescText: "Giảm dần",
+    lockText: "Khóa cột",
+    unlockText: "Bỏ khóa cột",
+    columnsText: "Các cột"
+});
+
+Ext.define("Ext.locale.vn.grid.PropertyColumnModel", {
+    override: "Ext.grid.PropertyColumnModel",
+    nameText: "Tên",
+    valueText: "Giá trị",
+    dateFormat: "j/m/Y"
+});
+
+// This is needed until we can refactor all of the locales into individual files
+Ext.define("Ext.locale.vn.Component", {	
+    override: "Ext.Component"
+});
+

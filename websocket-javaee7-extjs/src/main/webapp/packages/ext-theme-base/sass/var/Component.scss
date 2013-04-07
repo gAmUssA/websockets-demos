@@ -93,6 +93,12 @@ $include-rtl: false !default;
 $image-extension: 'png' !default;
 
 /**
+ * @var {string} $slicer-image-extension
+ * default file extension to use for slicer images (defaults to 'gif').
+ */
+$slicer-image-extension: 'gif' !default;
+
+/**
  * Default search path for images
  */
 $image-search-path: '.' !default

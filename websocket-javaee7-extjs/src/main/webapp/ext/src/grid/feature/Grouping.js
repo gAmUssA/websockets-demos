@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * This feature allows to display the grid rows aggregated into groups as specified by the {@link Ext.data.Store#groupers}
@@ -388,6 +391,7 @@ Ext.define('Ext.grid.feature.Grouping', {
         view.headerCt.on({
             columnhide: me.onColumnHideShow,
             columnshow: me.onColumnHideShow,
+            columnmove: me.onColumnMove,
             scope: me
         });
 
@@ -522,14 +526,14 @@ Ext.define('Ext.grid.feature.Grouping', {
             headerCt = view.headerCt,
             menu = headerCt.getMenu(),
             groupToggleMenuItem  = menu.down('#groupMenuItem'),
-            colCount = headerCt.getGridColumns(true).length,
+            colCount = headerCt.getGridColumns().length,
             items,
             len,
             i;
 
         // "Group by this field" must be disabled if there's only one column left visible.
         if (groupToggleMenuItem) {
-            if (headerCt.getVisibleGridColumns(true).length > 1) {
+            if (headerCt.getVisibleGridColumns().length > 1) {
                 groupToggleMenuItem.enable();
             } else {
                 groupToggleMenuItem.disable();
@@ -541,6 +545,32 @@ Ext.define('Ext.grid.feature.Grouping', {
             items = view.el.query('.' + this.ctCls);
             for (i = 0, len = items.length; i < len; ++i) {
                 items[i].colSpan = colCount;
+            }
+        }
+    },
+
+    // Update first and last records in groups when column moves
+    // Because of the RowWrap template, this will update the groups' headers and footers
+    onColumnMove: function() {
+        var me = this,
+            store = me.view.store,
+            groups,
+            i, len,
+            groupInfo, firstRec, lastRec;
+
+        if (store.isGrouped()) {
+            groups = store.getGroups();
+            len = groups.length;
+
+            // Iterate through groups, firing updates on boundary records
+            for (i = 0; i < len; i++) {
+                groupInfo = groups[i];
+                firstRec = groupInfo.children[0];
+                lastRec = groupInfo.children[groupInfo.children.length - 1];
+                store.fireEvent('update', store, firstRec, 'edit');
+                if (lastRec !== firstRec) {
+                    store.fireEvent('update', store, lastRec, 'edit');
+                }
             }
         }
     },

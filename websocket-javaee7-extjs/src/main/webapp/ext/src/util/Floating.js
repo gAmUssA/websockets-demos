@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * A mixin to add floating capability to a Component.
@@ -46,6 +49,16 @@ Ext.define('Ext.util.Floating', {
     constrain: false,
 
     /**
+     * @cfg {Boolean} [fixed=false]
+     * Configure as `true` to have this Component fixed at its `X, Y` coordinates in the browser viewport, immune
+     * to scrolling the document.
+     * 
+     * *Only in browsers that support `position:fixed`*
+     * 
+     * *IE6 and IE7, 8 and 9 quirks do not support `position: fixed`*
+     */
+
+    /**
      * @cfg {Number} shadowOffset
      * Number of pixels to offset the shadow.
      */
@@ -53,12 +66,16 @@ Ext.define('Ext.util.Floating', {
     constructor: function (dom) {
         var me = this;
 
-        me.el = new Ext.Layer(Ext.apply({
+        // We do not support fixed on legacy browsers.
+        me.fixed = me.fixed && !(Ext.isIE6 || Ext.isIEQuirks);
+
+        me.el = new Ext.dom.Layer(Ext.apply({
             hideMode     : me.hideMode,
             hidden       : me.hidden,
             shadow       : (typeof me.shadow != 'undefined') ? me.shadow : 'sides',
             shadowOffset : me.shadowOffset,
             constrain    : false,
+            fixed        : me.fixed,
             shim         : (me.shim === false) ? false : undefined
         }, me.floating), dom);
 

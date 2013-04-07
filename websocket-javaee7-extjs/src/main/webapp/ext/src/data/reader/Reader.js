@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @author Ed Spencer
@@ -431,7 +434,7 @@ Ext.define('Ext.data.reader.Reader', {
             length  = root.length,
             records = new Array(length),
             convertedValues, node, record, i;
-            
+
         if (!root.length && Ext.isObject(root)) {
             root = [root];
             length = 1;
@@ -439,10 +442,15 @@ Ext.define('Ext.data.reader.Reader', {
 
         for (i = 0; i < length; i++) {
             node = root[i];
-            if (!node.isModel) { 
+            if (node.isModel) {
+                // If we're given a model instance in the data, just push it on
+                // without doing any conversion
+                records[i] = node;
+            } else {
                 // Create a record with an empty data object.
-                // Populate that data object by extracting and converting field values from raw data
-                record = new Model(undefined, me.getId(node), node, convertedValues = {});
+                // Populate that data object by extracting and converting field values from raw data.
+                // Must pass the ID to use because we pass no data for the constructor to pluck an ID from
+                records[i] = record = new Model(undefined, me.getId(node), node, convertedValues = {});
 
                 // If the server did not include an id in the response data, the Model constructor will mark the record as phantom.
                 // We  need to set phantom to false here because records created from a server response using a reader by definition are not phantom records.
@@ -451,21 +459,15 @@ Ext.define('Ext.data.reader.Reader', {
                 // Use generated function to extract all fields at once
                 me.convertRecordData(convertedValues, node, record);
 
-                records[i] = record;
-                
                 if (me.implicitIncludes && record.associations.length) {
                     me.readAssociated(record, node);
                 }
-            } else {
-                // If we're given a model instance in the data, just push it on
-                // without doing any conversion
-                records[i] = node;
             }
         }
 
         return records;
     },
-    
+
     /**
      * @private
      * Loads a record's associations from the data object. This prepopulates hasMany and belongsTo associations

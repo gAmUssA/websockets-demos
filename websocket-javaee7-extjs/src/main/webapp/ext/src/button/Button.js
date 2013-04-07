@@ -5,15 +5,18 @@ Copyright (c) 2011-2013 Sencha Inc
 
 Contact:  http://www.sencha.com/contact
 
-Pre-release code in the Ext repository is intended for development purposes only and will
-not always be stable. 
+GNU General Public License Usage
+This file may be used under the terms of the GNU General Public License version 3.0 as
+published by the Free Software Foundation and appearing in the file LICENSE included in the
+packaging of this file.
 
-Use of pre-release code is permitted with your application at your own risk under standard
-Ext license terms. Public redistribution is prohibited.
+Please review the following information to ensure the GNU General Public License version 3.0
+requirements will be met: http://www.gnu.org/copyleft/gpl.html.
 
-For early licensing, please contact us at licensing@sencha.com
+If you are unsure which license is appropriate for your use, please contact the sales department
+at http://www.sencha.com/contact.
 
-Build date: 2013-02-13 19:36:35 (686c47f8f04c589246d9f000f87d2d6392c82af5)
+Build date: 2013-03-11 22:33:40 (aed16176e68b5e8aa1433452b12805c0ad913836)
 */
 /**
  * @docauthor Robert Dougan <rob@sencha.com>
@@ -307,6 +310,15 @@ Ext.define('Ext.button.Button', {
      */
 
     /**
+     * @cfg {Number/String} glyph
+     * A numeric unicode character code to use as the icon for this button. The default
+     * font-family for glyphs can be set globally using
+     * {@link Ext#setGlyphFontFamily Ext.setGlyphFontFamily()}. Alternatively, this
+     * config option accepts a string with the charCode and font-family separated by the
+     * `@` symbol. For example '65@My Font Family'.
+     */
+
+    /**
      * @cfg {String} type
      * The type of `<input>` to create: submit, reset or button.
      */
@@ -389,6 +401,12 @@ Ext.define('Ext.button.Button', {
       */
      hrefTarget: '_blank',
      
+     /**
+     * @cfg {Boolean} destroyMenu
+     * Whether or not to destroy any associated menu when this button is destroyed. The menu
+     * will be destroyed unless this is explicitly set to false.
+     */
+     
      border: true,
 
     /**
@@ -406,11 +424,14 @@ Ext.define('Ext.button.Button', {
         'btnEl', 'btnWrap', 'btnInnerEl', 'btnIconEl'
     ],
 
+    // We have to keep "unselectable" attribute on all elements because it's not inheritable.
+    // Without it, clicking anywhere on a button disrupts current selection and cursor position
+    // in HtmlEditor.
     renderTpl: [
         '<div id="{id}-btnWrap" class="{baseCls}-wrap',
             '<tpl if="splitCls"> {splitCls}</tpl>',
-            '{childElCls}">',
-            '<a id="{id}-btnEl" class="{baseCls}-button" role="button" hidefocus="on"',
+            '{childElCls}" unselectable="on">',
+            '<a id="{id}-btnEl" class="{baseCls}-button" role="button" hidefocus="on" unselectable="on"',
 
                 // If developer specified their own tabIndex...
                 '<tpl if="tabIndex != null>',
@@ -426,12 +447,14 @@ Ext.define('Ext.button.Button', {
                 '</tpl>',
             '>',
                 '<span id="{id}-btnInnerEl" class="{baseCls}-inner {innerCls}',
-                    '{childElCls}">',
+                    '{childElCls}" unselectable="on">',
                     '{text}',
                 '</span>',
-                '<span id="{id}-btnIconEl" class="{baseCls}-icon-el {iconCls}',
-                    '{childElCls}"',
-                    '<tpl if="iconUrl"> style="background-image:url({iconUrl})"</tpl>>',
+                '<span role="img" id="{id}-btnIconEl" class="{baseCls}-icon-el {iconCls}',
+                    '{childElCls} {glyphCls}" unselectable="on" style="',
+                    '<tpl if="iconUrl">background-image:url({iconUrl});</tpl>',
+                    '<tpl if="glyph && glyphFontFamily">font-family:{glyphFontFamily};</tpl>">',
+                    '<tpl if="glyph">&#{glyph};</tpl><tpl if="iconCls || iconUrl">&#160;</tpl>',
                 '</span>',
             '</a>',
         '</div>',
@@ -522,6 +545,10 @@ Ext.define('Ext.button.Button', {
     // inherit docs
     initComponent: function() {
         var me = this;
+
+        // Ensure no selection happens
+        me.addCls('x-unselectable');
+
         me.callParent(arguments);
 
         me.addEvents(
@@ -608,7 +635,16 @@ Ext.define('Ext.button.Button', {
              * @param {String} oldIcon
              * @param {String} newIcon
              */
-            'iconchange'
+            'iconchange',
+
+            /**
+             * @event glyphchange
+             * Fired when the button's glyph is changed by the {@link #setGlyph} method.
+             * @param {Ext.button.Button} this
+             * @param {Number/String} newGlyph
+             * @param {Number/String} oldGlyph
+             */
+            'glyphchange'
         );
 
         if (me.menu) {
@@ -641,6 +677,8 @@ Ext.define('Ext.button.Button', {
             me.text = me.html;
             delete me.html;
         }
+
+        me.glyphCls = me.baseCls + '-glyph';
     },
 
     // inherit docs
@@ -697,7 +735,7 @@ Ext.define('Ext.button.Button', {
             cls = [];
 
         // Check whether the button has an icon or not, and if it has an icon, what is the alignment
-        if (me.iconCls || me.icon) {
+        if (me.iconCls || me.icon || me.glyph) {
             if (me.text) {
                 cls.push('icon-text-' + me.iconAlign);
             } else {
@@ -818,7 +856,16 @@ Ext.define('Ext.button.Button', {
      * @return {Number} return.tabIndex The tab index within the input flow.
      */
     getTemplateArgs: function() {
-        var me = this;
+        var me = this,
+            glyph = me.glyph,
+            glyphFontFamily = Ext._glyphFontFamily,
+            glyphParts;
+
+        if (typeof glyph === 'string') {
+            glyphParts = glyph.split('@');
+            glyph = glyphParts[0];
+            glyphFontFamily = glyphParts[1];
+        }
 
         return {
             href     : me.getHref(),
@@ -828,6 +875,9 @@ Ext.define('Ext.button.Button', {
             splitCls : me.getSplitCls(),
             iconUrl  : me.icon,
             iconCls  : me.iconCls,
+            glyph: glyph,
+            glyphCls: glyph ? me.glyphCls : '', 
+            glyphFontFamily: glyphFontFamily,
             text     : me.text || '&#160;',
             tabIndex : me.tabIndex == null ? 0 : me.tabIndex
         };
@@ -929,6 +979,44 @@ Ext.define('Ext.button.Button', {
             }
             me.fireEvent('iconchange', me, oldCls, cls);
         }
+        return me;
+    },
+
+    /**
+     * Sets this button's glyph
+     * @param {Number/String} glyph the numeric charCode or string charCode/font-family.
+     * This parameter expects a format consistent with that of {@link #glyph}
+     * @return {Ext.button.Button} this
+     */
+    setGlyph: function(glyph) {
+        glyph = glyph || 0;
+        var me = this,
+            btnIconEl = me.btnIconEl,
+            oldGlyph = me.glyph,
+            fontFamily, glyphParts;
+
+        me.glyph = glyph;
+
+        if (btnIconEl) {
+            if (typeof glyph === 'string') {
+                glyphParts = glyph.split('@');
+                glyph = glyphParts[0];
+                fontFamily = glyphParts[1] || Ext._glyphFontFamily;
+            }
+
+            if (!glyph) {
+                btnIconEl.dom.innerHTML = '';
+            } else if (oldGlyph != glyph) {
+                btnIconEl.dom.innerHTML = '&#' + glyph + ';';
+            }
+
+            if (fontFamily) {
+                btnIconEl.setStyle('font-family', fontFamily);
+            }
+        }
+
+        me.fireEvent('glyphchange', me, me.glyph, oldGlyph);
+
         return me;
     },
 

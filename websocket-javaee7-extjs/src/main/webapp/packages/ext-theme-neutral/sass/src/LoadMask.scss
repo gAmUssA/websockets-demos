@@ -1,7 +1,9 @@
 .#{$prefix}mask {
     @include opacity($loadmask-opacity);
-    background: $loadmask-background;
-    cursor: $loadmask-cursor;
+    background: $loadmask-background-color;
+    @if ($loadmask-cursor != null) {
+        cursor: $loadmask-cursor;
+    }
 }
 
 .#{$prefix}mask-msg {
@@ -10,6 +12,9 @@
         border-style: $loadmask-msg-border-style;
         border-width: $loadmask-msg-border-width;
         border-color: $loadmask-msg-border-color;
+    }
+    @if $loadmask-msg-border-radius != 0 {
+        @include border-radius($loadmask-msg-border-radius);
     }
 
     @if $loadmask-msg-background-gradient {
