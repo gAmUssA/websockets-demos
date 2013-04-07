@@ -18,7 +18,6 @@
  *  
  */
 Ext.define('Clear.data.ChangeObject', {
-    extend: 'Ext.Base',
     alternateClassName: 'ChangeObject',
     changedPropertyNames: null, 
     newVersion: null,
