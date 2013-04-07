@@ -1,3 +1,7 @@
+# extjs sdk
+ext/
+packages/
+
 # sencha cmd build files #
 build/
 
