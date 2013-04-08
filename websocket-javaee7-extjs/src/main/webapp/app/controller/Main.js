@@ -42,7 +42,7 @@ Ext.define('WebSocketDemo.controller.Main', {
     onOpenConnection: function (btn) {
         var ws_url = "ws://" + document.location.host + document.location.pathname + "stock-generator";
         var controller = this;
-        var ws = Ext.create('Ext.ux.WebSocket', {
+        var ws = Ext.create('Clear.ux.WebSocket', {
             url: ws_url,
             listeners: {
                 open: function (ws) {
@@ -55,7 +55,7 @@ Ext.define('WebSocketDemo.controller.Main', {
                 }
             }
         });
-        Ext.ux.WebSocketManager.register(ws);
+        Clear.ux.WebSocketManager.register(ws);
     },
 
     onSseSubscribe: function (btn) {
@@ -136,7 +136,7 @@ Ext.define('WebSocketDemo.controller.Main', {
 
     onCloseClick: function (data) {
         console.log("Closing WebSocket Connection...");
-        Ext.ux.WebSocketManager.closeAll();
+        Clear.ux.WebSocketManager.closeAll();
     },
     onSseUnSubscribe: function (btn) {
         console.log("Closing EventSource connection...");

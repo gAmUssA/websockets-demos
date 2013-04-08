@@ -83,6 +83,7 @@ Ext.ClassManager.addNameAlternateMappings({
   ],
   "Ext.ux.RowExpander": [],
   "Ext.ux.event.Recorder": [],
+  "Clear.ux.WebSocketManager": [],
   "Ext.ux.event.Player": [],
   "ExtThemeNeptune.panel.Tool": [],
   "Ext.ux.ajax.SimManager": [],
@@ -109,6 +110,7 @@ Ext.ClassManager.addNameAlternateMappings({
   "Ext.ux.form.ItemSelector": [
     "Ext.ux.ItemSelector"
   ],
+  "Clear.ux.WebSocket": [],
   "Ext.ux.ajax.JsonSimlet": [],
   "ExtThemeNeptune.form.field.HtmlEditor": [],
   "Ext.ux.Spotlight": [],
@@ -228,6 +230,7 @@ Ext.ClassManager.addNameAliasMappings({
   "Clear.data.ChangeObject": [],
   "Ext.ux.RowExpander": [],
   "Ext.ux.event.Recorder": [],
+  "Clear.ux.WebSocketManager": [],
   "Ext.ux.event.Player": [],
   "ExtThemeNeptune.panel.Tool": [],
   "Ext.ux.ajax.SimManager": [],
@@ -272,6 +275,9 @@ Ext.ClassManager.addNameAliasMappings({
   "Ext.ux.form.ItemSelector": [
     "widget.itemselector",
     "widget.itemselectorfield"
+  ],
+  "Clear.ux.WebSocket": [
+    "widget.websocket"
   ],
   "Ext.ux.ajax.JsonSimlet": [
     "simlet.json"
