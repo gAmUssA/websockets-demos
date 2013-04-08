@@ -11,8 +11,8 @@ Ext.Loader.setConfig({
 });
 
 Ext.require([
-    'Ext.ux.WebSocket',
-    'Ext.ux.WebSocketManager'
+    'Clear.ux.WebSocket',
+    'Clear.ux.WebSocketManager'
 ]);
 
 Ext.application({
