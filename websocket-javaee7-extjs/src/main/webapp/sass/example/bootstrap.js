@@ -5,11 +5,11 @@
  * metadata-driven class system features 
  */
 Ext.Loader.addClassPathMappings({
-  "ExtThemeNeptune": "packages/ext-theme-neptune/overrides",
-  "Ext": "ext/src",
-  "Ext.rtl.EventObjectImpl": "ext/src/rtl/EventObject.js",
-  "Clear": "clear",
-  "WebSocketDemo": "app"
+  "ExtThemeNeptune": "../../packages/ext-theme-neptune/overrides",
+  "Ext": "../../ext/src",
+  "Ext.rtl.EventObjectImpl": "../../ext/src/rtl/EventObject.js",
+  "Clear": "../../clear",
+  "WebSocketDemo": "../../app"
 });
 Ext.ClassManager.addNameAlternateMappings({
   "ExtThemeNeptune.menu.Menu": [],
@@ -289,18 +289,18 @@ Ext.ClassManager.addNameAliasMappings({
   ],
   "Clear.override.app.Controller": []
 });
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/Component.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/container/ButtonGroup.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/panel/Panel.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/layout/component/Dock.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/toolbar/Toolbar.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/form/field/HtmlEditor.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/grid/RowEditor.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/menu/Menu.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/menu/Separator.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/panel/Table.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/panel/Tool.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/picker/Month.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/resizer/Splitter.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/tab/Tab.js");
-Ext.Loader.loadScript("packages/ext-theme-neptune/overrides/toolbar/Paging.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/Component.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/container/ButtonGroup.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/panel/Panel.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/layout/component/Dock.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/toolbar/Toolbar.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/form/field/HtmlEditor.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/grid/RowEditor.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/menu/Menu.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/menu/Separator.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/panel/Table.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/panel/Tool.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/picker/Month.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/resizer/Splitter.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/tab/Tab.js");
+Ext.Loader.loadScript("../../packages/ext-theme-neptune/overrides/toolbar/Paging.js");
