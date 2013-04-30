@@ -1,5 +1,7 @@
 apply plugin: 'groovy'
 apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'eclipse-wtp'
 apply plugin: 'war'
 apply plugin: 'jetty'
 //apply plugin: 'maven'
