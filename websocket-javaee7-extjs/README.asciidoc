@@ -5,12 +5,20 @@ Presented on http://html5devconf.com/sessions.html#v_gamov[HTML5DevConf Spring 2
 
 === Used technologies ===
 
-- Glassfish 4 build 81 http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/[promoted builds]
+- Glassfish 4 build 87 http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/[promoted builds]
 - http://www.sencha.com/products/extjs[Sencha ExtJS 4.2 RC]
+- http://www.sencha.com/products/sencha-cmd/download[Sencha CMD]
 - http://www.gradle.org/[Gradle]
 - https://www.google.com/intl/en/chrome/browser/canary.html[Google Chrome Canary ]
 
 === How to build
+
+==== UI
+
+In `src/main/webapp` run `sencha upgrade` - to upgrade Sencha CMD. At the moment the most recent is v3.1.1.274
+When running `sencha app upgrade /absolute/path/to/sdk`, absolute path should point to the most recent SDK, I've tested with 4.2.0.663
+
+==== Java
 
 [source, shell]
 ----------------------------------------------------------------------
@@ -20,7 +28,7 @@ Presented on http://html5devconf.com/sessions.html#v_gamov[HTML5DevConf Spring 2
 === How to run
 
 - build the application
-- download http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/glassfish-4.0-b81.zip[Glassfish 4 build 81]
+- download http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/glassfish-4.0-b87.zip[Glassfish 4 build 87]
 - unpack in any directory
 - go to +glassfish_dir/bin+ start server with command
 +

@@ -8,9 +8,9 @@ apply plugin: 'jetty'
 
 //apply plugin: 'rebel'
 
-def glassfishVersion = '7.0-b81'
-def jerseyVersion = '2.0-m13-2'
-def websocketVersion = '1.0-b13'
+def glassfishVersion = '7.0-b87'
+def jerseyVersion = '2.0-rc2'
+//def websocketVersion = '1.0-b13'
 
 sourceCompatibility = '1.7'
 targetCompatibility = '1.7'
@@ -47,7 +47,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.4'
+    gradleVersion = '1.5'
 }
 
 idea {

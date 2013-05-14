@@ -5,6 +5,7 @@ import demo.common.domain.StockMessage;
 
 import javax.websocket.DecodeException;
 import javax.websocket.Decoder;
+import javax.websocket.EndpointConfig;
 
 /**
  * TODO
@@ -12,7 +13,7 @@ import javax.websocket.Decoder;
  * @author Viktor Gamov (viktor.gamov@faratasystems.com)
  * @since 3/26/13
  */
-public class StockMessageDecoder extends Decoder.Adapter implements Decoder.Text<StockMessage> {
+public class StockMessageDecoder implements Decoder.Text<StockMessage> {
 
     @Override
     public StockMessage decode(String s) throws DecodeException {
@@ -22,6 +23,15 @@ public class StockMessageDecoder extends Decoder.Adapter implements Decoder.Text
 
     @Override
     public boolean willDecode(String s) {
+        //TODO
         return true;
+    }
+
+    @Override
+    public void init(EndpointConfig config) {
+    }
+
+    @Override
+    public void destroy() {
     }
 }
