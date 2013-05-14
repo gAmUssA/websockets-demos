@@ -5,7 +5,7 @@ Presented on http://html5devconf.com/sessions.html#v_gamov[HTML5DevConf Spring 2
 
 === Used technologies ===
 
-- Glassfish 4 build 87 http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/[promoted builds]
+- Glassfish 4 build 88 http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/[promoted builds]
 - http://www.sencha.com/products/extjs[Sencha ExtJS 4.2 RC]
 - http://www.sencha.com/products/sencha-cmd/download[Sencha CMD]
 - http://www.gradle.org/[Gradle]
@@ -28,7 +28,7 @@ When running `sencha app upgrade /absolute/path/to/sdk`, absolute path should po
 === How to run
 
 - build the application
-- download http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/glassfish-4.0-b87.zip[Glassfish 4 build 87]
+- download http://dlc.sun.com.edgesuite.net/glassfish/4.0/promoted/glassfish-4.0-b88.zip[Glassfish 4 build 88]
 - unpack in any directory
 - go to +glassfish_dir/bin+ start server with command
 +
