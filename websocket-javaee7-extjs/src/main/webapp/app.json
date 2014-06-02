@@ -1,4 +1,8 @@
 {
     "name": "WebSocketDemo",
-    "requires": []
+
+    "requires": [
+    ],
+
+    "id": "a32540a8-e012-4ae1-a4da-f5f1f2a07acb"
 }
