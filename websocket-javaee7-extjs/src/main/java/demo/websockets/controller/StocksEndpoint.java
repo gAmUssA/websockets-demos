@@ -88,7 +88,7 @@ public class StocksEndpoint {
 
     public void startBroadcastTask() {
         broadcastTimer = new Timer();
-        broadcastTimer.schedule(new BroadcastTask(this, 0), 0, 50);
+        broadcastTimer.schedule(new BroadcastTask(this, 0), 0, 300);
         this.isRunning = true;
         logger.info("Started broadcast task");
     }
